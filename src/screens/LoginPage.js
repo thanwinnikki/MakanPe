@@ -29,7 +29,6 @@ const LoginPage = ({ navigation }) => {
             routes: [
               {
                 name: "Home",
-                params: { name: user.displayName },
               },
             ],
           })
@@ -37,6 +36,19 @@ const LoginPage = ({ navigation }) => {
       (error) => {
         return <Alert>{error}</Alert>;
       }
+    );
+  };
+
+  const handleNoAcc = () => {
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [
+          {
+            name: "Home",
+          },
+        ],
+      })
     );
   };
 
@@ -76,7 +88,7 @@ const LoginPage = ({ navigation }) => {
         />
       </View>
 
-      <TouchableOpacity>
+      <TouchableOpacity onPress={handleNoAcc}>
         <Text style={styles.forgotPwdButton}>Forgot Password?</Text>
       </TouchableOpacity>
 

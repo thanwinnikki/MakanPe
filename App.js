@@ -11,26 +11,29 @@ import HomeScreen from "./src/screens/HomeScreen";
 import Profile from "./src/screens/ProfileScreen";
 import Maps from "./src/components/Maps";
 import Decision from "./src/screens/DecisionScreen";
-import TabNav from "./src/screens/TabNavigator";
+import {
+  TabNav,
+  LoginStackScreen,
+  noHeaderTitle,
+} from "./src/components/Navigation";
 
-const Stack = createStackNavigator();
+const RootStack = createStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      {/* <Stack.Navigator
-        screenOptions={{
-          headerTitleStyle: {
-            fontWeight: "bold",
-          },
-        }}
-      >
-        <Stack.Screen name="Start" component={StartScreen} />
-        <Stack.Screen name="Login" component={LoginPage} />
-        <Stack.Screen name="Signup" component={SignupPage} />
-        <Stack.Screen name="HomeTab" component={HomeScreen} />
-      </Stack.Navigator> */}
-      <TabNav />
+      <RootStack.Navigator>
+        <RootStack.Screen
+          name="Login"
+          component={LoginStackScreen}
+          options={noHeaderTitle}
+        />
+        <RootStack.Screen
+          name="BottomTab"
+          component={TabNav}
+          options={noHeaderTitle}
+        />
+      </RootStack.Navigator>
     </NavigationContainer>
   );
 }
