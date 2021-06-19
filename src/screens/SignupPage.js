@@ -52,58 +52,60 @@ const SignupPage = ({ navigation }) => {
         <MakanpeIcon color={"white"} size={90} />
       </View>
       <View style={styles.subcontainer}>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.TextInput}
-            value={username}
-            placeholder="Enter Username"
-            placeholderTextColor="#958686"
-            onChangeText={setUsername}
-            returnKeyType="next"
-            onSubmitEditing={() => emailTextInput.current.focus()}
-            blurOnSubmit={false}
-          />
+        <View style={styles.details}>
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.TextInput}
+              value={username}
+              placeholder="Enter Username"
+              placeholderTextColor="#958686"
+              onChangeText={setUsername}
+              returnKeyType="next"
+              onSubmitEditing={() => emailTextInput.current.focus()}
+              blurOnSubmit={false}
+            />
+          </View>
+
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.TextInput}
+              ref={emailTextInput}
+              keyboardType="email-address"
+              value={email}
+              placeholder="Enter Email Here"
+              placeholderTextColor="#958686"
+              onChangeText={setEmail}
+              returnKeyType="next"
+              onSubmitEditing={() => passwordTextInput.current.focus()}
+              blurOnSubmit={false}
+            />
+          </View>
+
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.TextInput}
+              ref={passwordTextInput}
+              placeholder="Password"
+              placeholderTextColor="#958686"
+              value={password}
+              onChangeText={setPassword}
+              autoCapitalize="none"
+              secureTextEntry={true}
+            />
+          </View>
+
+          <TouchableOpacity style={styles.createAcc}>
+            <Text style={styles.createAccText} onPress={handleRegister}>
+              Create Account
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity>
+            <Text style={styles.goBackButton} onPress={goBack}>
+              Already have an account? Sign In!
+            </Text>
+          </TouchableOpacity>
         </View>
-
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.TextInput}
-            ref={emailTextInput}
-            keyboardType="email-address"
-            value={email}
-            placeholder="Enter Email Here"
-            placeholderTextColor="#958686"
-            onChangeText={setEmail}
-            returnKeyType="next"
-            onSubmitEditing={() => passwordTextInput.current.focus()}
-            blurOnSubmit={false}
-          />
-        </View>
-
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.TextInput}
-            ref={passwordTextInput}
-            placeholder="Password"
-            placeholderTextColor="#958686"
-            value={password}
-            onChangeText={setPassword}
-            autoCapitalize="none"
-            secureTextEntry={true}
-          />
-        </View>
-
-        <TouchableOpacity style={styles.createAcc}>
-          <Text style={styles.createAccText} onPress={handleRegister}>
-            Create Account
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity>
-          <Text style={styles.goBackButton} onPress={goBack}>
-            Go Back
-          </Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -119,11 +121,13 @@ const styles = StyleSheet.create({
   subcontainer: {
     flex: 2,
     backgroundColor: "white",
-    alignItems: "center",
-    justifyContent: "center",
     width: "100%",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
+  },
+  details: {
+    alignItems: "center",
+    justifyContent: "center",
   },
   logo: {
     fontSize: 70,
@@ -136,7 +140,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     width: "70%",
     height: 45,
-    marginTop: 20,
+    marginTop: 15,
     alignItems: "flex-start",
   },
 
@@ -144,13 +148,6 @@ const styles = StyleSheet.create({
     height: 100,
     flex: 1,
     padding: 10,
-  },
-
-  goBackButton: {
-    height: 30,
-    marginBottom: 10,
-    color: "grey",
-    fontSize: 15,
   },
 
   createAccText: {
@@ -161,13 +158,18 @@ const styles = StyleSheet.create({
 
   createAcc: {
     width: "70%",
-    borderRadius: 35,
-    height: 80,
+    borderRadius: 30,
+    height: 50,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 40,
+    marginTop: 15,
     marginBottom: 20,
     backgroundColor: "#FF5858",
+  },
+  goBackButton: {
+    height: 30,
+    color: "grey",
+    fontSize: 15,
   },
 });
 

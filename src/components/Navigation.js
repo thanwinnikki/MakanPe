@@ -95,7 +95,7 @@ export function TabNav() {
         style: {
           backgroundColor: "white",
 
-          height: 60,
+          height: 50,
         },
       }}
     >
@@ -107,7 +107,7 @@ export function TabNav() {
             <View>
               <FontAwesomeIcon
                 icon={faHome}
-                size={focused ? 50 : 40}
+                size={focused ? 40 : 30}
                 color={focused ? "#FF5858" : "#5B5B5B"}
               />
             </View>
@@ -122,7 +122,7 @@ export function TabNav() {
             <View>
               <MakanpeIcon
                 color={focused ? "#FF5858" : "#5B5B5B"}
-                size={focused ? 50 : 40}
+                size={focused ? 40 : 30}
               />
             </View>
           ),
@@ -136,7 +136,7 @@ export function TabNav() {
             <View>
               <FontAwesomeIcon
                 icon={faUserCircle}
-                size={focused ? 50 : 40}
+                size={focused ? 40 : 30}
                 color={focused ? "#FF5858" : "#5B5B5B"}
               />
             </View>

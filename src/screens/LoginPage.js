@@ -64,47 +64,49 @@ const LoginPage = ({ navigation }) => {
         <MakanpeIcon color={"white"} size={90} />
       </View>
       <View style={styles.subcontainer}>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.TextInput}
-            keyboardType="email-address"
-            placeholder="Email"
-            placeholderTextColor="#958686"
-            value={email}
-            onChangeText={setEmail}
-            autoCapitalize="none"
-            returnKeyType="next"
-            onSubmitEditing={() => passwordTextInput.current.focus()}
-            blurOnSubmit={false}
-          />
+        <View style={styles.details}>
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.TextInput}
+              keyboardType="email-address"
+              placeholder="Email"
+              placeholderTextColor="#958686"
+              value={email}
+              onChangeText={setEmail}
+              autoCapitalize="none"
+              returnKeyType="next"
+              onSubmitEditing={() => passwordTextInput.current.focus()}
+              blurOnSubmit={false}
+            />
+          </View>
+
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.TextInput}
+              ref={passwordTextInput}
+              placeholder="Password"
+              placeholderTextColor="#958686"
+              value={password}
+              onChangeText={setPassword}
+              autoCapitalize="none"
+              secureTextEntry={true}
+            />
+          </View>
+
+          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+            <Text style={styles.loginText}>Let's Eat!</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={handleNoAcc}>
+            <Text style={styles.forgotPwdButton}>Forgot Password?</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity>
+            <Text style={styles.createAccButton} onPress={goCreateAcc}>
+              Don't have an account? Create one!
+            </Text>
+          </TouchableOpacity>
         </View>
-
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.TextInput}
-            ref={passwordTextInput}
-            placeholder="Password"
-            placeholderTextColor="#958686"
-            value={password}
-            onChangeText={setPassword}
-            autoCapitalize="none"
-            secureTextEntry={true}
-          />
-        </View>
-
-        <TouchableOpacity onPress={handleNoAcc}>
-          <Text style={styles.forgotPwdButton}>Forgot Password?</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Text style={styles.loginText}>Let's Eat!</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity>
-          <Text style={styles.createAccButton} onPress={goCreateAcc}>
-            Create Account
-          </Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -120,13 +122,14 @@ const styles = StyleSheet.create({
   subcontainer: {
     flex: 2,
     backgroundColor: "white",
-    alignItems: "center",
-    justifyContent: "center",
     width: "100%",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
   },
-
+  details: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
   logo: {
     fontSize: 70,
     color: "white",
@@ -137,7 +140,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     width: "70%",
     height: 45,
-    marginBottom: 20,
+    marginTop: 15,
     alignItems: "flex-start",
   },
 
@@ -148,30 +151,30 @@ const styles = StyleSheet.create({
   },
 
   loginText: {
-    fontSize: 40,
+    fontSize: 25,
     fontWeight: "bold",
     color: "white",
   },
   loginButton: {
     width: "70%",
-    borderRadius: 35,
-    height: 80,
+    borderRadius: 30,
+    height: 50,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 40,
-    marginBottom: 20,
+    marginTop: 15,
+    marginBottom: 15,
     backgroundColor: "#FF5858",
   },
   forgotPwdButton: {
     height: 30,
-    marginBottom: 10,
+    marginBottom: 5,
     color: "grey",
     fontSize: 15,
   },
 
   createAccButton: {
     height: 30,
-    marginBottom: 10,
+    marginBottom: 15,
     color: "grey",
     fontSize: 15,
   },

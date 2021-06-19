@@ -3,14 +3,6 @@ import { StyleSheet, Text, View, Button } from "react-native";
 import { NavigationContainer, StackActions } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import StartScreen from "./src/screens/StartScreen";
-import Restaurant from "./src/screens/RestaurantDetails";
-import SignupPage from "./src/screens/SignupPage";
-import LoginPage from "./src/screens/LoginPage";
-import HomeScreen from "./src/screens/HomeScreen";
-import Profile from "./src/screens/ProfileScreen";
-import Maps from "./src/components/Maps";
-import Decision from "./src/screens/DecisionScreen";
 import {
   TabNav,
   LoginStackScreen,
