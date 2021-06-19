@@ -47,71 +47,64 @@ const SignupPage = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: "row", paddingBottom: 30 }}>
-        <Text
-          style={{
-            fontSize: 70,
-            color: "white",
-            fontWeight: "bold",
-          }}
-        >
-          Makan
-        </Text>
+      <View style={{ flex: 1, flexDirection: "row", paddingTop: 200 }}>
+        <Text style={styles.logo}>Makan</Text>
         <MakanpeIcon color={"white"} size={90} />
       </View>
+      <View style={styles.subcontainer}>
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            value={username}
+            placeholder="Enter Username"
+            placeholderTextColor="#958686"
+            onChangeText={setUsername}
+            returnKeyType="next"
+            onSubmitEditing={() => emailTextInput.current.focus()}
+            blurOnSubmit={false}
+          />
+        </View>
 
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          value={username}
-          placeholder="Enter Username"
-          placeholderTextColor="#958686"
-          onChangeText={setUsername}
-          returnKeyType="next"
-          onSubmitEditing={() => emailTextInput.current.focus()}
-          blurOnSubmit={false}
-        />
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            ref={emailTextInput}
+            keyboardType="email-address"
+            value={email}
+            placeholder="Enter Email Here"
+            placeholderTextColor="#958686"
+            onChangeText={setEmail}
+            returnKeyType="next"
+            onSubmitEditing={() => passwordTextInput.current.focus()}
+            blurOnSubmit={false}
+          />
+        </View>
+
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            ref={passwordTextInput}
+            placeholder="Password"
+            placeholderTextColor="#958686"
+            value={password}
+            onChangeText={setPassword}
+            autoCapitalize="none"
+            secureTextEntry={true}
+          />
+        </View>
+
+        <TouchableOpacity style={styles.createAcc}>
+          <Text style={styles.createAccText} onPress={handleRegister}>
+            Create Account
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity>
+          <Text style={styles.goBackButton} onPress={goBack}>
+            Go Back
+          </Text>
+        </TouchableOpacity>
       </View>
-
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          ref={emailTextInput}
-          keyboardType="email-address"
-          value={email}
-          placeholder="Enter Email Here"
-          placeholderTextColor="#958686"
-          onChangeText={setEmail}
-          returnKeyType="next"
-          onSubmitEditing={() => passwordTextInput.current.focus()}
-          blurOnSubmit={false}
-        />
-      </View>
-
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          ref={passwordTextInput}
-          placeholder="Password"
-          placeholderTextColor="#958686"
-          value={password}
-          onChangeText={setPassword}
-          autoCapitalize="none"
-          secureTextEntry={true}
-        />
-      </View>
-
-      <TouchableOpacity style={styles.createAcc}>
-        <Text style={styles.createAccText} onPress={handleRegister}>
-          Create Account
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity>
-        <Text style={styles.goBackButton} onPress={goBack}>
-          Go Back
-        </Text>
-      </TouchableOpacity>
     </View>
   );
 };
@@ -123,20 +116,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-
-  logoPic: {
-    height: 200,
-    width: 200,
-    resizeMode: "stretch",
-    marginBottom: 50,
+  subcontainer: {
+    flex: 2,
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  logo: {
+    fontSize: 70,
+    color: "white",
+    fontWeight: "bold",
   },
 
   inputView: {
-    backgroundColor: "#FFD6D6",
+    backgroundColor: "#ECECEC",
     borderRadius: 30,
     width: "70%",
     height: 45,
-    marginBottom: 20,
+    marginTop: 20,
     alignItems: "flex-start",
   },
 
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   goBackButton: {
     height: 30,
     marginBottom: 10,
-    color: "white",
+    color: "grey",
     fontSize: 15,
   },
 
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 40,
     marginBottom: 20,
-    backgroundColor: "#FF2323",
+    backgroundColor: "#FF5858",
   },
 });
 

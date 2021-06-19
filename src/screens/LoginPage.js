@@ -59,52 +59,53 @@ const LoginPage = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: "row", paddingBottom: 30 }}>
+      <View style={{ flex: 1, flexDirection: "row", paddingTop: 200 }}>
         <Text style={styles.logo}>Makan</Text>
         <MakanpeIcon color={"white"} size={90} />
       </View>
+      <View style={styles.subcontainer}>
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            keyboardType="email-address"
+            placeholder="Email"
+            placeholderTextColor="#958686"
+            value={email}
+            onChangeText={setEmail}
+            autoCapitalize="none"
+            returnKeyType="next"
+            onSubmitEditing={() => passwordTextInput.current.focus()}
+            blurOnSubmit={false}
+          />
+        </View>
 
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          keyboardType="email-address"
-          placeholder="Email"
-          placeholderTextColor="#958686"
-          value={email}
-          onChangeText={setEmail}
-          autoCapitalize="none"
-          returnKeyType="next"
-          onSubmitEditing={() => passwordTextInput.current.focus()}
-          blurOnSubmit={false}
-        />
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            ref={passwordTextInput}
+            placeholder="Password"
+            placeholderTextColor="#958686"
+            value={password}
+            onChangeText={setPassword}
+            autoCapitalize="none"
+            secureTextEntry={true}
+          />
+        </View>
+
+        <TouchableOpacity onPress={handleNoAcc}>
+          <Text style={styles.forgotPwdButton}>Forgot Password?</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+          <Text style={styles.loginText}>Let's Eat!</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity>
+          <Text style={styles.createAccButton} onPress={goCreateAcc}>
+            Create Account
+          </Text>
+        </TouchableOpacity>
       </View>
-
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          ref={passwordTextInput}
-          placeholder="Password"
-          placeholderTextColor="#958686"
-          value={password}
-          onChangeText={setPassword}
-          autoCapitalize="none"
-          secureTextEntry={true}
-        />
-      </View>
-
-      <TouchableOpacity onPress={handleNoAcc}>
-        <Text style={styles.forgotPwdButton}>Forgot Password?</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-        <Text style={styles.loginText}>Let's Eat!</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity>
-        <Text style={styles.createAccButton} onPress={goCreateAcc}>
-          Create account
-        </Text>
-      </TouchableOpacity>
     </View>
   );
 };
@@ -116,6 +117,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  subcontainer: {
+    flex: 2,
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
 
   logo: {
     fontSize: 70,
@@ -123,7 +133,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   inputView: {
-    backgroundColor: "#FFD6D6",
+    backgroundColor: "#ECECEC",
     borderRadius: 30,
     width: "70%",
     height: 45,
@@ -150,19 +160,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 40,
     marginBottom: 20,
-    backgroundColor: "#FF2323",
+    backgroundColor: "#FF5858",
   },
   forgotPwdButton: {
     height: 30,
     marginBottom: 10,
-    color: "white",
+    color: "grey",
     fontSize: 15,
   },
 
   createAccButton: {
     height: 30,
     marginBottom: 10,
-    color: "white",
+    color: "grey",
     fontSize: 15,
   },
 });
