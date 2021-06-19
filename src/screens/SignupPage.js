@@ -10,6 +10,7 @@ import {
   Alert,
 } from "react-native";
 
+import MakanpeIcon from "../assets/makanpe-icon";
 import * as Authentication from "../../api/auth";
 
 const SignupPage = ({ navigation }) => {
@@ -46,14 +47,25 @@ const SignupPage = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Image source={require("../assets/makan.png")} style={[styles.logoPic]} />
+      <View style={{ flexDirection: "row", paddingBottom: 30 }}>
+        <Text
+          style={{
+            fontSize: 70,
+            color: "white",
+            fontWeight: "bold",
+          }}
+        >
+          Makan
+        </Text>
+        <MakanpeIcon color={"white"} size={90} />
+      </View>
 
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
           value={username}
           placeholder="Enter Username"
-          placeholderTextColor="#003f5c"
+          placeholderTextColor="#958686"
           onChangeText={setUsername}
           returnKeyType="next"
           onSubmitEditing={() => emailTextInput.current.focus()}
@@ -68,7 +80,7 @@ const SignupPage = ({ navigation }) => {
           keyboardType="email-address"
           value={email}
           placeholder="Enter Email Here"
-          placeholderTextColor="#003f5c"
+          placeholderTextColor="#958686"
           onChangeText={setEmail}
           returnKeyType="next"
           onSubmitEditing={() => passwordTextInput.current.focus()}
@@ -81,7 +93,7 @@ const SignupPage = ({ navigation }) => {
           style={styles.TextInput}
           ref={passwordTextInput}
           placeholder="Password"
-          placeholderTextColor="#003f5c"
+          placeholderTextColor="#958686"
           value={password}
           onChangeText={setPassword}
           autoCapitalize="none"
@@ -89,14 +101,14 @@ const SignupPage = ({ navigation }) => {
         />
       </View>
 
-      <TouchableOpacity style={styles.signInBtn}>
-        <Text style={styles.loginButton} onPress={handleRegister}>
+      <TouchableOpacity style={styles.createAcc}>
+        <Text style={styles.createAccText} onPress={handleRegister}>
           Create Account
         </Text>
       </TouchableOpacity>
 
       <TouchableOpacity>
-        <Text style={styles.forgot_button} onPress={goBack}>
+        <Text style={styles.goBackButton} onPress={goBack}>
           Go Back
         </Text>
       </TouchableOpacity>
@@ -120,7 +132,7 @@ const styles = StyleSheet.create({
   },
 
   inputView: {
-    backgroundColor: "#FFC0CB",
+    backgroundColor: "#FFD6D6",
     borderRadius: 30,
     width: "70%",
     height: 45,
@@ -134,27 +146,28 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 
-  forgot_button: {
+  goBackButton: {
     height: 30,
     marginBottom: 10,
     color: "white",
-    fontSize: 11,
-  },
-
-  loginButton: {
     fontSize: 15,
-    fontWeight: "bold",
   },
 
-  signInBtn: {
-    width: "80%",
-    borderRadius: 25,
-    height: 50,
+  createAccText: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "white",
+  },
+
+  createAcc: {
+    width: "70%",
+    borderRadius: 35,
+    height: 80,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 40,
     marginBottom: 20,
-    backgroundColor: "salmon",
+    backgroundColor: "#FF2323",
   },
 });
 

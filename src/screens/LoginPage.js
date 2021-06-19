@@ -13,6 +13,7 @@ import {
 
 import * as Authentication from "../../api/auth";
 import { gestureHandlerRootHOC } from "react-native-gesture-handler";
+import MakanpeIcon from "../assets/makanpe-icon";
 
 const LoginPage = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -58,14 +59,17 @@ const LoginPage = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Image source={require("../assets/makan.png")} style={[styles.logoPic]} />
+      <View style={{ flexDirection: "row", paddingBottom: 30 }}>
+        <Text style={styles.logo}>Makan</Text>
+        <MakanpeIcon color={"white"} size={90} />
+      </View>
 
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
           keyboardType="email-address"
           placeholder="Email"
-          placeholderTextColor="#003f5c"
+          placeholderTextColor="#958686"
           value={email}
           onChangeText={setEmail}
           autoCapitalize="none"
@@ -80,7 +84,7 @@ const LoginPage = ({ navigation }) => {
           style={styles.TextInput}
           ref={passwordTextInput}
           placeholder="Password"
-          placeholderTextColor="#003f5c"
+          placeholderTextColor="#958686"
           value={password}
           onChangeText={setPassword}
           autoCapitalize="none"
@@ -92,8 +96,8 @@ const LoginPage = ({ navigation }) => {
         <Text style={styles.forgotPwdButton}>Forgot Password?</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.signInBtn} onPress={handleLogin}>
-        <Text style={styles.loginButton}>Let's Eat!</Text>
+      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+        <Text style={styles.loginText}>Let's Eat!</Text>
       </TouchableOpacity>
 
       <TouchableOpacity>
@@ -113,15 +117,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  logoPic: {
-    height: 200,
-    width: 200,
-    resizeMode: "stretch",
-    marginBottom: 50,
+  logo: {
+    fontSize: 70,
+    color: "white",
+    fontWeight: "bold",
   },
-
   inputView: {
-    backgroundColor: "#FFC0CB",
+    backgroundColor: "#FFD6D6",
     borderRadius: 30,
     width: "70%",
     height: 45,
@@ -135,11 +137,21 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 
-  loginButton: {
-    fontSize: 15,
+  loginText: {
+    fontSize: 40,
     fontWeight: "bold",
+    color: "white",
   },
-
+  loginButton: {
+    width: "70%",
+    borderRadius: 35,
+    height: 80,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 40,
+    marginBottom: 20,
+    backgroundColor: "#FF2323",
+  },
   forgotPwdButton: {
     height: 30,
     marginBottom: 10,
@@ -152,17 +164,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: "white",
     fontSize: 15,
-  },
-
-  signInBtn: {
-    width: "80%",
-    borderRadius: 25,
-    height: 50,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 40,
-    marginBottom: 20,
-    backgroundColor: "salmon",
   },
 });
 

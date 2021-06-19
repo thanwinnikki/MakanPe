@@ -24,11 +24,11 @@ const ProfileStack = createStackNavigator();
 const DecisionStack = createStackNavigator();
 const LoginStack = createStackNavigator();
 
-export const noHeaderTitle = ({ route }) => ({
+export const noHeaderTitle = {
   headerBackTitleVisible: false,
   headerTitle: false,
   headerTransparent: true,
-});
+};
 
 export function LoginStackScreen() {
   return (
@@ -41,7 +41,12 @@ export function LoginStackScreen() {
       <LoginStack.Screen
         name="Signup"
         component={Signup}
-        options={noHeaderTitle}
+        options={{
+          headerBackTitleVisible: false,
+          headerTitle: false,
+          headerTransparent: true,
+          headerLeft: null,
+        }}
       />
       <LoginStack.Screen
         name="Home"
@@ -102,7 +107,7 @@ export function TabNav() {
             <View>
               <FontAwesomeIcon
                 icon={faHome}
-                size={35}
+                size={focused ? 50 : 40}
                 color={focused ? "#FF5858" : "#5B5B5B"}
               />
             </View>
@@ -115,7 +120,10 @@ export function TabNav() {
         options={{
           tabBarIcon: ({ focused }) => (
             <View>
-              <MakanpeIcon color={focused ? "#FF5858" : "#5B5B5B"} />
+              <MakanpeIcon
+                color={focused ? "#FF5858" : "#5B5B5B"}
+                size={focused ? 50 : 40}
+              />
             </View>
           ),
         }}
@@ -128,7 +136,7 @@ export function TabNav() {
             <View>
               <FontAwesomeIcon
                 icon={faUserCircle}
-                size={35}
+                size={focused ? 50 : 40}
                 color={focused ? "#FF5858" : "#5B5B5B"}
               />
             </View>
