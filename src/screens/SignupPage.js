@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { CommonActions } from "@react-navigation/native";
 import {
   StyleSheet,
@@ -10,9 +10,10 @@ import {
   Alert,
 } from "react-native";
 
+import { AuthContext } from "../components/context";
+
 import * as Animatable from "react-native-animatable";
 import MakanpeIcon from "../assets/makanpe-icon";
-import * as Authentication from "../../api/auth";
 
 const SignupPage = ({ navigation }) => {
   const [username, setUsername] = useState("");
@@ -20,13 +21,14 @@ const SignupPage = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const emailTextInput = useRef();
   const passwordTextInput = useRef();
+  const { signUp } = useContext(AuthContext);
 
   const goBack = () => {
     navigation.goBack();
   };
 
   const handleRegister = () => {
-    Authentication.createAccount(
+    signUp(
       { name: username, email, password },
       (user) =>
         navigation.dispatch(

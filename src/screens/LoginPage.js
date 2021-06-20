@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { CommonActions } from "@react-navigation/native";
 import {
   StyleSheet,
@@ -11,8 +11,9 @@ import {
   Alert,
 } from "react-native";
 
+import { AuthContext } from "../components/context";
+
 import * as Animatable from "react-native-animatable";
-import * as Authentication from "../../api/auth";
 import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 import MakanpeIcon from "../assets/makanpe-icon";
 
@@ -20,11 +21,12 @@ const LoginPage = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const passwordTextInput = useRef();
+  const { signIn } = useContext(AuthContext);
 
   const handleLogin = () => {
-    Authentication.signIn(
+    signIn(
       { email, password },
-      (user) =>
+      (user) => {
         navigation.dispatch(
           CommonActions.reset({
             index: 0,
@@ -34,7 +36,9 @@ const LoginPage = ({ navigation }) => {
               },
             ],
           })
-        ),
+        );
+        console.log("User logged in");
+      },
       (error) => {
         return <Alert>{error}</Alert>;
       }

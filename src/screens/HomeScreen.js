@@ -1,22 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { StyleSheet, View, Text, TouchableOpacity, Button } from "react-native";
 import { data } from "../data/dummyData";
 
-import * as Authentication from "../../api/auth";
+import { AuthContext } from "../components/context";
 import { CommonActions } from "@react-navigation/native";
 
 export default function HomeScreen({ navigation, route }) {
+  const { signOut } = useContext(AuthContext);
+
   const handleLogout = () => {
-    Authentication.signOut(
-      () =>
-        navigation.dispatch(
-          CommonActions.reset({
-            index: 0,
-            routes: [{ name: "Login" }],
-          })
-        ),
-      console.error
-    );
+    signOut(() => {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: "Login" }],
+        })
+      );
+      console.log("User logged out");
+    }, console.error);
   };
 
   return (
