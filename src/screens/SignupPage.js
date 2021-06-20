@@ -10,6 +10,7 @@ import {
   Alert,
 } from "react-native";
 
+import * as Animatable from "react-native-animatable";
 import MakanpeIcon from "../assets/makanpe-icon";
 import * as Authentication from "../../api/auth";
 
@@ -119,11 +120,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   subcontainer: {
-    flex: 2,
+    flex: 4,
     backgroundColor: "white",
     width: "100%",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
   },
   details: {
     alignItems: "center",

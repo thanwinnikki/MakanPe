@@ -11,6 +11,7 @@ import {
   Alert,
 } from "react-native";
 
+import * as Animatable from "react-native-animatable";
 import * as Authentication from "../../api/auth";
 import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 import MakanpeIcon from "../assets/makanpe-icon";
@@ -63,7 +64,7 @@ const LoginPage = ({ navigation }) => {
         <Text style={styles.logo}>Makan</Text>
         <MakanpeIcon color={"white"} size={90} />
       </View>
-      <View style={styles.subcontainer}>
+      <Animatable.View style={styles.subcontainer} animation="fadeInUpBig">
         <View style={styles.details}>
           <View style={styles.inputView}>
             <TextInput
@@ -107,7 +108,7 @@ const LoginPage = ({ navigation }) => {
             </Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </Animatable.View>
     </View>
   );
 };
@@ -120,11 +121,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   subcontainer: {
-    flex: 2,
+    flex: 4,
     backgroundColor: "white",
     width: "100%",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
   },
   details: {
     alignItems: "center",
