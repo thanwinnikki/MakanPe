@@ -1,10 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, TouchableOpacity, Button } from "react-native";
 import { data } from "../data/dummyData";
 
-export default function HomeScreen({ navigation }) {
+import * as Authentication from "../../api/auth";
+import { CommonActions } from "@react-navigation/native";
+
+export default function HomeScreen({ navigation, route }) {
+  const handleLogout = () => {
+    Authentication.signOut(
+      () =>
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: "Login" }],
+          })
+        ),
+      console.error
+    );
+  };
+
   return (
     <View style={styles.background}>
+      <View>
+        <Button title="Sign out" onPress={handleLogout} />
+      </View>
       <Button
         title={data[0].name}
         onPress={() =>

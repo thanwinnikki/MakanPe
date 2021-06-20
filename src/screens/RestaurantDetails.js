@@ -11,7 +11,6 @@ import {
   ScrollView,
 } from "react-native";
 
-import { CommonActions } from "@react-navigation/native";
 import { BlurView } from "@react-native-community/blur";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";

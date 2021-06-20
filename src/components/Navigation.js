@@ -10,38 +10,63 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faHome, faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import MakanpeIcon from "../assets/makanpe-icon";
 
-import HomeScreen from "./HomeScreen";
-import Restaurant from "./RestaurantDetails";
-import Maps from "../components/Maps";
-import Profile from "./ProfileScreen";
-import Decision from "./DecisionScreen";
+import HomeScreen from "../screens/HomeScreen";
+import Restaurant from "../screens/RestaurantDetails";
+import Maps from "./Maps";
+import Profile from "../screens/ProfileScreen";
+import Decision from "../screens/DecisionScreen";
+import Login from "../screens/LoginPage";
+import Signup from "../screens/SignupPage";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 const DecisionStack = createStackNavigator();
+const LoginStack = createStackNavigator();
+
+export const noHeaderTitle = {
+  headerBackTitleVisible: false,
+  headerTitle: false,
+  headerTransparent: true,
+};
+
+export function LoginStackScreen() {
+  return (
+    <LoginStack.Navigator>
+      <LoginStack.Screen
+        name="Login"
+        component={Login}
+        options={noHeaderTitle}
+      />
+      <LoginStack.Screen
+        name="Signup"
+        component={Signup}
+        options={{
+          headerBackTitleVisible: false,
+          headerTitle: false,
+          headerTransparent: true,
+          headerLeft: null,
+        }}
+      />
+      <LoginStack.Screen
+        name="Home"
+        component={TabNav}
+        options={noHeaderTitle}
+      />
+    </LoginStack.Navigator>
+  );
+}
 
 function HomeStackScreen() {
   return (
     <HomeStack.Navigator>
-      <HomeStack.Screen name="Home" component={HomeScreen} />
       <HomeStack.Screen
-        name="Restaurant"
-        component={Restaurant}
-        options={({ route }) => ({
-          headerBackTitleVisible: false,
-          headerTitle: false,
-          headerTransparent: true,
-        })}
+        name="Home"
+        component={HomeScreen}
+        options={noHeaderTitle}
       />
-      <HomeStack.Screen
-        name="Maps"
-        component={Maps}
-        options={({ route }) => ({
-          headerBackTitleVisible: false,
-          headerTitle: false,
-        })}
-      />
+      <HomeStack.Screen name="Restaurant" component={Restaurant} />
+      <HomeStack.Screen name="Maps" component={Maps} />
     </HomeStack.Navigator>
   );
 }
@@ -62,7 +87,7 @@ function ProfileStackScreen() {
   );
 }
 
-export default function TabNav() {
+export function TabNav() {
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -70,7 +95,7 @@ export default function TabNav() {
         style: {
           backgroundColor: "white",
 
-          height: 60,
+          height: 50,
         },
       }}
     >
@@ -82,7 +107,7 @@ export default function TabNav() {
             <View>
               <FontAwesomeIcon
                 icon={faHome}
-                size={35}
+                size={focused ? 40 : 30}
                 color={focused ? "#FF5858" : "#5B5B5B"}
               />
             </View>
@@ -95,7 +120,10 @@ export default function TabNav() {
         options={{
           tabBarIcon: ({ focused }) => (
             <View>
-              <MakanpeIcon color={focused ? "#FF5858" : "#5B5B5B"} />
+              <MakanpeIcon
+                color={focused ? "#FF5858" : "#5B5B5B"}
+                size={focused ? 40 : 30}
+              />
             </View>
           ),
         }}
@@ -108,7 +136,7 @@ export default function TabNav() {
             <View>
               <FontAwesomeIcon
                 icon={faUserCircle}
-                size={35}
+                size={focused ? 40 : 30}
                 color={focused ? "#FF5858" : "#5B5B5B"}
               />
             </View>

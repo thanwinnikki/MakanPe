@@ -10,6 +10,8 @@ import {
   Alert,
 } from "react-native";
 
+import * as Animatable from "react-native-animatable";
+import MakanpeIcon from "../assets/makanpe-icon";
 import * as Authentication from "../../api/auth";
 
 const SignupPage = ({ navigation }) => {
@@ -46,60 +48,66 @@ const SignupPage = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Image source={require("../assets/makan.png")} style={[styles.logoPic]} />
-
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          value={username}
-          placeholder="Enter Username"
-          placeholderTextColor="#003f5c"
-          onChangeText={setUsername}
-          returnKeyType="next"
-          onSubmitEditing={() => emailTextInput.current.focus()}
-          blurOnSubmit={false}
-        />
+      <View style={{ flex: 1, flexDirection: "row", paddingTop: 200 }}>
+        <Text style={styles.logo}>Makan</Text>
+        <MakanpeIcon color={"white"} size={90} />
       </View>
+      <View style={styles.subcontainer}>
+        <View style={styles.details}>
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.TextInput}
+              value={username}
+              placeholder="Enter Username"
+              placeholderTextColor="#958686"
+              onChangeText={setUsername}
+              returnKeyType="next"
+              onSubmitEditing={() => emailTextInput.current.focus()}
+              blurOnSubmit={false}
+            />
+          </View>
 
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          ref={emailTextInput}
-          keyboardType="email-address"
-          value={email}
-          placeholder="Enter Email Here"
-          placeholderTextColor="#003f5c"
-          onChangeText={setEmail}
-          returnKeyType="next"
-          onSubmitEditing={() => passwordTextInput.current.focus()}
-          blurOnSubmit={false}
-        />
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.TextInput}
+              ref={emailTextInput}
+              keyboardType="email-address"
+              value={email}
+              placeholder="Enter Email Here"
+              placeholderTextColor="#958686"
+              onChangeText={setEmail}
+              returnKeyType="next"
+              onSubmitEditing={() => passwordTextInput.current.focus()}
+              blurOnSubmit={false}
+            />
+          </View>
+
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.TextInput}
+              ref={passwordTextInput}
+              placeholder="Password"
+              placeholderTextColor="#958686"
+              value={password}
+              onChangeText={setPassword}
+              autoCapitalize="none"
+              secureTextEntry={true}
+            />
+          </View>
+
+          <TouchableOpacity style={styles.createAcc}>
+            <Text style={styles.createAccText} onPress={handleRegister}>
+              Create Account
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity>
+            <Text style={styles.goBackButton} onPress={goBack}>
+              Already have an account? Sign In!
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
-
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          ref={passwordTextInput}
-          placeholder="Password"
-          placeholderTextColor="#003f5c"
-          value={password}
-          onChangeText={setPassword}
-          autoCapitalize="none"
-          secureTextEntry={true}
-        />
-      </View>
-
-      <TouchableOpacity style={styles.signInBtn}>
-        <Text style={styles.loginButton} onPress={handleRegister}>
-          Create Account
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity>
-        <Text style={styles.forgot_button} onPress={goBack}>
-          Go Back
-        </Text>
-      </TouchableOpacity>
     </View>
   );
 };
@@ -111,20 +119,29 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-
-  logoPic: {
-    height: 200,
-    width: 200,
-    resizeMode: "stretch",
-    marginBottom: 50,
+  subcontainer: {
+    flex: 4,
+    backgroundColor: "white",
+    width: "100%",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+  },
+  details: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  logo: {
+    fontSize: 70,
+    color: "white",
+    fontWeight: "bold",
   },
 
   inputView: {
-    backgroundColor: "#FFC0CB",
+    backgroundColor: "#ECECEC",
     borderRadius: 30,
     width: "70%",
     height: 45,
-    marginBottom: 20,
+    marginTop: 15,
     alignItems: "flex-start",
   },
 
@@ -134,27 +151,26 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 
-  forgot_button: {
-    height: 30,
-    marginBottom: 10,
-    color: "white",
-    fontSize: 11,
-  },
-
-  loginButton: {
-    fontSize: 15,
+  createAccText: {
+    fontSize: 25,
     fontWeight: "bold",
+    color: "white",
   },
 
-  signInBtn: {
-    width: "80%",
-    borderRadius: 25,
+  createAcc: {
+    width: "70%",
+    borderRadius: 30,
     height: 50,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 40,
+    marginTop: 15,
     marginBottom: 20,
-    backgroundColor: "salmon",
+    backgroundColor: "#FF5858",
+  },
+  goBackButton: {
+    height: 30,
+    color: "grey",
+    fontSize: 15,
   },
 });
 

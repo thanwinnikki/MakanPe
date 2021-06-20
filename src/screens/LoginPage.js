@@ -11,8 +11,10 @@ import {
   Alert,
 } from "react-native";
 
+import * as Animatable from "react-native-animatable";
 import * as Authentication from "../../api/auth";
 import { gestureHandlerRootHOC } from "react-native-gesture-handler";
+import MakanpeIcon from "../assets/makanpe-icon";
 
 const LoginPage = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -29,7 +31,6 @@ const LoginPage = ({ navigation }) => {
             routes: [
               {
                 name: "Home",
-                params: { name: user.displayName },
               },
             ],
           })
@@ -40,55 +41,74 @@ const LoginPage = ({ navigation }) => {
     );
   };
 
+  const handleNoAcc = () => {
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [
+          {
+            name: "Home",
+          },
+        ],
+      })
+    );
+  };
+
   const goCreateAcc = () => {
     navigation.navigate("Signup");
   };
 
   return (
     <View style={styles.container}>
-      <Image source={require("../assets/makan.png")} style={[styles.logoPic]} />
-
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          keyboardType="email-address"
-          placeholder="Email"
-          placeholderTextColor="#003f5c"
-          value={email}
-          onChangeText={setEmail}
-          autoCapitalize="none"
-          returnKeyType="next"
-          onSubmitEditing={() => passwordTextInput.current.focus()}
-          blurOnSubmit={false}
-        />
+      <View style={{ flex: 1, flexDirection: "row", paddingTop: 200 }}>
+        <Text style={styles.logo}>Makan</Text>
+        <MakanpeIcon color={"white"} size={90} />
       </View>
+      <Animatable.View style={styles.subcontainer} animation="fadeInUpBig">
+        <View style={styles.details}>
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.TextInput}
+              keyboardType="email-address"
+              placeholder="Email"
+              placeholderTextColor="#958686"
+              value={email}
+              onChangeText={setEmail}
+              autoCapitalize="none"
+              returnKeyType="next"
+              onSubmitEditing={() => passwordTextInput.current.focus()}
+              blurOnSubmit={false}
+            />
+          </View>
 
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          ref={passwordTextInput}
-          placeholder="Password"
-          placeholderTextColor="#003f5c"
-          value={password}
-          onChangeText={setPassword}
-          autoCapitalize="none"
-          secureTextEntry={true}
-        />
-      </View>
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.TextInput}
+              ref={passwordTextInput}
+              placeholder="Password"
+              placeholderTextColor="#958686"
+              value={password}
+              onChangeText={setPassword}
+              autoCapitalize="none"
+              secureTextEntry={true}
+            />
+          </View>
 
-      <TouchableOpacity>
-        <Text style={styles.forgotPwdButton}>Forgot Password?</Text>
-      </TouchableOpacity>
+          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+            <Text style={styles.loginText}>Let's Eat!</Text>
+          </TouchableOpacity>
 
-      <TouchableOpacity style={styles.signInBtn} onPress={handleLogin}>
-        <Text style={styles.loginButton}>Let's Eat!</Text>
-      </TouchableOpacity>
+          <TouchableOpacity onPress={handleNoAcc}>
+            <Text style={styles.forgotPwdButton}>Forgot Password?</Text>
+          </TouchableOpacity>
 
-      <TouchableOpacity>
-        <Text style={styles.createAccButton} onPress={goCreateAcc}>
-          Create account
-        </Text>
-      </TouchableOpacity>
+          <TouchableOpacity>
+            <Text style={styles.createAccButton} onPress={goCreateAcc}>
+              Don't have an account? Create one!
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </Animatable.View>
     </View>
   );
 };
@@ -100,20 +120,28 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-
-  logoPic: {
-    height: 200,
-    width: 200,
-    resizeMode: "stretch",
-    marginBottom: 50,
+  subcontainer: {
+    flex: 4,
+    backgroundColor: "white",
+    width: "100%",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
   },
-
+  details: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  logo: {
+    fontSize: 70,
+    color: "white",
+    fontWeight: "bold",
+  },
   inputView: {
-    backgroundColor: "#FFC0CB",
+    backgroundColor: "#ECECEC",
     borderRadius: 30,
     width: "70%",
     height: 45,
-    marginBottom: 20,
+    marginTop: 15,
     alignItems: "flex-start",
   },
 
@@ -123,34 +151,33 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 
-  loginButton: {
-    fontSize: 15,
+  loginText: {
+    fontSize: 25,
     fontWeight: "bold",
+    color: "white",
   },
-
+  loginButton: {
+    width: "70%",
+    borderRadius: 30,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 15,
+    marginBottom: 15,
+    backgroundColor: "#FF5858",
+  },
   forgotPwdButton: {
     height: 30,
-    marginBottom: 10,
-    color: "white",
+    marginBottom: 5,
+    color: "grey",
     fontSize: 15,
   },
 
   createAccButton: {
     height: 30,
-    marginBottom: 10,
-    color: "white",
+    marginBottom: 15,
+    color: "grey",
     fontSize: 15,
-  },
-
-  signInBtn: {
-    width: "80%",
-    borderRadius: 25,
-    height: 50,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 40,
-    marginBottom: 20,
-    backgroundColor: "salmon",
   },
 });
 
