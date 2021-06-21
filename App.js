@@ -1,17 +1,16 @@
 import React, { useMemo, useReducer, useEffect } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import { NavigationContainer, StackActions } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 
 import {
   TabNav,
   LoginStackScreen,
   noHeaderTitle,
 } from "./src/components/Navigation";
+import SplashScreen from "./src/screens/SplashScreen";
+
 import * as Authentication from "./api/auth";
 import { AuthContext } from "./src/components/context";
-
-const RootStack = createStackNavigator();
 
 export default function App() {
   const initialLoginState = {
@@ -87,25 +86,21 @@ export default function App() {
         console.log(e);
       }
       dispatch({ type: "GET_USERID", userId: userId });
-    }, 1000);
+    }, 2200);
   }, []);
+
+  if (loginState.isLoading) {
+    return (
+      <View style={{ flex: 1 }}>
+        <SplashScreen />
+      </View>
+    );
+  }
 
   return (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
         {loginState.userId !== null ? <TabNav /> : <LoginStackScreen />}
-        {/* <RootStack.Navigator>
-        <RootStack.Screen
-          name="Login"
-          component={LoginStackScreen}
-          options={noHeaderTitle}
-        />
-        <RootStack.Screen
-          name="BottomTab"
-          component={TabNav}
-          options={noHeaderTitle}
-        />
-      </RootStack.Navigator> */}
       </NavigationContainer>
     </AuthContext.Provider>
   );

@@ -50,7 +50,14 @@ const SignupPage = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={{ flex: 1, flexDirection: "row", paddingTop: 200 }}>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          paddingTop: 100,
+          paddingBottom: 50,
+        }}
+      >
         <Text style={styles.logo}>Makan</Text>
         <MakanpeIcon color={"white"} size={90} />
       </View>
@@ -122,18 +129,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   subcontainer: {
-    flex: 4,
+    flex: 3,
     backgroundColor: "white",
     width: "100%",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
   },
   details: {
+    paddingTop: 20,
     alignItems: "center",
     justifyContent: "center",
   },
   logo: {
-    fontSize: 70,
+    fontSize: 60,
     color: "white",
     fontWeight: "bold",
   },
