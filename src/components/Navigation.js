@@ -2,9 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
@@ -14,13 +12,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import MakanpeIcon from "../assets/makanpe-icon";
 
-import HomeScreen from "../screens/HomeScreen";
-import Restaurant from "../screens/RestaurantDetails";
-import Maps from "./Maps";
-import Profile from "../screens/ProfileScreen";
-import Decision from "../screens/DecisionScreen";
-import Login from "../screens/LoginPage";
-import Signup from "../screens/SignupPage";
+import HomeScreen from "../screens/Home/HomeScreen";
+import Restaurant from "../screens/Details/RestaurantDetails";
+import Maps from "../screens/Details/Maps";
+import Profile from "../screens/Profile/ProfileScreen";
+import Decision from "../screens/Decision/DecisionScreen";
+import Login from "../screens/Login/LoginPage";
+import Signup from "../screens/Login/SignupPage";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createStackNavigator();

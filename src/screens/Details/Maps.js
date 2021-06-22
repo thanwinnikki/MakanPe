@@ -86,7 +86,7 @@ export default function Maps({ route, navigation }) {
           title={itemData.name}
         >
           <Image
-            source={require("../assets/map-marker.png")}
+            source={require("../../assets/map-marker.png")}
             style={{ width: 26, height: 28 }}
             resizeMode="contain"
           />

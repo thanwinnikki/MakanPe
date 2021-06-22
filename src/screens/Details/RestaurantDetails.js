@@ -11,11 +11,10 @@ import {
   ScrollView,
 } from "react-native";
 
+import Card from "./Card";
+
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faStar, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-
-import { data } from "../data/dummyData";
-import Card from "../components/Card";
 
 const HEADER_HEIGHT = 350;
 

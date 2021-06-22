@@ -7,10 +7,9 @@ import {
   LoginStackScreen,
   noHeaderTitle,
 } from "./src/components/Navigation";
-import SplashScreen from "./src/screens/SplashScreen";
-
 import * as Authentication from "./api/auth";
-import { AuthContext } from "./src/components/context";
+import SplashScreen from "./src/screens/Login/SplashScreen";
+import { AuthContext } from "./src/screens/Login/context";
 
 export default function App() {
   const initialLoginState = {

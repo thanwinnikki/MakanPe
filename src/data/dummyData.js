@@ -1,10 +1,3 @@
-const Images = [
-  { image: require("../assets/banners/steamed-chicken-rice.jpg") },
-  { image: require("../assets/banners/roasted-chicken-rice.jpg") },
-  { image: require("../assets/banners/white-carrot-cake.jpg") },
-  { image: require("../assets/banners/black-carrot-cake.jpg") },
-];
-
 export const data = [
   {
     id: "1",
