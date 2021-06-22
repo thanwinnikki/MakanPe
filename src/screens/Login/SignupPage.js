@@ -10,10 +10,10 @@ import {
   Alert,
 } from "react-native";
 
-import { AuthContext } from "../components/context";
+import { AuthContext } from "./context";
 
 import * as Animatable from "react-native-animatable";
-import MakanpeIcon from "../assets/makanpe-icon";
+import MakanpeIcon from "../../assets/makanpe-icon";
 
 const SignupPage = ({ navigation }) => {
   const [username, setUsername] = useState("");

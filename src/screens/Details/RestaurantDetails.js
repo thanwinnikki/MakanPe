@@ -11,12 +11,10 @@ import {
   ScrollView,
 } from "react-native";
 
-import { BlurView } from "@react-native-community/blur";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+import Card from "./Card";
 
-import { data } from "../data/dummyData";
-import Card from "../components/Card";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faStar, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 const HEADER_HEIGHT = 350;
 
@@ -29,6 +27,46 @@ export default function RestaurantDetails({ route, navigation }) {
       <View style={styles.menu}>
         <Card key={item.id} itemData={item} />
       </View>
+    );
+  }
+
+  function renderHeaderBar() {
+    return (
+      <Animated.View
+        style={{
+          position: "absolute",
+          top: 50,
+          left: 0,
+          right: 0,
+          height: 90,
+          flexDirection: "row",
+          alignItems: "flex-end",
+          justifyContent: "space-between",
+          paddingHorizontal: 20,
+          paddingBottom: 20,
+          //backgroundColor: "white",
+          opacity: offset.interpolate({
+            inputRange: [HEADER_HEIGHT - 100, HEADER_HEIGHT - 70],
+            outputRange: [1, 0],
+          }),
+        }}
+      >
+        <TouchableOpacity
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            height: 45,
+            width: 45,
+            borderRadius: 25,
+            borderWidth: 3,
+            borderColor: "#FF5858",
+            backgroundColor: "white",
+          }}
+          onPress={() => navigation.goBack()}
+        >
+          <FontAwesomeIcon color="#FF5858" icon={faArrowLeft} size={30} />
+        </TouchableOpacity>
+      </Animated.View>
     );
   }
 
@@ -112,6 +150,21 @@ export default function RestaurantDetails({ route, navigation }) {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
+      <View
+        style={{
+          flexDirection: "row",
+          height: 50,
+          width: "100%",
+          backgroundColor: "#FF5858",
+          alignItems: "flex-end",
+          justifyContent: "space-between",
+          paddingLeft: 10,
+        }}
+      >
+        <Text style={{ color: "white", fontWeight: "bold", fontSize: 40 }}>
+          MakanPe
+        </Text>
+      </View>
       <Animated.FlatList
         data={itemData.menu}
         ListHeaderComponent={
@@ -128,6 +181,7 @@ export default function RestaurantDetails({ route, navigation }) {
         )}
         renderItem={renderMenu}
       />
+      {renderHeaderBar()}
     </View>
   );
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Text, Button } from "react-native";
-import MakanpeIcon from "../assets/makanpe-icon";
+import MakanpeIcon from "../../assets/makanpe-icon";
 import * as Animatable from "react-native-animatable";
 
 export default function SplashScreen() {

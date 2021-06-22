@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { StyleSheet, View, Text, TouchableOpacity, Button } from "react-native";
-import { data } from "../data/dummyData";
+import { data } from "../../data/dummyData";
 
-import { AuthContext } from "../components/context";
+import { AuthContext } from "../Login/context";
 import { CommonActions } from "@react-navigation/native";
 
 export default function HomeScreen({ navigation, route }) {
