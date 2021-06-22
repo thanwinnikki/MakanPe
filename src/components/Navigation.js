@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
@@ -7,7 +7,11 @@ import { createStackNavigator } from "@react-navigation/stack";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faHome, faUserCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHome,
+  faUserCircle,
+  faArrowCircleLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import MakanpeIcon from "../assets/makanpe-icon";
 
 import HomeScreen from "../screens/HomeScreen";
@@ -65,8 +69,24 @@ function HomeStackScreen() {
         component={HomeScreen}
         options={noHeaderTitle}
       />
-      <HomeStack.Screen name="Restaurant" component={Restaurant} />
-      <HomeStack.Screen name="Maps" component={Maps} />
+      <HomeStack.Screen
+        name="Restaurant"
+        component={Restaurant}
+        options={{
+          headerTransparent: true,
+          headerTitle: false,
+          headerLeft: () => null,
+        }}
+      />
+      <HomeStack.Screen
+        name="Maps"
+        component={Maps}
+        options={{
+          headerTransparent: true,
+          headerTitle: false,
+          headerLeft: () => null,
+        }}
+      />
     </HomeStack.Navigator>
   );
 }
