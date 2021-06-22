@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { CommonActions } from "@react-navigation/native";
 import {
   StyleSheet,
@@ -10,9 +10,10 @@ import {
   Alert,
 } from "react-native";
 
+import { AuthContext } from "../components/context";
+
 import * as Animatable from "react-native-animatable";
 import MakanpeIcon from "../assets/makanpe-icon";
-import * as Authentication from "../../api/auth";
 
 const SignupPage = ({ navigation }) => {
   const [username, setUsername] = useState("");
@@ -20,13 +21,14 @@ const SignupPage = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const emailTextInput = useRef();
   const passwordTextInput = useRef();
+  const { signUp } = useContext(AuthContext);
 
   const goBack = () => {
     navigation.goBack();
   };
 
   const handleRegister = () => {
-    Authentication.createAccount(
+    signUp(
       { name: username, email, password },
       (user) =>
         navigation.dispatch(
@@ -48,7 +50,14 @@ const SignupPage = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={{ flex: 1, flexDirection: "row", paddingTop: 200 }}>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          paddingTop: 100,
+          paddingBottom: 50,
+        }}
+      >
         <Text style={styles.logo}>Makan</Text>
         <MakanpeIcon color={"white"} size={90} />
       </View>
@@ -120,18 +129,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   subcontainer: {
-    flex: 4,
+    flex: 3,
     backgroundColor: "white",
     width: "100%",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
   },
   details: {
+    paddingTop: 20,
     alignItems: "center",
     justifyContent: "center",
   },
   logo: {
-    fontSize: 70,
+    fontSize: 60,
     color: "white",
     fontWeight: "bold",
   },

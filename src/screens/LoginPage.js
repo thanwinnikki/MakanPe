@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { CommonActions } from "@react-navigation/native";
 import {
   StyleSheet,
@@ -11,8 +11,9 @@ import {
   Alert,
 } from "react-native";
 
+import { AuthContext } from "../components/context";
+
 import * as Animatable from "react-native-animatable";
-import * as Authentication from "../../api/auth";
 import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 import MakanpeIcon from "../assets/makanpe-icon";
 
@@ -20,11 +21,12 @@ const LoginPage = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const passwordTextInput = useRef();
+  const { signIn } = useContext(AuthContext);
 
   const handleLogin = () => {
-    Authentication.signIn(
+    signIn(
       { email, password },
-      (user) =>
+      (user) => {
         navigation.dispatch(
           CommonActions.reset({
             index: 0,
@@ -34,7 +36,9 @@ const LoginPage = ({ navigation }) => {
               },
             ],
           })
-        ),
+        );
+        console.log("User logged in");
+      },
       (error) => {
         return <Alert>{error}</Alert>;
       }
@@ -60,10 +64,18 @@ const LoginPage = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={{ flex: 1, flexDirection: "row", paddingTop: 200 }}>
+      <Animatable.View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          paddingTop: 100,
+          paddingBottom: 50,
+        }}
+        animation="fadeIn"
+      >
         <Text style={styles.logo}>Makan</Text>
         <MakanpeIcon color={"white"} size={90} />
-      </View>
+      </Animatable.View>
       <Animatable.View style={styles.subcontainer} animation="fadeInUpBig">
         <View style={styles.details}>
           <View style={styles.inputView}>
@@ -121,18 +133,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   subcontainer: {
-    flex: 4,
+    flex: 3,
     backgroundColor: "white",
     width: "100%",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
   },
   details: {
+    paddingTop: 25,
     alignItems: "center",
     justifyContent: "center",
   },
   logo: {
-    fontSize: 70,
+    fontSize: 60,
     color: "white",
     fontWeight: "bold",
   },
