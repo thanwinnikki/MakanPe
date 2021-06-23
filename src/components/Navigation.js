@@ -13,6 +13,7 @@ import {
 import MakanpeIcon from "../assets/makanpe-icon";
 
 import HomeScreen from "../screens/Home/HomeScreen";
+import Main from "../screens/Home/Main/index"
 import Restaurant from "../screens/Details/RestaurantDetails";
 import Maps from "../screens/Details/Maps";
 import Profile from "../screens/Profile/ProfileScreen";
@@ -64,8 +65,12 @@ function HomeStackScreen() {
     <HomeStack.Navigator>
       <HomeStack.Screen
         name="Home"
-        component={HomeScreen}
-        options={noHeaderTitle}
+        component={Main}
+        options={{
+          headerTransparent: true,
+          headerTitle: false,
+          headerLeft: () => null,
+        }}
       />
       <HomeStack.Screen
         name="Restaurant"
