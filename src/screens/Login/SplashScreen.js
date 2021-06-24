@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Text, Button } from "react-native";
+import { StyleSheet, View, StatusBar } from "react-native";
 import MakanpeIcon from "../../assets/makanpe-icon";
 import * as Animatable from "react-native-animatable";
 
@@ -13,6 +13,7 @@ export default function SplashScreen() {
         justifyContent: "center",
       }}
     >
+      <StatusBar barStyle="light-content" />
       <View style={{ flex: 1, flexDirection: "row", paddingTop: 300 }}>
         <Animatable.Text
           style={{ fontSize: 60, color: "white", fontWeight: "bold" }}
