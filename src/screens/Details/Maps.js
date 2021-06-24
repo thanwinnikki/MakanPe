@@ -61,10 +61,10 @@ export default function Maps({ route, navigation }) {
           backgroundColor: "#FF5858",
           alignItems: "flex-end",
           justifyContent: "space-between",
-          paddingLeft: 10,
+          paddingLeft: 15,
         }}
       >
-        <Text style={{ color: "white", fontWeight: "bold", fontSize: 40 }}>
+        <Text style={{ color: "white", fontWeight: "bold", fontSize: 30 }}>
           MakanPe
         </Text>
       </View>

@@ -73,6 +73,9 @@ export default function App() {
       const userId = Authentication.getCurrentUserId();
       dispatch({ type: "SIGNUP", userId: userId, username: userName });
     },
+    getUsername: () => {
+      return Authentication.getCurrentUserName();
+    },
   }));
 
   useEffect(() => {
