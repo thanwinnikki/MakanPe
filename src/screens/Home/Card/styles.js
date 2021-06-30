@@ -4,7 +4,7 @@ import { CARD } from "../utils/constants";
 export const styles = StyleSheet.create({
   container: {
     position: "absolute",
-    top: 50,
+    top: '10%',
   },
   image: {
     width: CARD.CARD_WIDTH,

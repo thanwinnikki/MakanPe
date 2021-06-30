@@ -66,7 +66,6 @@ export default function Main({ navigation }) {
     [removeTopCard, swipe.x]
   );
 
-  const onInfoPress = (name) => console.log({ name });
 
   return (
     <View style={styles.container}>

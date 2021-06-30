@@ -6,7 +6,7 @@ import { COLORS } from "../utils/constants";
 import { styles } from './styles'
 import { data } from "../../../data/dummyData"
 
-export default function Footer({ handleChoice, id, navigation }) {
+export default function Footer({ handleChoice, id , navigation }) {
     return (
         <View style={styles.container}>
             <RoundButton
