@@ -13,10 +13,11 @@ import {
 import MakanpeIcon from "../assets/makanpe-icon";
 
 import HomeScreen from "../screens/Home/HomeScreen";
-import Main from "../screens/Home/Main/index"
+import Main from "../screens/Home/Main/index";
 import Restaurant from "../screens/Details/RestaurantDetails";
 import Maps from "../screens/Details/Maps";
 import Profile from "../screens/Profile/ProfileScreen";
+import EditProfile from "../screens/Profile/EditProfile";
 import Decision from "../screens/Decision/DecisionScreen";
 import Login from "../screens/Login/LoginPage";
 import Signup from "../screens/Login/SignupPage";
@@ -106,6 +107,7 @@ function ProfileStackScreen() {
   return (
     <ProfileStack.Navigator>
       <ProfileStack.Screen name="Profile" component={Profile} />
+      <ProfileStack.Screen name="EditProfile" component={EditProfile} />
     </ProfileStack.Navigator>
   );
 }
@@ -117,7 +119,6 @@ export function TabNav() {
         showLabel: false,
         style: {
           backgroundColor: "white",
-
           height: 50,
         },
       }}
@@ -127,12 +128,15 @@ export function TabNav() {
         component={HomeStackScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <View>
+            <View style={{ alignItems: "center" }}>
               <FontAwesomeIcon
                 icon={faHome}
-                size={focused ? 40 : 30}
+                size={30}
                 color={focused ? "#FF5858" : "#5B5B5B"}
               />
+              <Text style={{ color: focused ? "#FF5858" : "#5B5B5B" }}>
+                Home
+              </Text>
             </View>
           ),
         }}
@@ -142,11 +146,11 @@ export function TabNav() {
         component={DecisionStackScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <View>
-              <MakanpeIcon
-                color={focused ? "#FF5858" : "#5B5B5B"}
-                size={focused ? 40 : 30}
-              />
+            <View style={{ alignItems: "center" }}>
+              <MakanpeIcon color={focused ? "#FF5858" : "#5B5B5B"} size={30} />
+              <Text style={{ color: focused ? "#FF5858" : "#5B5B5B" }}>
+                Decide
+              </Text>
             </View>
           ),
         }}
@@ -156,12 +160,15 @@ export function TabNav() {
         component={ProfileStackScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <View>
+            <View style={{ alignItems: "center" }}>
               <FontAwesomeIcon
                 icon={faUserCircle}
-                size={focused ? 40 : 30}
+                size={30}
                 color={focused ? "#FF5858" : "#5B5B5B"}
               />
+              <Text style={{ color: focused ? "#FF5858" : "#5B5B5B" }}>
+                Profile
+              </Text>
             </View>
           ),
         }}
