@@ -36,14 +36,17 @@ const SignupPage = ({ navigation }) => {
             index: 0,
             routes: [
               {
-                name: "Home",
-                params: { name: user.displayName },
+                name: "NewAcc",
+                params: {
+                  email: email,
+                },
               },
             ],
           })
         ),
+
       (error) => {
-        return <Alert>{error}</Alert>;
+        return console.log(error);
       }
     );
   };

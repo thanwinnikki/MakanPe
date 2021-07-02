@@ -21,6 +21,7 @@ export const createAccount = async (
     if (user) {
       await user.updateProfile({ displayName: name });
       await user.sendEmailVerification();
+
       return onSuccess(user);
     }
   } catch (error) {
@@ -42,6 +43,9 @@ export const getCurrentUserId = () =>
 
 export const getCurrentUserName = () =>
   auth.currentUser ? auth.currentUser.displayName : null;
+
+export const getCurrentUserEmail = () =>
+  auth.currentUser ? auth.currentUser.email : null;
 
 export const setOnAuthStateChanged = (onUserAuthenticated, onUserNotFound) =>
   auth.onAuthStateChanged((user) => {

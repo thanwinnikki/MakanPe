@@ -1,5 +1,5 @@
 import React, { useMemo, useReducer, useEffect } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, Button, LogBox } from "react-native";
 import { NavigationContainer, StackActions } from "@react-navigation/native";
 
 import {
@@ -11,6 +11,7 @@ import * as Authentication from "./api/auth";
 import SplashScreen from "./src/screens/Login/SplashScreen";
 import { AuthContext } from "./src/screens/Login/context";
 
+LogBox.ignoreLogs(["Setting a timer"]);
 export default function App() {
   const initialLoginState = {
     isLoading: true,

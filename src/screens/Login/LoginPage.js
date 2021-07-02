@@ -39,7 +39,7 @@ const LoginPage = ({ navigation }) => {
         console.log("User logged in");
       },
       (error) => {
-        return <Alert>{error}</Alert>;
+        return console.log(error);
       }
     );
   };

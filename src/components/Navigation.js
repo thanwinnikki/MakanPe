@@ -21,6 +21,7 @@ import EditProfile from "../screens/Profile/EditProfile";
 import Decision from "../screens/Decision/DecisionScreen";
 import Login from "../screens/Login/LoginPage";
 import Signup from "../screens/Login/SignupPage";
+import NewAcc from "../screens/Login/NewAccPage";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
@@ -52,6 +53,7 @@ export function LoginStackScreen() {
           headerLeft: null,
         }}
       />
+      <LoginStack.Screen name="NewAcc" component={NewAcc} />
       <LoginStack.Screen
         name="Home"
         component={TabNav}
@@ -108,6 +110,7 @@ function ProfileStackScreen() {
     <ProfileStack.Navigator>
       <ProfileStack.Screen name="Profile" component={Profile} />
       <ProfileStack.Screen name="EditProfile" component={EditProfile} />
+      <ProfileStack.Screen name="NewAcc" component={NewAcc} />
     </ProfileStack.Navigator>
   );
 }

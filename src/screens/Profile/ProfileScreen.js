@@ -11,14 +11,21 @@ import {
 
 import { CommonActions } from "@react-navigation/native";
 import { AuthContext } from "../Login/context";
+import * as db from "../../../api/database";
+import * as Auth from "../../../api/auth";
 
 export default function Profile({ navigation, routes }) {
-  const [username, setUsername] = useState("");
-  const { signOut, getUsername } = useContext(AuthContext);
+  const [userData, setUserData] = useState("");
+  const { signOut } = useContext(AuthContext);
+  const userId = Auth.getCurrentUserId();
+
+  const getProfile = () => {
+    db.getUserProfile(userId, setUserData);
+  };
 
   useEffect(() => {
-    setUsername(getUsername());
-  });
+    getProfile();
+  }, []);
 
   const handleLogout = () => {
     signOut(() => {
@@ -42,12 +49,19 @@ export default function Profile({ navigation, routes }) {
           style={styles.userImg}
           source={require("../../assets/man.png")}
         />
-        <Text style={styles.username}>{username}</Text>
+        <Text style={styles.username}>
+          {userData.fname + " " + userData.lname}
+        </Text>
         <Text style={styles.aboutUser}>
           I love steak. Bring me to steak house pls.
         </Text>
         <View style={styles.userBtnWrapper}>
-          <TouchableOpacity style={styles.userBtn} onPress={() => {}}>
+          <TouchableOpacity
+            style={styles.userBtn}
+            onPress={() => {
+              navigation.navigate("EditProfile");
+            }}
+          >
             <Text style={styles.userBtnTxt}>Edit</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.userBtn} onPress={handleLogout}>
