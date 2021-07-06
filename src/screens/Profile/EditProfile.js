@@ -106,6 +106,9 @@ export default function EditProfile({ navigation }) {
             autoCorrect={false}
             value={userData ? userData.fname : ""}
             onChangeText={(txt) => setUserData({ ...userData, fname: txt })}
+            returnKeyType="next"
+            autoCapitalize="words"
+            clearTextOnFocus={true}
             style={styles.textInput}
           />
         </View>
@@ -123,6 +126,9 @@ export default function EditProfile({ navigation }) {
             value={userData ? userData.lname : ""}
             onChangeText={(txt) => setUserData({ ...userData, lname: txt })}
             autoCorrect={false}
+            returnKeyType="next"
+            autoCapitalize="words"
+            clearTextOnFocus={true}
             style={styles.textInput}
           />
         </View>
@@ -137,9 +143,11 @@ export default function EditProfile({ navigation }) {
           <TextInput
             placeholder={userData.email}
             placeholderTextColor="#666666"
-            value={userData ? userData.email : ""}
+            value={setUserData ? userData.email : ""}
             onChangeText={(txt) => setUserData({ ...userData, email: txt })}
             autoCorrect={false}
+            autoCapitalize="words"
+            clearTextOnFocus={true}
             style={styles.textInput}
           />
         </View>

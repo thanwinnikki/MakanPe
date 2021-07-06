@@ -7,6 +7,7 @@ import {
   ImageBackground,
   TextInput,
   StyleSheet,
+  Alert,
 } from "react-native";
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -15,109 +16,169 @@ import {
   faUser,
   faEnvelope,
 } from "@fortawesome/free-solid-svg-icons";
+import * as Animatable from "react-native-animatable";
 
 import * as db from "../../../api/database";
 import * as Auth from "../../../api/auth";
+import { data } from "../../data/dummyData";
 
 export default function NewAccount({ navigation, route }) {
-  const [userData, setUserData] = useState(null);
-  const { email } = route.params;
+  const [data, setData] = useState({
+    fname: "",
+    lname: "",
+    isValidFname: true,
+    isValidLname: true,
+  });
+  const email = Auth.getCurrentUserEmail();
   const userId = Auth.getCurrentUserId();
 
   const handleProfile = () => {
-    db.updateProfile(
-      { userId, fname: userData.fname, lname: userData.lname, email },
-      () =>
-        navigation.dispatch(
-          CommonActions.reset({
-            index: 0,
-            routes: [
-              {
-                name: "Home",
-              },
-            ],
-          })
-        ),
-      (error) => {
-        return console.log(error);
-      }
-    );
+    data.isValidFname && data.isValidLname
+      ? db.updateProfile(
+          { userId, fname: data.fname, lname: data.lname, email },
+          () =>
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 0,
+                routes: [
+                  {
+                    name: "Home",
+                  },
+                ],
+              })
+            ),
+          (error) => {
+            return console.log(error);
+          }
+        )
+      : Alert.alert("Invalid.", "Please enter your first and last name.", [
+          { text: "ok" },
+        ]);
+  };
+
+  const handleValidFname = (val) => {
+    if (val.trim().length > 0) {
+      setData({
+        ...data,
+        fname: val,
+        isValidFname: true,
+      });
+    } else {
+      setData({
+        ...data,
+        fname: val,
+        isValidFname: false,
+      });
+    }
+  };
+
+  const handleValidLname = (val) => {
+    if (val.trim().length > 0) {
+      setData({
+        ...data,
+        lname: val,
+        isValidLname: true,
+      });
+    } else {
+      setData({
+        ...data,
+        lname: val,
+        isValidLname: false,
+      });
+    }
   };
 
   return (
     <View style={styles.background}>
-      <View style={{ margin: 20 }}>
-        <View style={{ alignItems: "center" }}>
-          <TouchableOpacity onPress={() => {}}>
-            <View
-              style={{
-                height: 200,
-                width: 200,
-                borderRadius: 100,
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "#F3F3F3",
-              }}
-            >
-              <ImageBackground
-                source={require("../../assets/man.png")}
-                style={{ height: 200, width: 200 }}
-                imageStyle={{ borderRadius: 100 }}
+      <View style={styles.container}>
+        <View style={{ margin: 20 }}>
+          <View style={{ alignItems: "center" }}>
+            <TouchableOpacity onPress={() => {}}>
+              <View
+                style={{
+                  height: 200,
+                  width: 200,
+                  borderRadius: 100,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "#F3F3F3",
+                }}
               >
-                <View
-                  style={{
-                    flex: 1,
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
+                <ImageBackground
+                  source={require("../../assets/man.png")}
+                  style={{ height: 200, width: 200 }}
+                  imageStyle={{ borderRadius: 100 }}
                 >
-                  <FontAwesomeIcon
-                    icon={faCamera}
-                    alignItems={"center"}
-                    opacity={0.7}
-                    color={"grey"}
-                    size={30}
-                  />
-                </View>
-              </ImageBackground>
-            </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <FontAwesomeIcon
+                      icon={faCamera}
+                      alignItems={"center"}
+                      opacity={0.7}
+                      color={"grey"}
+                      size={30}
+                    />
+                  </View>
+                </ImageBackground>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.action}>
+            <FontAwesomeIcon
+              icon={faUser}
+              color={"grey"}
+              marginRight={10}
+              size={20}
+            />
+            <TextInput
+              placeholder="First Name"
+              placeholderTextColor="#666666"
+              autoCorrect={false}
+              onChangeText={(val) => handleValidFname(val)}
+              onEndEditing={(e) => handleValidFname(e.nativeEvent.text)}
+              returnKeyType="next"
+              autoCapitalize="words"
+              style={styles.textInput}
+            />
+          </View>
+          {data.isValidFname ? null : (
+            <Animatable.View animation="fadeInLeft" duration={500}>
+              <Text style={{ color: "red" }}>Field cannot be empty.</Text>
+            </Animatable.View>
+          )}
+
+          <View style={styles.action}>
+            <FontAwesomeIcon
+              icon={faUser}
+              color={"grey"}
+              marginRight={10}
+              size={20}
+            />
+            <TextInput
+              placeholder="Last Name"
+              placeholderTextColor="#666666"
+              onChangeText={(val) => handleValidLname(val)}
+              onEndEditing={(e) => handleValidLname(e.nativeEvent.text)}
+              autoCorrect={false}
+              autoCapitalize="words"
+              style={styles.textInput}
+            />
+          </View>
+          {data.isValidLname ? null : (
+            <Animatable.View animation="fadeInLeft" duration={500}>
+              <Text style={{ color: "red" }}>Field cannot be empty.</Text>
+            </Animatable.View>
+          )}
+
+          <TouchableOpacity style={styles.panelButton} onPress={handleProfile}>
+            <Text style={styles.panelButtonTitle}>Let's Get Started!</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.action}>
-          <FontAwesomeIcon
-            icon={faUser}
-            color={"grey"}
-            marginRight={10}
-            size={20}
-          />
-          <TextInput
-            placeholder="First Name"
-            placeholderTextColor="#666666"
-            autoCorrect={false}
-            value={userData ? userData.fname : ""}
-            onChangeText={(txt) => setUserData({ ...userData, fname: txt })}
-            style={styles.textInput}
-          />
-        </View>
-        <View style={styles.action}>
-          <FontAwesomeIcon
-            icon={faUser}
-            color={"grey"}
-            marginRight={10}
-            size={20}
-          />
-          <TextInput
-            placeholder="Last Name"
-            placeholderTextColor="#666666"
-            value={userData ? userData.lname : ""}
-            onChangeText={(txt) => setUserData({ ...userData, lname: txt })}
-            autoCorrect={false}
-            style={styles.textInput}
-          />
-        </View>
-        <TouchableOpacity style={styles.panelButton} onPress={handleProfile}>
-          <Text style={styles.panelButtonTitle}>Let's Get Started!</Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -125,6 +186,10 @@ export default function NewAccount({ navigation, route }) {
 
 const styles = StyleSheet.create({
   background: {
+    flex: 1,
+    backgroundColor: "#FF5858",
+  },
+  container: {
     backgroundColor: "white",
   },
   action: {

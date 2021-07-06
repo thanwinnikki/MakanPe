@@ -16,7 +16,6 @@ export default function App() {
   const initialLoginState = {
     isLoading: true,
     userId: null,
-    username: null,
   };
 
   const loginReducer = (prevState, action) => {
@@ -30,21 +29,18 @@ export default function App() {
       case "LOGIN":
         return {
           ...prevState,
-          username: action.username,
           userId: action.userId,
           isLoading: false,
         };
       case "LOGOUT":
         return {
           ...prevState,
-          username: null,
           userId: null,
           isLoading: false,
         };
       case "SIGNUP":
         return {
           ...prevState,
-          username: action.username,
           userId: action.userId,
           isLoading: false,
         };
@@ -56,26 +52,22 @@ export default function App() {
   const authContext = useMemo(() => ({
     signIn: ({ email, password }, onSuccess, onError) => {
       Authentication.signIn({ email, password }, onSuccess, onError);
-      const userName = Authentication.getCurrentUserName();
       const userId = Authentication.getCurrentUserId();
-      dispatch({ type: "LOGIN", userId: userId, username: userName });
+      dispatch({ type: "LOGIN", userId: userId });
     },
     signOut: (onSuccess, onError) => {
       Authentication.signOut(onSuccess, onError);
       dispatch({ type: "LOGOUT" });
     },
-    signUp: ({ name, email, password }, onSuccess, onError) => {
-      Authentication.createAccount(
-        { name, email, password },
-        onSuccess,
-        onError
-      );
-      const userName = Authentication.getCurrentUserName();
+    signUp: ({ email, password }, onSuccess, onError) => {
+      Authentication.createAccount({ email, password }, onSuccess, onError);
       const userId = Authentication.getCurrentUserId();
-      dispatch({ type: "SIGNUP", userId: userId, username: userName });
+      dispatch({ type: "SIGNUP", userId: userId });
     },
-    getUsername: () => {
-      return Authentication.getCurrentUserName();
+    signinAnon: () => {
+      Authentication.signInAnon(onSuccess, onError);
+      const userId = Authentication.getCurrentUserId();
+      dispatch({ type: "LOGIN", userId: userId });
     },
   }));
 

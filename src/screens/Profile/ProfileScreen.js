@@ -15,7 +15,11 @@ import * as db from "../../../api/database";
 import * as Auth from "../../../api/auth";
 
 export default function Profile({ navigation, routes }) {
-  const [userData, setUserData] = useState("");
+  const [userData, setUserData] = useState({
+    fname: "",
+    lname: "",
+    email: "",
+  });
   const { signOut } = useContext(AuthContext);
   const userId = Auth.getCurrentUserId();
 
@@ -41,31 +45,71 @@ export default function Profile({ navigation, routes }) {
 
   return (
     <View style={styles.background}>
+      <View
+        style={{
+          flexDirection: "row",
+          height: 50,
+          width: "100%",
+          backgroundColor: "#FF5858",
+          alignItems: "flex-end",
+          justifyContent: "space-between",
+          paddingLeft: 15,
+        }}
+      >
+        <Text style={{ color: "white", fontWeight: "bold", fontSize: 30 }}>
+          MakanPe
+        </Text>
+      </View>
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.scrollContainer}
       >
-        <Image
-          style={styles.userImg}
-          source={require("../../assets/man.png")}
-        />
-        <Text style={styles.username}>
-          {userData.fname + " " + userData.lname}
-        </Text>
-        <Text style={styles.aboutUser}>
-          I love steak. Bring me to steak house pls.
-        </Text>
-        <View style={styles.userBtnWrapper}>
-          <TouchableOpacity
-            style={styles.userBtn}
-            onPress={() => {
-              navigation.navigate("EditProfile");
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            height: 125,
+            width: "95%",
+            borderRadius: 10,
+            borderWidth: 1,
+            alignItems: "center",
+            backgroundColor: "white",
+          }}
+        >
+          <Image
+            style={styles.userImg}
+            source={require("../../assets/man.png")}
+          />
+          <View
+            style={{
+              //backgroundColor: "grey",
+              justifyContent: "center",
+              alignItems: "flex-start",
+              marginLeft: 10,
             }}
           >
-            <Text style={styles.userBtnTxt}>Edit</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.userBtn} onPress={handleLogout}>
-            <Text style={styles.userBtnTxt}>Logout</Text>
+            <Text style={styles.username}>
+              {userData.fname + " " + userData.lname}
+            </Text>
+            <View style={styles.userBtnWrapper}>
+              <TouchableOpacity
+                style={styles.userBtn}
+                onPress={() => {
+                  navigation.navigate("EditProfile");
+                }}
+              >
+                <Text style={styles.userBtnTxt}>Edit</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.userBtn} onPress={handleLogout}>
+                <Text style={styles.userBtnTxt}>Logout</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <TouchableOpacity
+            style={styles.userBtn}
+            onPress={navigation.navigate("NewAcc")}
+          >
+            <Text style={styles.userBtnTxt}>New acc</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -75,9 +119,8 @@ export default function Profile({ navigation, routes }) {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-
     backgroundColor: "white",
-    paddingTop: Platform.OS === "android" ? 25 : 0,
+    //paddingTop: Platform.OS === "android" ? 25 : 0,
   },
   container: {
     flex: 1,
@@ -88,10 +131,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   userImg: {
-    height: 150,
-    width: 150,
-    borderRadius: 75,
+    height: 100,
+    width: 100,
+    borderRadius: 50,
     backgroundColor: "#F3F3F3",
+    margin: 10,
   },
   username: {
     fontSize: 20,
@@ -106,12 +150,13 @@ const styles = StyleSheet.create({
   },
   userBtnWrapper: {
     flexDirection: "row",
-    justifyContent: "center",
-    width: "100%",
+    justifyContent: "flex-start",
+    width: 200,
     marginBottom: 10,
+    marginTop: 10,
   },
   userBtn: {
-    borderColor: "#2e64e5",
+    borderColor: "#FF5858",
     borderWidth: 2,
     borderRadius: 3,
     paddingVertical: 8,
@@ -119,6 +164,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   userBtnTxt: {
-    color: "#2e64e5",
+    color: "#FF5858",
   },
 });

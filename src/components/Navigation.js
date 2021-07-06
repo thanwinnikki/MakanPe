@@ -108,8 +108,25 @@ function DecisionStackScreen() {
 function ProfileStackScreen() {
   return (
     <ProfileStack.Navigator>
-      <ProfileStack.Screen name="Profile" component={Profile} />
-      <ProfileStack.Screen name="EditProfile" component={EditProfile} />
+      <ProfileStack.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          headerTransparent: true,
+          headerTitle: false,
+        }}
+      />
+      <ProfileStack.Screen
+        name="EditProfile"
+        component={EditProfile}
+        options={{
+          title: "Edit Profile",
+          headerTintColor: "white",
+          headerStyle: {
+            backgroundColor: "#FF5858",
+          },
+        }}
+      />
       <ProfileStack.Screen name="NewAcc" component={NewAcc} />
     </ProfileStack.Navigator>
   );
