@@ -39,8 +39,8 @@ export const signOut = async (onSuccess, onError) => {
 
 export const signInAnon = async (onSuccess, onError) => {
   try {
-    const { user } = await auth.signInAnonymously();
-    return onSuccess(user);
+    await auth.signInAnonymously();
+    return onSuccess();
   } catch (error) {
     return onError(error);
   }

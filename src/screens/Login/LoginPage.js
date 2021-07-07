@@ -12,6 +12,9 @@ import {
 } from "react-native";
 
 import { AuthContext } from "./context";
+import { UserContext } from "../Profile/UserContext/context";
+import * as db from "../../../api/database";
+import * as Auth from "../../../api/auth";
 
 import * as Animatable from "react-native-animatable";
 import MakanpeIcon from "../../assets/makanpe-icon";
@@ -25,11 +28,28 @@ export default function LoginPage({ navigation }) {
   });
   const passwordTextInput = useRef();
   const { signIn, signInAnon } = useContext(AuthContext);
+  const { userData, actions } = useContext(UserContext);
+
+  const updateUserData = () => {
+    const curUserId = Auth.getCurrentUserId();
+    const email = data.email;
+    const user = db.getUserProfile(curUserId);
+    actions({
+      type: "setUserData",
+      payload: {
+        ...userData,
+        email: email,
+        fname: user.fname,
+        lname: user.lname,
+      },
+    });
+  };
 
   const handleLogin = () => {
     signIn(
       { email: data.email, password: data.password },
       (user) => {
+        updateUserData();
         navigation.dispatch(
           CommonActions.reset({
             index: 0,
@@ -43,10 +63,19 @@ export default function LoginPage({ navigation }) {
         console.log("User logged in");
       },
       (error) => {
-        Alert.alert("Invalid Login!", "Your email or password is incorrect!", [
+        switch (error.code) {
+          case "auth/wrong-password":
+            Alert.alert(
+              "Invalid Login!",
+              "Your email or password is incorrect!",
+              [{ text: "ok" }]
+            );
+            return console.log(error.code);
+        }
+        Alert.alert("Error!", "This error is not handled yet.", [
           { text: "ok" },
         ]);
-        return console.log(error);
+        return console.log(error.code);
       }
     );
   };
@@ -151,13 +180,7 @@ export default function LoginPage({ navigation }) {
               secureTextEntry={true}
             />
           </View>
-          {data.isValidPassword ? null : (
-            <Animatable.View animation="fadeInLeft" duration={500}>
-              <Text style={{ color: "red" }}>
-                Password must be at least 6 characters.
-              </Text>
-            </Animatable.View>
-          )}
+
           <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
             <Text style={styles.loginText}>Sign In!</Text>
           </TouchableOpacity>

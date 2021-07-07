@@ -21,10 +21,10 @@ export const updateProfile = (
   }
 };
 
-export const getUserProfile = (userId, onProfileChange) => {
-  const profile = db.ref("users/" + userId);
-  profile.on("value", (snapshot) => {
-    onProfileChange(snapshot.val());
+export const getUserProfile = (userId) => {
+  let profile;
+  db.ref("users/" + userId).on("value", (snapshot) => {
+    profile = snapshot.val();
   });
-  return () => profile.off("value");
+  return profile;
 };

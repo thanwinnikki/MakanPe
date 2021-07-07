@@ -11,25 +11,20 @@ import {
 
 import { CommonActions } from "@react-navigation/native";
 import { AuthContext } from "../Login/context";
+import { UserContext } from "./UserContext/context";
 import * as db from "../../../api/database";
-import * as Auth from "../../../api/auth";
 
 export default function Profile({ navigation, routes }) {
-  const [userData, setUserData] = useState({
-    fname: "",
-    lname: "",
-    email: "",
-  });
+  const { userData } = useContext(UserContext);
   const { signOut } = useContext(AuthContext);
-  const userId = Auth.getCurrentUserId();
 
-  const getProfile = () => {
-    db.getUserProfile(userId, setUserData);
-  };
+  // const getProfile = () => {
+  //   setUserData(db.getUserProfile(userId));
+  // };
 
-  useEffect(() => {
-    getProfile();
-  }, []);
+  // useEffect(() => {
+  //   getProfile();
+  // }, []);
 
   const handleLogout = () => {
     signOut(() => {
@@ -105,12 +100,6 @@ export default function Profile({ navigation, routes }) {
               </TouchableOpacity>
             </View>
           </View>
-          <TouchableOpacity
-            style={styles.userBtn}
-            onPress={navigation.navigate("NewAcc")}
-          >
-            <Text style={styles.userBtnTxt}>New acc</Text>
-          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>

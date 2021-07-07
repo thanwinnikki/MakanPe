@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { CommonActions } from "@react-navigation/native";
 import {
   View,
@@ -11,16 +11,12 @@ import {
 } from "react-native";
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import {
-  faCamera,
-  faUser,
-  faEnvelope,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCamera, faUser } from "@fortawesome/free-solid-svg-icons";
 import * as Animatable from "react-native-animatable";
 
 import * as db from "../../../api/database";
 import * as Auth from "../../../api/auth";
-import { data } from "../../data/dummyData";
+import { UserContext } from "../Profile/UserContext/context";
 
 export default function NewAccount({ navigation, route }) {
   const [data, setData] = useState({
@@ -29,31 +25,43 @@ export default function NewAccount({ navigation, route }) {
     isValidFname: true,
     isValidLname: true,
   });
+  const { userData, actions } = useContext(UserContext);
   const email = Auth.getCurrentUserEmail();
   const userId = Auth.getCurrentUserId();
 
   const handleProfile = () => {
-    data.isValidFname && data.isValidLname
-      ? db.updateProfile(
-          { userId, fname: data.fname, lname: data.lname, email },
-          () =>
-            navigation.dispatch(
-              CommonActions.reset({
-                index: 0,
-                routes: [
-                  {
-                    name: "Home",
-                  },
-                ],
-              })
-            ),
-          (error) => {
-            return console.log(error);
-          }
-        )
-      : Alert.alert("Invalid.", "Please enter your first and last name.", [
-          { text: "ok" },
-        ]);
+    if (data.isValidFname && data.isValidLname) {
+      actions({
+        type: "setUserData",
+        payload: {
+          ...userData,
+          email: email,
+          fname: data.fname,
+          lname: data.lname,
+        },
+      });
+      db.updateProfile(
+        { userId, fname: data.fname, lname: data.lname, email },
+        () =>
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [
+                {
+                  name: "Home",
+                },
+              ],
+            })
+          ),
+        (error) => {
+          return console.log(error);
+        }
+      );
+    } else {
+      Alert.alert("Invalid.", "Please enter your first and last name.", [
+        { text: "ok" },
+      ]);
+    }
   };
 
   const handleValidFname = (val) => {

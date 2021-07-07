@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   View,
   Text,
@@ -18,18 +18,33 @@ import {
 
 import * as db from "../../../api/database";
 import * as Auth from "../../../api/auth";
+import { UserContext } from "./UserContext/context";
 
 export default function EditProfile({ navigation }) {
-  const [userData, setUserData] = useState("");
+  const [data, setData] = useState({
+    email: "",
+    fname: "",
+    lname: "",
+  });
   const userId = Auth.getCurrentUserId();
+  const { userData, actions } = useContext(UserContext);
 
   const handleUpdate = () => {
+    actions({
+      type: "setUserData",
+      payload: {
+        ...userData,
+        email: data.email,
+        fname: data.fname,
+        lname: data.lname,
+      },
+    });
     db.updateProfile(
       {
         userId,
-        fname: userData.fname,
-        lname: userData.lname,
-        email: userData.email,
+        email: data.email,
+        fname: data.fname,
+        lname: data.lname,
       },
       () => {
         Alert.alert(
@@ -45,13 +60,13 @@ export default function EditProfile({ navigation }) {
     );
   };
 
-  const getProfile = () => {
-    db.getUserProfile(userId, setUserData);
-  };
+  // const getProfile = () => {
+  //   db.getUserProfile(userId, setUserData);
+  // };
 
-  useEffect(() => {
-    getProfile();
-  }, []);
+  // useEffect(() => {
+  //   getProfile();
+  // }, []);
 
   return (
     <View style={styles.background}>
@@ -104,8 +119,7 @@ export default function EditProfile({ navigation }) {
             placeholder={userData.fname}
             placeholderTextColor="#666666"
             autoCorrect={false}
-            value={userData ? userData.fname : ""}
-            onChangeText={(txt) => setUserData({ ...userData, fname: txt })}
+            onChangeText={(txt) => setData({ ...data, fname: txt })}
             returnKeyType="next"
             autoCapitalize="words"
             clearTextOnFocus={true}
@@ -123,8 +137,7 @@ export default function EditProfile({ navigation }) {
           <TextInput
             placeholder={userData.lname}
             placeholderTextColor="#666666"
-            value={userData ? userData.lname : ""}
-            onChangeText={(txt) => setUserData({ ...userData, lname: txt })}
+            onChangeText={(txt) => setData({ ...data, lname: txt })}
             autoCorrect={false}
             returnKeyType="next"
             autoCapitalize="words"
@@ -143,8 +156,7 @@ export default function EditProfile({ navigation }) {
           <TextInput
             placeholder={userData.email}
             placeholderTextColor="#666666"
-            value={setUserData ? userData.email : ""}
-            onChangeText={(txt) => setUserData({ ...userData, email: txt })}
+            onChangeText={(txt) => setData({ ...data, email: txt })}
             autoCorrect={false}
             autoCapitalize="words"
             clearTextOnFocus={true}
