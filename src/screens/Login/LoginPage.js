@@ -12,44 +12,26 @@ import {
 } from "react-native";
 
 import { AuthContext } from "./context";
-import { UserContext } from "../Profile/UserContext/context";
-import * as db from "../../../api/database";
-import * as Auth from "../../../api/auth";
 
 import * as Animatable from "react-native-animatable";
 import MakanpeIcon from "../../assets/makanpe-icon";
 
 export default function LoginPage({ navigation }) {
   const [data, setData] = useState({
+    // local state
     email: "",
     password: "",
     isValidUser: true,
     isValidPassword: true,
   });
+  const { signIn, signInAnon } = useContext(AuthContext); // user sign in methods
   const passwordTextInput = useRef();
-  const { signIn, signInAnon } = useContext(AuthContext);
-  const { userData, actions } = useContext(UserContext);
 
-  const updateUserData = () => {
-    const curUserId = Auth.getCurrentUserId();
-    const email = data.email;
-    const user = db.getUserProfile(curUserId);
-    actions({
-      type: "setUserData",
-      payload: {
-        ...userData,
-        email: email,
-        fname: user.fname,
-        lname: user.lname,
-      },
-    });
-  };
-
+  // validate user sign in and navigate to home screen
   const handleLogin = () => {
     signIn(
       { email: data.email, password: data.password },
       (user) => {
-        updateUserData();
         navigation.dispatch(
           CommonActions.reset({
             index: 0,
@@ -71,10 +53,15 @@ export default function LoginPage({ navigation }) {
               [{ text: "ok" }]
             );
             return console.log(error.code);
+          case "auth/invalid-email":
+            Alert.alert(
+              "Invalid Login!",
+              "Your email or password is incorrect!",
+              [{ text: "ok" }]
+            );
+            return console.log(error.code);
         }
-        Alert.alert("Error!", "This error is not handled yet.", [
-          { text: "ok" },
-        ]);
+        Alert.alert(error.message);
         return console.log(error.code);
       }
     );
@@ -101,6 +88,7 @@ export default function LoginPage({ navigation }) {
     );
   };
 
+  // validate email
   const handleValidUser = (val) => {
     if (val.trim().length > 0) {
       setData({
@@ -117,6 +105,7 @@ export default function LoginPage({ navigation }) {
     }
   };
 
+  // validate password
   const handleValidPassword = (val) => {
     if (val.trim().length >= 6) {
       setData({
@@ -175,7 +164,6 @@ export default function LoginPage({ navigation }) {
               placeholder="Password"
               placeholderTextColor="#958686"
               onChangeText={(val) => handleValidPassword(val)}
-              //onEndEditing={(e) => handleValidPassword(e.nativeEvent.text)}
               autoCapitalize="none"
               secureTextEntry={true}
             />

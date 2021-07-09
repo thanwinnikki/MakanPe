@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -11,6 +11,10 @@ import {
   faArrowCircleLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import MakanpeIcon from "../assets/makanpe-icon";
+
+import * as db from "../../api/database";
+import * as Auth from "../../api/auth";
+import { UserContext } from "../screens/Profile/UserContext/context";
 
 import HomeScreen from "../screens/Home/HomeScreen";
 import Main from "../screens/Home/Main/index";
@@ -53,7 +57,16 @@ export function LoginStackScreen() {
           headerLeft: null,
         }}
       />
-      <LoginStack.Screen name="NewAcc" component={NewAcc} />
+      <LoginStack.Screen
+        name="NewAcc"
+        component={NewAcc}
+        options={{
+          headerBackTitleVisible: false,
+          headerTitle: false,
+          headerTransparent: true,
+          headerLeft: null,
+        }}
+      />
       <LoginStack.Screen
         name="Home"
         component={TabNav}
@@ -127,7 +140,6 @@ function ProfileStackScreen() {
           },
         }}
       />
-      <ProfileStack.Screen name="NewAcc" component={NewAcc} />
     </ProfileStack.Navigator>
   );
 }

@@ -2,6 +2,8 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
 
+export const firebaseAuth = firebase.auth;
+
 const firebaseConfig = {
   apiKey: "AIzaSyC7CO7EpQtxL0QqiHY0z5roVDorj-pfOKo",
   authDomain: "makanpe-23a59.firebaseapp.com",

@@ -17,14 +17,16 @@ import MakanpeIcon from "../../assets/makanpe-icon";
 
 const SignupPage = ({ navigation }) => {
   const [data, setData] = useState({
+    // local state
     email: "",
     password: "",
     isValidUser: true,
     isValidPassword: true,
   });
   const passwordTextInput = useRef();
-  const { signUp } = useContext(AuthContext);
+  const { signUp } = useContext(AuthContext); // create account method
 
+  // create user account and navigate to new account page
   const handleRegister = () => {
     signUp(
       { email: data.email, password: data.password },
@@ -63,14 +65,13 @@ const SignupPage = ({ navigation }) => {
             return console.log(error.code);
         }
 
-        Alert.alert("Error!", "This error is not handled yet.", [
-          { text: "ok" },
-        ]);
+        Alert.alert(error.message);
         return console.log(error.code);
       }
     );
   };
 
+  // validate email
   const handleValidUser = (val) => {
     if (val.trim().length > 0) {
       setData({
@@ -87,6 +88,7 @@ const SignupPage = ({ navigation }) => {
     }
   };
 
+  // validate password
   const handleValidPassword = (val) => {
     if (val.trim().length >= 6) {
       setData({

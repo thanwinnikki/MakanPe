@@ -1,4 +1,4 @@
-import firebase from "./firebase";
+import firebase, { firebaseAuth } from "./firebase";
 
 const auth = firebase.auth();
 
@@ -41,6 +41,44 @@ export const signInAnon = async (onSuccess, onError) => {
   try {
     await auth.signInAnonymously();
     return onSuccess();
+  } catch (error) {
+    return onError(error);
+  }
+};
+
+const reauthenticate = (currentPassword) => {
+  const user = auth.currentUser;
+  const cred = firebaseAuth.EmailAuthProvider.credential(
+    user.email,
+    currentPassword
+  );
+  return user.reauthenticateWithCredential(cred);
+};
+
+export const updateUserEmail = async (newEmail, curPwd, onSuccess, onError) => {
+  try {
+    const reauth = await reauthenticate(curPwd);
+    if (reauth) {
+      await auth.currentUser.updateEmail(newEmail);
+      return onSuccess();
+    }
+  } catch (error) {
+    return onError(error);
+  }
+};
+
+export const updateUserPassword = async (
+  newPwd,
+  curPwd,
+  onSuccess,
+  onError
+) => {
+  try {
+    const reauth = await reauthenticate(curPwd);
+    if (reauth) {
+      await auth.currentUser.updatePassword(newPwd);
+      return onSuccess();
+    }
   } catch (error) {
     return onError(error);
   }

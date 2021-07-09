@@ -10,10 +10,11 @@ import {
 
 import * as Authentication from "./api/auth";
 import SplashScreen from "./src/screens/Login/SplashScreen";
+
 import { AuthContext } from "./src/screens/Login/context";
 
-import useGlobalState from "./src/screens/Profile/UserContext/useGlobalState";
-import { UserContext } from "./src/screens/Profile/UserContext/context";
+// import useProfileState from "./src/screens/Profile/UserContext/useProfileState";
+// import { UserContext } from "./src/screens/Profile/UserContext/context";
 
 LogBox.ignoreLogs(["Setting a timer"]);
 
@@ -89,8 +90,6 @@ export default function App() {
     }, 2200);
   }, []);
 
-  const userContext = useGlobalState();
-
   if (loginState.isLoading) {
     return (
       <View style={{ flex: 1 }}>
@@ -101,11 +100,9 @@ export default function App() {
 
   return (
     <AuthContext.Provider value={authContext}>
-      <UserContext.Provider value={userContext}>
-        <NavigationContainer>
-          {loginState.userId !== null ? <TabNav /> : <LoginStackScreen />}
-        </NavigationContainer>
-      </UserContext.Provider>
+      <NavigationContainer>
+        {loginState.userId !== null ? <TabNav /> : <LoginStackScreen />}
+      </NavigationContainer>
     </AuthContext.Provider>
   );
 }

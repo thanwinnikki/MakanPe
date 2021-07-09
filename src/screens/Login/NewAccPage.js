@@ -16,30 +16,21 @@ import * as Animatable from "react-native-animatable";
 
 import * as db from "../../../api/database";
 import * as Auth from "../../../api/auth";
-import { UserContext } from "../Profile/UserContext/context";
 
-export default function NewAccount({ navigation, route }) {
+export default function NewAccount({ navigation }) {
   const [data, setData] = useState({
+    // local state
     fname: "",
     lname: "",
     isValidFname: true,
     isValidLname: true,
   });
-  const { userData, actions } = useContext(UserContext);
-  const email = Auth.getCurrentUserEmail();
-  const userId = Auth.getCurrentUserId();
 
+  // update profile to database then navigate to home screen
   const handleProfile = () => {
+    const email = Auth.getCurrentUserEmail();
+    const userId = Auth.getCurrentUserId();
     if (data.isValidFname && data.isValidLname) {
-      actions({
-        type: "setUserData",
-        payload: {
-          ...userData,
-          email: email,
-          fname: data.fname,
-          lname: data.lname,
-        },
-      });
       db.updateProfile(
         { userId, fname: data.fname, lname: data.lname, email },
         () =>
@@ -64,6 +55,7 @@ export default function NewAccount({ navigation, route }) {
     }
   };
 
+  // validate first name
   const handleValidFname = (val) => {
     if (val.trim().length > 0) {
       setData({
@@ -80,6 +72,7 @@ export default function NewAccount({ navigation, route }) {
     }
   };
 
+  //validate last name
   const handleValidLname = (val) => {
     if (val.trim().length > 0) {
       setData({

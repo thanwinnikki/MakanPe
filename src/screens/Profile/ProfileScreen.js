@@ -11,21 +11,20 @@ import {
 
 import { CommonActions } from "@react-navigation/native";
 import { AuthContext } from "../Login/context";
-import { UserContext } from "./UserContext/context";
 import * as db from "../../../api/database";
+import * as Auth from "../../../api/auth";
 
-export default function Profile({ navigation, routes }) {
-  const { userData } = useContext(UserContext);
-  const { signOut } = useContext(AuthContext);
+export default function Profile({ navigation }) {
+  const [data, setData] = useState(null); // local state
+  const [userId, setUserId] = useState(Auth.getCurrentUserId()); //userId from firebase
+  const { signOut } = useContext(AuthContext); // user sign out method
 
-  // const getProfile = () => {
-  //   setUserData(db.getUserProfile(userId));
-  // };
+  // retrieve profile from database, then set local state when component is mounted.
+  useEffect(() => {
+    return db.getUserProfile(userId, setData);
+  }, []);
 
-  // useEffect(() => {
-  //   getProfile();
-  // }, []);
-
+  // log out user and navigate to login screen
   const handleLogout = () => {
     signOut(() => {
       navigation.dispatch(
@@ -77,14 +76,13 @@ export default function Profile({ navigation, routes }) {
           />
           <View
             style={{
-              //backgroundColor: "grey",
               justifyContent: "center",
               alignItems: "flex-start",
               marginLeft: 10,
             }}
           >
             <Text style={styles.username}>
-              {userData.fname + " " + userData.lname}
+              {data ? data.fname : "Test"} {data ? data.lname : "User"}
             </Text>
             <View style={styles.userBtnWrapper}>
               <TouchableOpacity
@@ -109,7 +107,6 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     backgroundColor: "white",
-    //paddingTop: Platform.OS === "android" ? 25 : 0,
   },
   container: {
     flex: 1,

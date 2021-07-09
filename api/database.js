@@ -1,3 +1,4 @@
+import { faTasks } from "@fortawesome/free-solid-svg-icons";
 import firebase from "./firebase";
 
 const db = firebase.database();
@@ -11,7 +12,7 @@ export const updateProfile = (
     db.ref("users/" + userId).set({
       fname: fname,
       lname: lname,
-      email: email,
+      //email: email,
       //createdAt: db.Timestamp.fromDate(new Date()),
       //userImg: null,
     });
@@ -21,10 +22,10 @@ export const updateProfile = (
   }
 };
 
-export const getUserProfile = (userId) => {
-  let profile;
-  db.ref("users/" + userId).on("value", (snapshot) => {
-    profile = snapshot.val();
+export const getUserProfile = (userId, setData) => {
+  const data = db.ref("users/" + userId);
+  data.on("value", (snapshot) => {
+    setData(snapshot.val());
   });
-  return profile;
+  return () => data.off("value");
 };
