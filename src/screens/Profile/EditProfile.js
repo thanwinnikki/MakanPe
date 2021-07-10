@@ -224,7 +224,7 @@ export default function EditProfile({ navigation }) {
             <Text style={styles.panelButtonTitle}>Update email</Text>
           </TouchableOpacity>
         </View>
-        <View style={{ backgroundColor: "yellow" }}>
+        <View>
           <View style={styles.action}>
             <FontAwesomeIcon
               icon={faKey}
