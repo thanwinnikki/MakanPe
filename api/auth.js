@@ -84,6 +84,24 @@ export const updateUserPassword = async (
   }
 };
 
+export const changeUserPassword = async (
+  email,
+  newPwd,
+  curPwd,
+  onSuccess,
+  onError
+) => {
+  try {
+    const { user } = await auth.signInWithEmailAndPassword(email, curPwd);
+    if (user) {
+      await user.updatePassword(newPwd);
+      return onSuccess();
+    }
+  } catch (error) {
+    return onError(error);
+  }
+};
+
 export const getCurrentUserId = () =>
   auth.currentUser ? auth.currentUser.uid : null;
 

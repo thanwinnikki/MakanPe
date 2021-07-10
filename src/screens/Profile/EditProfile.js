@@ -179,7 +179,7 @@ export default function EditProfile({ navigation }) {
             <Text style={styles.panelButtonTitle}>Update name</Text>
           </TouchableOpacity>
         </View>
-        <View style={{ backgroundColor: "yellow" }}>
+        <View>
           <View style={styles.action}>
             <FontAwesomeIcon
               icon={faEnvelope}
@@ -227,7 +227,7 @@ export default function EditProfile({ navigation }) {
         <View style={{ backgroundColor: "yellow" }}>
           <View style={styles.action}>
             <FontAwesomeIcon
-              icon={faEnvelope}
+              icon={faKey}
               color={"grey"}
               marginRight={10}
               size={20}

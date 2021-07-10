@@ -26,6 +26,7 @@ import Decision from "../screens/Decision/DecisionScreen";
 import Login from "../screens/Login/LoginPage";
 import Signup from "../screens/Login/SignupPage";
 import NewAcc from "../screens/Login/NewAccPage";
+import ChangePassword from "../screens/Login/ChangePassword";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
@@ -65,6 +66,17 @@ export function LoginStackScreen() {
           headerTitle: false,
           headerTransparent: true,
           headerLeft: null,
+        }}
+      />
+      <LoginStack.Screen
+        name="ChangePassword"
+        component={ChangePassword}
+        options={{
+          title: "Change Password",
+          headerTintColor: "white",
+          headerStyle: {
+            backgroundColor: "#FF5858",
+          },
         }}
       />
       <LoginStack.Screen
