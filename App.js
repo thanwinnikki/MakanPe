@@ -1,5 +1,5 @@
 import React, { useMemo, useReducer, useEffect } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, View, Button, LogBox } from "react-native";
 import { NavigationContainer, StackActions } from "@react-navigation/native";
 
 import {
@@ -7,15 +7,22 @@ import {
   LoginStackScreen,
   noHeaderTitle,
 } from "./src/components/Navigation";
+
 import * as Authentication from "./api/auth";
 import SplashScreen from "./src/screens/Login/SplashScreen";
+
 import { AuthContext } from "./src/screens/Login/context";
+
+// import useProfileState from "./src/screens/Profile/UserContext/useProfileState";
+// import { UserContext } from "./src/screens/Profile/UserContext/context";
+
+LogBox.ignoreLogs(["Setting a timer"]);
 
 export default function App() {
   const initialLoginState = {
     isLoading: true,
     userId: null,
-    username: null,
+    isAnon: true,
   };
 
   const loginReducer = (prevState, action) => {
@@ -25,27 +32,35 @@ export default function App() {
           ...prevState,
           userId: action.userId,
           isLoading: false,
+          isAnon: false,
         };
       case "LOGIN":
         return {
           ...prevState,
-          username: action.username,
           userId: action.userId,
           isLoading: false,
+          isAnon: false,
         };
       case "LOGOUT":
         return {
           ...prevState,
-          username: null,
           userId: null,
           isLoading: false,
+          isAnon: false,
         };
       case "SIGNUP":
         return {
           ...prevState,
-          username: action.username,
           userId: action.userId,
           isLoading: false,
+          isAnon: false,
+        };
+      case "ANONLOGIN":
+        return {
+          ...prevState,
+          userId: action.userId,
+          isLoading: false,
+          isAnon: true,
         };
     }
   };
@@ -55,26 +70,22 @@ export default function App() {
   const authContext = useMemo(() => ({
     signIn: ({ email, password }, onSuccess, onError) => {
       Authentication.signIn({ email, password }, onSuccess, onError);
-      const userName = Authentication.getCurrentUserName();
       const userId = Authentication.getCurrentUserId();
-      dispatch({ type: "LOGIN", userId: userId, username: userName });
+      dispatch({ type: "LOGIN", userId: userId });
     },
     signOut: (onSuccess, onError) => {
       Authentication.signOut(onSuccess, onError);
       dispatch({ type: "LOGOUT" });
     },
-    signUp: ({ name, email, password }, onSuccess, onError) => {
-      Authentication.createAccount(
-        { name, email, password },
-        onSuccess,
-        onError
-      );
-      const userName = Authentication.getCurrentUserName();
+    signUp: ({ email, password }, onSuccess, onError) => {
+      Authentication.createAccount({ email, password }, onSuccess, onError);
       const userId = Authentication.getCurrentUserId();
-      dispatch({ type: "SIGNUP", userId: userId, username: userName });
+      dispatch({ type: "SIGNUP", userId: userId });
     },
-    getUsername: () => {
-      return Authentication.getCurrentUserName();
+    signInAnon: (onSuccess, onError) => {
+      Authentication.signInAnon(onSuccess, onError);
+      const userId = Authentication.getCurrentUserId();
+      dispatch({ type: "ANONLOGIN", userId: userId });
     },
   }));
 
@@ -87,7 +98,16 @@ export default function App() {
       } catch (e) {
         console.log(e);
       }
-      dispatch({ type: "GET_USERID", userId: userId });
+      let isAnon = Authentication.userIsAnonymous();
+      if (isAnon) {
+        Authentication.signOut(
+          () => console.log("Anon logged out"),
+          (error) => console.log(error)
+        );
+        dispatch({ type: "LOGOUT" });
+      } else {
+        dispatch({ type: "GET_USERID", userId: userId });
+      }
     }, 2200);
   }, []);
 
@@ -102,7 +122,11 @@ export default function App() {
   return (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
-        {loginState.userId !== null ? <TabNav /> : <LoginStackScreen />}
+        {loginState.userId !== null && !loginState.isAnon ? (
+          <TabNav />
+        ) : (
+          <LoginStackScreen />
+        )}
       </NavigationContainer>
     </AuthContext.Provider>
   );

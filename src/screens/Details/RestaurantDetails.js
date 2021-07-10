@@ -19,9 +19,10 @@ import { faStar, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 const HEADER_HEIGHT = 350;
 
 export default function RestaurantDetails({ route, navigation }) {
-  const offset = useRef(new Animated.Value(0)).current;
-  const itemData = route.params.itemData;
+  const offset = useRef(new Animated.Value(0)).current; // animation value
+  const itemData = route.params.itemData; // restaurant data
 
+  // restaurant menu
   function renderMenu({ item }) {
     return (
       <View style={styles.menu}>
@@ -30,6 +31,7 @@ export default function RestaurantDetails({ route, navigation }) {
     );
   }
 
+  // custom back button
   function renderHeaderBar() {
     return (
       <Animated.View
@@ -70,6 +72,7 @@ export default function RestaurantDetails({ route, navigation }) {
     );
   }
 
+  // restaurant image
   function renderHeaderImg() {
     return (
       <View style={styles.headerImg}>
@@ -99,6 +102,7 @@ export default function RestaurantDetails({ route, navigation }) {
     );
   }
 
+  // restaurant info
   function renderInfo() {
     return (
       <View
@@ -128,6 +132,7 @@ export default function RestaurantDetails({ route, navigation }) {
     );
   }
 
+  // show on map button
   function renderMap() {
     return (
       <View style={{ alignItems: "center" }}>

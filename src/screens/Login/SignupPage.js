@@ -16,36 +16,93 @@ import * as Animatable from "react-native-animatable";
 import MakanpeIcon from "../../assets/makanpe-icon";
 
 const SignupPage = ({ navigation }) => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const emailTextInput = useRef();
+  const [data, setData] = useState({
+    // local state
+    email: "",
+    password: "",
+    isValidUser: true,
+    isValidPassword: true,
+  });
   const passwordTextInput = useRef();
-  const { signUp } = useContext(AuthContext);
+  const { signUp } = useContext(AuthContext); // create account method
 
-  const goBack = () => {
-    navigation.goBack();
-  };
-
+  // create user account and navigate to new account page
   const handleRegister = () => {
     signUp(
-      { name: username, email, password },
+      { email: data.email, password: data.password },
       (user) =>
         navigation.dispatch(
           CommonActions.reset({
             index: 0,
             routes: [
               {
-                name: "Home",
-                params: { name: user.displayName },
+                name: "NewAcc",
               },
             ],
           })
         ),
+
       (error) => {
-        return <Alert>{error}</Alert>;
+        switch (error.code) {
+          case "auth/invalid-email":
+            Alert.alert(
+              "Invalid Email!",
+              "Your email address is badly formatted.",
+              [{ text: "ok" }]
+            );
+            return console.log(error.code);
+          case "auth/email-already-exists":
+            Alert.alert("Invalid Email!", "The email is already in use.", [
+              { text: "ok" },
+            ]);
+            return console.log(error.code);
+          case "auth/weak-password":
+            Alert.alert(
+              "Bad Password!",
+              "Your password must be at least 6 characters.",
+              [{ text: "ok" }]
+            );
+            return console.log(error.code);
+        }
+
+        Alert.alert(error.message);
+        return console.log(error.code);
       }
     );
+  };
+
+  // validate email
+  const handleValidUser = (val) => {
+    if (val.trim().length > 0) {
+      setData({
+        ...data,
+        email: val,
+        isValidUser: true,
+      });
+    } else {
+      setData({
+        ...data,
+        email: val,
+        isValidUser: false,
+      });
+    }
+  };
+
+  // validate password
+  const handleValidPassword = (val) => {
+    if (val.trim().length >= 6) {
+      setData({
+        ...data,
+        password: val,
+        isValidPassword: true,
+      });
+    } else {
+      setData({
+        ...data,
+        password: val,
+        isValidPassword: false,
+      });
+    }
   };
 
   return (
@@ -66,30 +123,21 @@ const SignupPage = ({ navigation }) => {
           <View style={styles.inputView}>
             <TextInput
               style={styles.TextInput}
-              value={username}
-              placeholder="Enter Username"
-              placeholderTextColor="#958686"
-              onChangeText={setUsername}
-              returnKeyType="next"
-              onSubmitEditing={() => emailTextInput.current.focus()}
-              blurOnSubmit={false}
-            />
-          </View>
-
-          <View style={styles.inputView}>
-            <TextInput
-              style={styles.TextInput}
-              ref={emailTextInput}
               keyboardType="email-address"
-              value={email}
               placeholder="Enter Email Here"
               placeholderTextColor="#958686"
-              onChangeText={setEmail}
+              onChangeText={(val) => handleValidUser(val)}
+              onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
               returnKeyType="next"
               onSubmitEditing={() => passwordTextInput.current.focus()}
               blurOnSubmit={false}
             />
           </View>
+          {data.isValidUser ? null : (
+            <Animatable.View animation="fadeInLeft" duration={500}>
+              <Text style={{ color: "red" }}>Email cannot be empty.</Text>
+            </Animatable.View>
+          )}
 
           <View style={styles.inputView}>
             <TextInput
@@ -97,12 +145,18 @@ const SignupPage = ({ navigation }) => {
               ref={passwordTextInput}
               placeholder="Password"
               placeholderTextColor="#958686"
-              value={password}
-              onChangeText={setPassword}
+              onChangeText={(val) => handleValidPassword(val)}
               autoCapitalize="none"
               secureTextEntry={true}
             />
           </View>
+          {data.isValidPassword ? null : (
+            <Animatable.View animation="fadeInLeft" duration={500}>
+              <Text style={{ color: "red" }}>
+                Password must be at least 6 characters.
+              </Text>
+            </Animatable.View>
+          )}
 
           <TouchableOpacity style={styles.createAcc}>
             <Text style={styles.createAccText} onPress={handleRegister}>
@@ -111,7 +165,10 @@ const SignupPage = ({ navigation }) => {
           </TouchableOpacity>
 
           <TouchableOpacity>
-            <Text style={styles.goBackButton} onPress={goBack}>
+            <Text
+              style={styles.goBackButton}
+              onPress={() => navigation.goBack()}
+            >
               Already have an account? Sign In!
             </Text>
           </TouchableOpacity>
@@ -129,7 +186,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   subcontainer: {
-    flex: 3,
+    flex: 4,
     backgroundColor: "white",
     width: "100%",
     borderTopLeftRadius: 30,
