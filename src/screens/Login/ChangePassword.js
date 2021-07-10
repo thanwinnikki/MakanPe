@@ -116,15 +116,19 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     backgroundColor: "#FF5858",
+    justifyContent: "flex-end",
   },
   container: {
-    flex: 0.5,
+    flex: 0.8,
+    justifyContent: "flex-start",
     backgroundColor: "white",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
   },
   action: {
     flexDirection: "row",
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 15,
+    marginBottom: 15,
     borderBottomWidth: 1,
     borderBottomColor: "#f2f2f2",
     paddingBottom: 5,

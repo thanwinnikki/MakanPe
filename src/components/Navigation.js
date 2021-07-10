@@ -12,10 +12,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import MakanpeIcon from "../assets/makanpe-icon";
 
-import * as db from "../../api/database";
-import * as Auth from "../../api/auth";
-import { UserContext } from "../screens/Profile/UserContext/context";
-
 import HomeScreen from "../screens/Home/HomeScreen";
 import Main from "../screens/Home/Main/index";
 import Restaurant from "../screens/Details/RestaurantDetails";

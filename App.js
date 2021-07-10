@@ -22,6 +22,7 @@ export default function App() {
   const initialLoginState = {
     isLoading: true,
     userId: null,
+    isAnon: true,
   };
 
   const loginReducer = (prevState, action) => {
@@ -31,24 +32,35 @@ export default function App() {
           ...prevState,
           userId: action.userId,
           isLoading: false,
+          isAnon: false,
         };
       case "LOGIN":
         return {
           ...prevState,
           userId: action.userId,
           isLoading: false,
+          isAnon: false,
         };
       case "LOGOUT":
         return {
           ...prevState,
           userId: null,
           isLoading: false,
+          isAnon: false,
         };
       case "SIGNUP":
         return {
           ...prevState,
           userId: action.userId,
           isLoading: false,
+          isAnon: false,
+        };
+      case "ANONLOGIN":
+        return {
+          ...prevState,
+          userId: action.userId,
+          isLoading: false,
+          isAnon: true,
         };
     }
   };
@@ -70,10 +82,10 @@ export default function App() {
       const userId = Authentication.getCurrentUserId();
       dispatch({ type: "SIGNUP", userId: userId });
     },
-    signinAnon: () => {
+    signInAnon: (onSuccess, onError) => {
       Authentication.signInAnon(onSuccess, onError);
       const userId = Authentication.getCurrentUserId();
-      dispatch({ type: "LOGIN", userId: userId });
+      dispatch({ type: "ANONLOGIN", userId: userId });
     },
   }));
 
@@ -86,7 +98,16 @@ export default function App() {
       } catch (e) {
         console.log(e);
       }
-      dispatch({ type: "GET_USERID", userId: userId });
+      let isAnon = Authentication.userIsAnonymous();
+      if (isAnon) {
+        Authentication.signOut(
+          () => console.log("Anon logged out"),
+          (error) => console.log(error)
+        );
+        dispatch({ type: "LOGOUT" });
+      } else {
+        dispatch({ type: "GET_USERID", userId: userId });
+      }
     }, 2200);
   }, []);
 
@@ -101,7 +122,11 @@ export default function App() {
   return (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
-        {loginState.userId !== null ? <TabNav /> : <LoginStackScreen />}
+        {loginState.userId !== null && !loginState.isAnon ? (
+          <TabNav />
+        ) : (
+          <LoginStackScreen />
+        )}
       </NavigationContainer>
     </AuthContext.Provider>
   );

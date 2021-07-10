@@ -102,6 +102,10 @@ export const changeUserPassword = async (
   }
 };
 
+export const userIsAnonymous = () => {
+  return auth.currentUser ? auth.currentUser.isAnonymous : null;
+};
+
 export const getCurrentUserId = () =>
   auth.currentUser ? auth.currentUser.uid : null;
 

@@ -80,7 +80,7 @@ export default function LoginPage({ navigation }) {
             ],
           })
         );
-        console.log("User logged in");
+        console.log("Anon logged in");
       },
       (error) => {
         return console.log(error);
@@ -173,6 +173,10 @@ export default function LoginPage({ navigation }) {
             <Text style={styles.loginText}>Sign In!</Text>
           </TouchableOpacity>
 
+          <TouchableOpacity style={styles.guestButton} onPress={handleAnon}>
+            <Text style={styles.guestText}>Try as a guest!</Text>
+          </TouchableOpacity>
+
           <TouchableOpacity
             onPress={() => navigation.navigate("ChangePassword")}
           >
@@ -243,9 +247,24 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 15,
-    marginBottom: 15,
+    margin: 10,
     backgroundColor: "#FF5858",
+  },
+  guestText: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "#FF5858",
+  },
+  guestButton: {
+    width: "70%",
+    borderRadius: 30,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    margin: 10,
+    borderColor: "#FF5858",
+    borderWidth: 2,
+    backgroundColor: "white",
   },
   forgotPwdButton: {
     height: 30,

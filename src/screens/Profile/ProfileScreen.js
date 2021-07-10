@@ -7,6 +7,7 @@ import {
   Platform,
   ScrollView,
   Image,
+  Alert,
 } from "react-native";
 
 import { CommonActions } from "@react-navigation/native";
@@ -35,6 +36,15 @@ export default function Profile({ navigation }) {
       );
       console.log("User logged out");
     }, console.error);
+  };
+
+  const handleEditScreen = () => {
+    let isAnon = Auth.userIsAnonymous();
+    if (isAnon) {
+      Alert.alert("Guest Account", "Please log in to use this feature.");
+    } else {
+      navigation.navigate("EditProfile");
+    }
   };
 
   return (
@@ -82,14 +92,12 @@ export default function Profile({ navigation }) {
             }}
           >
             <Text style={styles.username}>
-              {data ? data.fname : "Test"} {data ? data.lname : "User"}
+              {data ? data.fname : "Guest"} {data ? data.lname : "User"}
             </Text>
             <View style={styles.userBtnWrapper}>
               <TouchableOpacity
                 style={styles.userBtn}
-                onPress={() => {
-                  navigation.navigate("EditProfile");
-                }}
+                onPress={handleEditScreen}
               >
                 <Text style={styles.userBtnTxt}>Edit</Text>
               </TouchableOpacity>
