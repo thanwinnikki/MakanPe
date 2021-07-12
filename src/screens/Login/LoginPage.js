@@ -16,15 +16,21 @@ import { AuthContext } from "./context";
 import * as Animatable from "react-native-animatable";
 import MakanpeIcon from "../../assets/makanpe-icon";
 
-const LoginPage = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export default function LoginPage({ navigation }) {
+  const [data, setData] = useState({
+    // local state
+    email: "",
+    password: "",
+    isValidUser: true,
+    isValidPassword: true,
+  });
+  const { signIn, signInAnon } = useContext(AuthContext); // user sign in methods
   const passwordTextInput = useRef();
-  const { signIn } = useContext(AuthContext);
 
+  // validate user sign in and navigate to home screen
   const handleLogin = () => {
     signIn(
-      { email, password },
+      { email: data.email, password: data.password },
       (user) => {
         navigation.dispatch(
           CommonActions.reset({
@@ -39,26 +45,81 @@ const LoginPage = ({ navigation }) => {
         console.log("User logged in");
       },
       (error) => {
-        return <Alert>{error}</Alert>;
+        switch (error.code) {
+          case "auth/wrong-password":
+            Alert.alert(
+              "Invalid Login!",
+              "Your email or password is incorrect!",
+              [{ text: "ok" }]
+            );
+            return console.log(error.code);
+          case "auth/invalid-email":
+            Alert.alert(
+              "Invalid Login!",
+              "Your email or password is incorrect!",
+              [{ text: "ok" }]
+            );
+            return console.log(error.code);
+        }
+        Alert.alert(error.message);
+        return console.log(error.code);
       }
     );
   };
 
-  const handleNoAcc = () => {
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [
-          {
-            name: "Home",
-          },
-        ],
-      })
+  const handleAnon = () => {
+    signInAnon(
+      (user) => {
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [
+              {
+                name: "Home",
+              },
+            ],
+          })
+        );
+        console.log("Anon logged in");
+      },
+      (error) => {
+        return console.log(error);
+      }
     );
   };
 
-  const goCreateAcc = () => {
-    navigation.navigate("Signup");
+  // validate email
+  const handleValidUser = (val) => {
+    if (val.trim().length > 0) {
+      setData({
+        ...data,
+        email: val,
+        isValidUser: true,
+      });
+    } else {
+      setData({
+        ...data,
+        email: val,
+        isValidUser: false,
+      });
+    }
+  };
+
+  // validate password
+  const handleValidPassword = (val) => {
+    if (val.trim().length >= 6) {
+      setData({
+        ...data,
+        password: val,
+        isValidPassword: true,
+      });
+    } else {
+      setData({
+        ...data,
+        password: val,
+        isValidPassword: false,
+      });
+    }
   };
 
   return (
@@ -83,38 +144,50 @@ const LoginPage = ({ navigation }) => {
               keyboardType="email-address"
               placeholder="Email"
               placeholderTextColor="#958686"
-              value={email}
-              onChangeText={setEmail}
               autoCapitalize="none"
               returnKeyType="next"
+              onChangeText={(val) => handleValidUser(val)}
               onSubmitEditing={() => passwordTextInput.current.focus()}
+              onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
               blurOnSubmit={false}
             />
           </View>
-
+          {data.isValidUser ? null : (
+            <Animatable.View animation="fadeInLeft" duration={500}>
+              <Text style={{ color: "red" }}>Email cannot be empty.</Text>
+            </Animatable.View>
+          )}
           <View style={styles.inputView}>
             <TextInput
               style={styles.TextInput}
               ref={passwordTextInput}
               placeholder="Password"
               placeholderTextColor="#958686"
-              value={password}
-              onChangeText={setPassword}
+              onChangeText={(val) => handleValidPassword(val)}
               autoCapitalize="none"
               secureTextEntry={true}
             />
           </View>
 
           <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-            <Text style={styles.loginText}>Let's Eat!</Text>
+            <Text style={styles.loginText}>Sign In!</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={handleNoAcc}>
+          <TouchableOpacity style={styles.guestButton} onPress={handleAnon}>
+            <Text style={styles.guestText}>Try as a guest!</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate("ChangePassword")}
+          >
             <Text style={styles.forgotPwdButton}>Forgot Password?</Text>
           </TouchableOpacity>
 
           <TouchableOpacity>
-            <Text style={styles.createAccButton} onPress={goCreateAcc}>
+            <Text
+              style={styles.createAccButton}
+              onPress={() => navigation.navigate("Signup")}
+            >
               Don't have an account? Create one!
             </Text>
           </TouchableOpacity>
@@ -122,7 +195,7 @@ const LoginPage = ({ navigation }) => {
       </Animatable.View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -132,7 +205,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   subcontainer: {
-    flex: 3,
+    flex: 4,
     backgroundColor: "white",
     width: "100%",
     borderTopLeftRadius: 30,
@@ -174,9 +247,24 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 15,
-    marginBottom: 15,
+    margin: 10,
     backgroundColor: "#FF5858",
+  },
+  guestText: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "#FF5858",
+  },
+  guestButton: {
+    width: "70%",
+    borderRadius: 30,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    margin: 10,
+    borderColor: "#FF5858",
+    borderWidth: 2,
+    backgroundColor: "white",
   },
   forgotPwdButton: {
     height: 30,
@@ -192,5 +280,3 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
 });
-
-export default LoginPage;

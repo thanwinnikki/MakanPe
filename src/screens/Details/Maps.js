@@ -15,6 +15,7 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 export default function Maps({ route, navigation }) {
   const { itemData } = route.params;
 
+  // custom go back button
   function renderHeaderBar() {
     return (
       <View
