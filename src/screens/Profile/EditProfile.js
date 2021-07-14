@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, createRef } from "react";
 import {
   View,
   Text,
@@ -18,12 +18,17 @@ import {
   faKey,
 } from "@fortawesome/free-solid-svg-icons";
 
+import BottomSheet from "reanimated-bottom-sheet";
+import Animated from "react-native-reanimated";
+
 import * as db from "../../../api/database";
 import * as Auth from "../../../api/auth";
 
 export default function EditProfile({ navigation }) {
-  const [data, setData] = useState(null); //profile local state
+  const bs = createRef(); //choose profile image bottom sheet ref
+  const fall = new Animated.Value(1); //for bottom sheet
 
+  const [data, setData] = useState(null); //profile local state
   const [changeEmail, setChangeEmail] = useState({
     // update email local state
     email: "",
@@ -38,7 +43,6 @@ export default function EditProfile({ navigation }) {
 
   // update profile in database with local state
   const handleUpdateName = () => {
-    console.log(data);
     db.updateProfile(
       {
         userId,
@@ -46,11 +50,7 @@ export default function EditProfile({ navigation }) {
         lname: data.lname,
       },
       () => {
-        Alert.alert(
-          "Profile Updated",
-          "Your profile has been updated successfully!",
-          [{ text: "ok" }]
-        );
+        Alert.alert("Name Updated", "Your name has been updated successfully!");
       },
       (error) => {
         Alert.alert(error.message);
@@ -65,7 +65,10 @@ export default function EditProfile({ navigation }) {
       changeEmail.curPwd,
       () => {
         Alert.alert("Email updated!");
-        return console.log("email updated");
+        return console.log(
+          "email updated",
+          "Your email has been updated successfully!"
+        );
       },
       (error) => {
         Alert.alert(error.message);
@@ -79,7 +82,10 @@ export default function EditProfile({ navigation }) {
       changePwd.newPwd,
       changePwd.curPwd,
       () => {
-        Alert.alert("Password changed!");
+        Alert.alert(
+          "Password changed!",
+          "Your name has been updated successfully!"
+        );
         return console.log("Password changed");
       },
       (error) => {
@@ -95,11 +101,61 @@ export default function EditProfile({ navigation }) {
     return db.getUserProfile(userId, setData);
   }, []);
 
+  const renderInner = () => (
+    <View style={styles.panel}>
+      <View style={{ alignItems: "center" }}>
+        <Text style={styles.panelTitle}>Upload Photo</Text>
+        <Text style={styles.panelSubtitle}>Choose Your Profile Picture</Text>
+      </View>
+      <TouchableOpacity style={styles.panelButton} onPress={() => {}}>
+        <Text style={styles.panelButtonTitle}>Take Photo</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.panelButton} onPress={() => {}}>
+        <Text style={styles.panelButtonTitle}>Choose From Library</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.panelButton}
+        onPress={() => bs.current.snapTo(1)}
+      >
+        <Text style={styles.panelButtonTitle}>Cancel</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+  const renderHeader = () => (
+    <View style={styles.header}>
+      <View style={styles.panelHeader}>
+        <View style={styles.panelHandle}></View>
+      </View>
+    </View>
+  );
   return (
-    <ScrollView style={styles.background}>
-      <View style={{ margin: 20 }}>
+    <View style={styles.background}>
+      <BottomSheet
+        ref={bs}
+        snapPoints={[330, 0]}
+        renderContent={renderInner}
+        renderHeader={renderHeader}
+        initialSnap={1}
+        callbacknode={fall}
+        enabledGestureInteraction={true}
+      />
+
+      <Animated.View
+        style={{
+          marginLeft: 20,
+          marginRight: 20,
+          opacity: Animated.add(0.3, Animated.multiply(fall, 1.0)),
+        }}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={{ alignItems: "center" }}>
-          <TouchableOpacity style={{ margin: 20 }} onPress={() => {}}>
+          <TouchableOpacity
+            style={{ margin: 20 }}
+            onPress={() => {
+              bs.current.snapTo(0);
+            }}
+          >
             <View
               style={{
                 height: 100,
@@ -271,14 +327,63 @@ export default function EditProfile({ navigation }) {
             <Text style={styles.panelButtonTitle}>Update password</Text>
           </TouchableOpacity>
         </View>
-      </View>
-    </ScrollView>
+      </Animated.View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   background: {
     backgroundColor: "white",
+  },
+  header: {
+    backgroundColor: "#FFFFFF",
+    paddingTop: 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderWidth: 2,
+    borderBottomWidth: 0,
+    borderColor: "#C4C4C4",
+  },
+  panel: {
+    padding: 20,
+    backgroundColor: "#FFFFFF",
+    paddingTop: 20,
+    borderLeftWidth: 2,
+    borderRightWidth: 2,
+    borderColor: "#C4C4C4",
+  },
+  panelHeader: {
+    alignItems: "center",
+  },
+  panelHandle: {
+    width: 40,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: "#00000040",
+    marginBottom: 10,
+  },
+  panelTitle: {
+    fontSize: 27,
+    height: 35,
+  },
+  panelSubtitle: {
+    fontSize: 14,
+    color: "gray",
+    height: 30,
+    marginBottom: 10,
+  },
+  panelButton: {
+    padding: 13,
+    borderRadius: 10,
+    backgroundColor: "#FF6347",
+    alignItems: "center",
+    marginVertical: 7,
+  },
+  panelButtonTitle: {
+    fontSize: 17,
+    fontWeight: "bold",
+    color: "white",
   },
   action: {
     flexDirection: "row",
