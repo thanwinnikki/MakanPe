@@ -23,6 +23,7 @@ import * as Auth from "../../../api/auth";
 
 export default function EditProfile({ navigation }) {
   const [data, setData] = useState(null); //profile local state
+
   const [changeEmail, setChangeEmail] = useState({
     // update email local state
     email: "",
