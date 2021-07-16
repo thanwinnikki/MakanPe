@@ -7,6 +7,7 @@ import {
   TextInput,
   StyleSheet,
   Alert,
+  Image,
   ScrollView,
 } from "react-native";
 
@@ -21,72 +22,39 @@ import {
 import BottomSheet from "reanimated-bottom-sheet";
 import Animated from "react-native-reanimated";
 
+import * as ImagePicker from "expo-image-picker";
+import defaultImg from "../../assets/man.png";
+
 import * as db from "../../../api/database";
 import * as Auth from "../../../api/auth";
 
 export default function EditProfile({ navigation }) {
   const bs = createRef(); //choose profile image bottom sheet ref
   const fall = new Animated.Value(1); //for bottom sheet
-
+  const defaultImgUri = Image.resolveAssetSource(defaultImg).uri; //deafult profile image
+  const [image, setImage] = useState(null); //profile image state
   const [data, setData] = useState(null); //profile local state
-  const [changeEmail, setChangeEmail] = useState({
-    // update email local state
-    email: "",
-    curPwd: "",
-  });
-  const [changePwd, setChangePwd] = useState({
-    // update password local state
-    newPwd: "",
-    curPwd: "",
-  });
   const userId = Auth.getCurrentUserId(); //userId from database
 
   // update profile in database with local state
-  const handleUpdateName = () => {
+  const handleUpdateProfile = async () => {
+    let imgUrl = await uploadImg(image);
+
+    if (imgUrl === null && data.userImg) {
+      imgUrl = data.userImg;
+    }
     db.updateProfile(
       {
         userId,
         fname: data.fname,
         lname: data.lname,
+        userImg: imgUrl,
       },
-      () => {
-        Alert.alert("Name Updated", "Your name has been updated successfully!");
-      },
-      (error) => {
-        Alert.alert(error.message);
-        return console.log(error);
-      }
-    );
-  };
-
-  const handleUpdateEmail = () => {
-    Auth.updateUserEmail(
-      changeEmail.email,
-      changeEmail.curPwd,
-      () => {
-        Alert.alert("Email updated!");
-        return console.log(
-          "email updated",
-          "Your email has been updated successfully!"
-        );
-      },
-      (error) => {
-        Alert.alert(error.message);
-        return console.log(error);
-      }
-    );
-  };
-
-  const handleUpdatePassword = () => {
-    Auth.updateUserPassword(
-      changePwd.newPwd,
-      changePwd.curPwd,
       () => {
         Alert.alert(
-          "Password changed!",
-          "Your name has been updated successfully!"
+          "Profile Updated",
+          "Your profile has been updated successfully!"
         );
-        return console.log("Password changed");
       },
       (error) => {
         Alert.alert(error.message);
@@ -97,9 +65,56 @@ export default function EditProfile({ navigation }) {
 
   // retrieve profile from database, then set local state when component is mounted.
   useEffect(() => {
-    //console.log(data);
     return db.getUserProfile(userId, setData);
   }, []);
+
+  // Choose photo from library
+  const selectImg = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      alert("Sorry, we need camera roll permissions to make this work!");
+      return console.log("No library permission");
+    }
+    let imgResult = await ImagePicker.launchImageLibraryAsync({
+      aspect: [1, 1],
+      allowsEditing: true,
+    });
+    if (!imgResult.cancelled) {
+      setImage(imgResult.uri);
+      console.log("Image changed");
+    }
+  };
+
+  // take photo with camera
+  const takeImg = async () => {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    if (status !== "granted") {
+      alert("Sorry, we need camera permissions to make this work!");
+      return console.log("No camera permission");
+    }
+    let imgResult = await ImagePicker.launchCameraAsync({
+      aspect: [1, 1],
+      allowsEditing: true,
+    });
+    if (!imgResult.cancelled) {
+      setImage(imgResult.uri);
+      console.log("Image changed");
+    }
+  };
+
+  //upload photo to firebase storage
+  const uploadImg = async (uri) => {
+    try {
+      const uploadUrl = await db.uploadImageAsync(userId, uri);
+      setImage(null);
+      console.log("image uploaded");
+      return uploadUrl;
+    } catch (e) {
+      console.log(e);
+      alert("Image upload failed, sorry :(");
+      return null;
+    }
+  };
 
   const renderInner = () => (
     <View style={styles.panel}>
@@ -107,10 +122,10 @@ export default function EditProfile({ navigation }) {
         <Text style={styles.panelTitle}>Upload Photo</Text>
         <Text style={styles.panelSubtitle}>Choose Your Profile Picture</Text>
       </View>
-      <TouchableOpacity style={styles.panelButton} onPress={() => {}}>
+      <TouchableOpacity style={styles.panelButton} onPress={takeImg}>
         <Text style={styles.panelButtonTitle}>Take Photo</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.panelButton} onPress={() => {}}>
+      <TouchableOpacity style={styles.panelButton} onPress={selectImg}>
         <Text style={styles.panelButtonTitle}>Choose From Library</Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -129,11 +144,12 @@ export default function EditProfile({ navigation }) {
       </View>
     </View>
   );
+
   return (
     <View style={styles.background}>
       <BottomSheet
         ref={bs}
-        snapPoints={[330, 0]}
+        snapPoints={[500, 0]}
         renderContent={renderInner}
         renderHeader={renderHeader}
         initialSnap={1}
@@ -167,7 +183,9 @@ export default function EditProfile({ navigation }) {
               }}
             >
               <ImageBackground
-                source={require("../../assets/man.png")}
+                source={{
+                  uri: image ? image : data ? data.userImg : defaultImgUri,
+                }}
                 style={{ height: 100, width: 100 }}
                 imageStyle={{ borderRadius: 50 }}
               >
@@ -231,100 +249,23 @@ export default function EditProfile({ navigation }) {
           </View>
           <TouchableOpacity
             style={styles.panelButton}
-            onPress={handleUpdateName}
+            onPress={handleUpdateProfile}
           >
-            <Text style={styles.panelButtonTitle}>Update name</Text>
+            <Text style={styles.panelButtonTitle}>Update profile</Text>
           </TouchableOpacity>
         </View>
-        <View>
-          <View style={styles.action}>
-            <FontAwesomeIcon
-              icon={faEnvelope}
-              color={"grey"}
-              marginRight={10}
-              size={20}
-            />
-            <Text style={{ fontWeight: "bold" }}>New Email:</Text>
-            <TextInput
-              placeholderTextColor="#666666"
-              onChangeText={(txt) =>
-                setChangeEmail({ ...changeEmail, email: txt })
-              }
-              autoCorrect={false}
-              autoCapitalize="none"
-              style={styles.textInput}
-            />
-          </View>
-          <View style={styles.action}>
-            <FontAwesomeIcon
-              icon={faKey}
-              color={"grey"}
-              marginRight={10}
-              size={20}
-            />
-            <Text style={{ fontWeight: "bold" }}>Current Password:</Text>
-            <TextInput
-              placeholderTextColor="#666666"
-              onChangeText={(txt) =>
-                setChangeEmail({ ...changeEmail, curPwd: txt })
-              }
-              autoCorrect={false}
-              autoCapitalize="none"
-              secureTextEntry={true}
-              style={styles.textInput}
-            />
-          </View>
+        <View style={{ flexDirection: "row", justifyContent: "center" }}>
           <TouchableOpacity
-            style={styles.panelButton}
-            onPress={handleUpdateEmail}
+            style={styles.panelButtonv2}
+            onPress={() => navigation.navigate("ChangeUserEmail")}
           >
-            <Text style={styles.panelButtonTitle}>Update email</Text>
+            <Text style={styles.panelButtonTitlev2}>Change Email</Text>
           </TouchableOpacity>
-        </View>
-        <View>
-          <View style={styles.action}>
-            <FontAwesomeIcon
-              icon={faKey}
-              color={"grey"}
-              marginRight={10}
-              size={20}
-            />
-            <Text style={{ fontWeight: "bold" }}>New Password:</Text>
-            <TextInput
-              placeholderTextColor="#666666"
-              onChangeText={(txt) =>
-                setChangePwd({ ...changePwd, newPwd: txt })
-              }
-              autoCorrect={false}
-              autoCapitalize="none"
-              secureTextEntry={true}
-              style={styles.textInput}
-            />
-          </View>
-          <View style={styles.action}>
-            <FontAwesomeIcon
-              icon={faKey}
-              color={"grey"}
-              marginRight={10}
-              size={20}
-            />
-            <Text style={{ fontWeight: "bold" }}>Current Password:</Text>
-            <TextInput
-              placeholderTextColor="#666666"
-              onChangeText={(txt) =>
-                setChangePwd({ ...changePwd, curPwd: txt })
-              }
-              autoCorrect={false}
-              autoCapitalize="none"
-              secureTextEntry={true}
-              style={styles.textInput}
-            />
-          </View>
           <TouchableOpacity
-            style={styles.panelButton}
-            onPress={handleUpdatePassword}
+            style={styles.panelButtonv2}
+            onPress={() => navigation.navigate("ChangeUserPassword")}
           >
-            <Text style={styles.panelButtonTitle}>Update password</Text>
+            <Text style={styles.panelButtonTitlev2}>Change Password</Text>
           </TouchableOpacity>
         </View>
       </Animated.View>
@@ -335,6 +276,7 @@ export default function EditProfile({ navigation }) {
 const styles = StyleSheet.create({
   background: {
     backgroundColor: "white",
+    flex: 1,
   },
   header: {
     backgroundColor: "#FFFFFF",
@@ -352,6 +294,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 2,
     borderRightWidth: 2,
     borderColor: "#C4C4C4",
+    height: "100%",
   },
   panelHeader: {
     alignItems: "center",
@@ -372,18 +315,6 @@ const styles = StyleSheet.create({
     color: "gray",
     height: 30,
     marginBottom: 10,
-  },
-  panelButton: {
-    padding: 13,
-    borderRadius: 10,
-    backgroundColor: "#FF6347",
-    alignItems: "center",
-    marginVertical: 7,
-  },
-  panelButtonTitle: {
-    fontSize: 17,
-    fontWeight: "bold",
-    color: "white",
   },
   action: {
     flexDirection: "row",
@@ -406,9 +337,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginVertical: 7,
   },
+
   panelButtonTitle: {
     fontSize: 17,
     fontWeight: "bold",
     color: "white",
+  },
+  panelButtonv2: {
+    padding: 13,
+    borderRadius: 10,
+    backgroundColor: "white",
+    borderWidth: 3,
+    borderColor: "#FF5858",
+    alignItems: "center",
+    margin: 7,
+  },
+  panelButtonTitlev2: {
+    fontSize: 17,
+    fontWeight: "bold",
+    color: "#FF5858",
   },
 });

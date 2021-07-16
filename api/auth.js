@@ -123,3 +123,6 @@ export const setOnAuthStateChanged = (onUserAuthenticated, onUserNotFound) =>
       return onUserNotFound(user);
     }
   });
+
+export const getProfileImage = () =>
+  auth.currentUser ? auth.currentUser.photoURL : null;

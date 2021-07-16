@@ -23,6 +23,8 @@ import Login from "../screens/Login/LoginPage";
 import Signup from "../screens/Login/SignupPage";
 import NewAcc from "../screens/Login/NewAccPage";
 import ChangePassword from "../screens/Login/ChangePassword";
+import ChangeUserEmail from "../screens/Profile/ChangeUserEmail";
+import ChangeUserPassword from "../screens/Profile/ChangeUserPassword";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
@@ -142,6 +144,28 @@ function ProfileStackScreen() {
         component={EditProfile}
         options={{
           title: "Edit Profile",
+          headerTintColor: "white",
+          headerStyle: {
+            backgroundColor: "#FF5858",
+          },
+        }}
+      />
+      <ProfileStack.Screen
+        name="ChangeUserEmail"
+        component={ChangeUserEmail}
+        options={{
+          title: "Change Email",
+          headerTintColor: "white",
+          headerStyle: {
+            backgroundColor: "#FF5858",
+          },
+        }}
+      />
+      <ProfileStack.Screen
+        name="ChangeUserPassword"
+        component={ChangeUserPassword}
+        options={{
+          title: "Change Password",
           headerTintColor: "white",
           headerStyle: {
             backgroundColor: "#FF5858",
