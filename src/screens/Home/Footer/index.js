@@ -1,19 +1,36 @@
-import React from "react";
+import React, {useContext} from "react";
 import { View } from 'react-native'
 
 import RoundButton from "../RoundButton";
 import { COLORS } from "../utils/constants";
 import { styles } from './styles'
 import { data } from "../../../data/dummyData"
+import { Context } from "../../../store/context";
 
-export default function Footer({ handleChoice, id, navigation }) {
+export default function Footer({ handleChoice, id , navigation, updateList }) {
+    const {state, actions} = useContext(Context)
+    const currRestaurant = data[id - 1];
+    const newList = [ ...state.list, currRestaurant]
+
+
+    const like = () => {
+        updateList(newList)
+        handleChoice(1)
+        console.log(state.list)
+    }
+
+    const dislike = () => {
+        console.log(state.list)
+        handleChoice(-1)
+    }
+
     return (
         <View style={styles.container}>
             <RoundButton
                 name='times'
                 size={40}
                 color={COLORS.nope}
-                onPress={() => handleChoice(-1)}
+                onPress={() => dislike()}
             />
             <></>
             <RoundButton
@@ -23,16 +40,18 @@ export default function Footer({ handleChoice, id, navigation }) {
                 onPress={() =>
                     navigation.navigate("Restaurant", {
                         itemData: data[id - 1],
-                    })}
+                    })
+                }
             />
             <></>
             <RoundButton
                 name='heart'
                 size={34}
                 color={COLORS.like}
-                onPress={() => handleChoice(1)}
+                onPress={() => like()}
             />
         </View>
     )
 }
+
 

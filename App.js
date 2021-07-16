@@ -2,6 +2,7 @@ import React, { useMemo, useReducer, useEffect } from "react";
 import { StyleSheet, Text, View, Button, LogBox } from "react-native";
 import { NavigationContainer, StackActions } from "@react-navigation/native";
 
+
 import {
   TabNav,
   LoginStackScreen,
@@ -11,7 +12,10 @@ import {
 import * as Authentication from "./api/auth";
 import SplashScreen from "./src/screens/Login/SplashScreen";
 
+import { useGlobalState } from "./src/store/useGlobalState";
+import { Context } from "./src/store/context";
 import { AuthContext } from "./src/screens/Login/context";
+
 
 // import useProfileState from "./src/screens/Profile/UserContext/useProfileState";
 // import { UserContext } from "./src/screens/Profile/UserContext/context";
@@ -64,6 +68,8 @@ export default function App() {
         };
     }
   };
+
+  const globalState = useGlobalState();
 
   const [loginState, dispatch] = useReducer(loginReducer, initialLoginState);
 
@@ -121,6 +127,7 @@ export default function App() {
 
   return (
     <AuthContext.Provider value={authContext}>
+      <Context.Provider value={globalState}>
       <NavigationContainer>
         {loginState.userId !== null && !loginState.isAnon ? (
           <TabNav />
@@ -128,6 +135,7 @@ export default function App() {
           <LoginStackScreen />
         )}
       </NavigationContainer>
+      </Context.Provider>
     </AuthContext.Provider>
   );
 }
