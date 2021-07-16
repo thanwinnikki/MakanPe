@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, createRef } from "react";
 import { CommonActions } from "@react-navigation/native";
 import {
   View,
@@ -8,31 +8,45 @@ import {
   TextInput,
   StyleSheet,
   Alert,
+  Image,
 } from "react-native";
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCamera, faUser } from "@fortawesome/free-solid-svg-icons";
 import * as Animatable from "react-native-animatable";
 
+import BottomSheet from "reanimated-bottom-sheet";
+import Animated from "react-native-reanimated";
+import * as ImagePicker from "expo-image-picker";
+import defaultImg from "../../assets/man.png";
+
 import * as db from "../../../api/database";
 import * as Auth from "../../../api/auth";
 
 export default function NewAccount({ navigation }) {
+  const bs = createRef(); //choose profile image bottom sheet ref
+  const fall = new Animated.Value(1); //for bottom sheet
+  const defaultImgUri = Image.resolveAssetSource(defaultImg).uri; //deafult profile image
+  const [image, setImage] = useState(null); //profile image state
+  const userId = Auth.getCurrentUserId();
   const [data, setData] = useState({
     // local state
     fname: "",
     lname: "",
-    isValidFname: true,
-    isValidLname: true,
+    isValidFname: false,
+    isValidLname: false,
   });
 
   // update profile to database then navigate to home screen
-  const handleProfile = () => {
-    const email = Auth.getCurrentUserEmail();
-    const userId = Auth.getCurrentUserId();
+  const handleProfile = async () => {
     if (data.isValidFname && data.isValidLname) {
+      let imgUrl = await uploadImg(image);
+
+      if (imgUrl === null) {
+        imgUrl = defaultImgUri;
+      }
       db.updateProfile(
-        { userId, fname: data.fname, lname: data.lname, email },
+        { userId, fname: data.fname, lname: data.lname, userImg: image },
         () =>
           navigation.dispatch(
             CommonActions.reset({
@@ -54,6 +68,83 @@ export default function NewAccount({ navigation }) {
       ]);
     }
   };
+
+  // Choose photo from library
+  const selectImg = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      alert("Sorry, we need camera roll permissions to make this work!");
+      return console.log("No library permission");
+    }
+    let imgResult = await ImagePicker.launchImageLibraryAsync({
+      aspect: [1, 1],
+      allowsEditing: true,
+    });
+    if (!imgResult.cancelled) {
+      setImage(imgResult.uri);
+      console.log("Image changed");
+    }
+  };
+
+  // take photo with camera
+  const takeImg = async () => {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    if (status !== "granted") {
+      alert("Sorry, we need camera permissions to make this work!");
+      return console.log("No camera permission");
+    }
+    let imgResult = await ImagePicker.launchCameraAsync({
+      aspect: [1, 1],
+      allowsEditing: true,
+    });
+    if (!imgResult.cancelled) {
+      setImage(imgResult.uri);
+      console.log("Image changed");
+    }
+  };
+
+  //upload photo to firebase storage
+  const uploadImg = async (uri) => {
+    try {
+      const uploadUrl = await db.uploadImageAsync(userId, uri);
+      setImage(null);
+      console.log("image uploaded");
+      return uploadUrl;
+    } catch (e) {
+      console.log(e);
+      alert("Image upload failed, sorry :(");
+      return null;
+    }
+  };
+
+  const renderInner = () => (
+    <View style={styles.panel}>
+      <View style={{ alignItems: "center" }}>
+        <Text style={styles.panelTitle}>Upload Photo</Text>
+        <Text style={styles.panelSubtitle}>Choose Your Profile Picture</Text>
+      </View>
+      <TouchableOpacity style={styles.panelButton} onPress={takeImg}>
+        <Text style={styles.panelButtonTitle}>Take Photo</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.panelButton} onPress={selectImg}>
+        <Text style={styles.panelButtonTitle}>Choose From Library</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.panelButton}
+        onPress={() => bs.current.snapTo(1)}
+      >
+        <Text style={styles.panelButtonTitle}>Cancel</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+  const renderHeader = () => (
+    <View style={styles.header}>
+      <View style={styles.panelHeader}>
+        <View style={styles.panelHandle}></View>
+      </View>
+    </View>
+  );
 
   // validate first name
   const handleValidFname = (val) => {
@@ -91,10 +182,23 @@ export default function NewAccount({ navigation }) {
 
   return (
     <View style={styles.background}>
+      <BottomSheet
+        ref={bs}
+        snapPoints={[500, 0]}
+        renderContent={renderInner}
+        renderHeader={renderHeader}
+        initialSnap={1}
+        callbacknode={fall}
+        enabledGestureInteraction={true}
+      />
       <View style={styles.container}>
         <View style={{ margin: 20 }}>
           <View style={{ alignItems: "center" }}>
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity
+              onPress={() => {
+                bs.current.snapTo(0);
+              }}
+            >
               <View
                 style={{
                   height: 200,
@@ -106,7 +210,9 @@ export default function NewAccount({ navigation }) {
                 }}
               >
                 <ImageBackground
-                  source={require("../../assets/man.png")}
+                  source={{
+                    uri: image ? image : data ? data.userImg : defaultImgUri,
+                  }}
                   style={{ height: 200, width: 200 }}
                   imageStyle={{ borderRadius: 100 }}
                 >
@@ -218,5 +324,43 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: "bold",
     color: "white",
+  },
+  header: {
+    backgroundColor: "#FFFFFF",
+    paddingTop: 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderWidth: 2,
+    borderBottomWidth: 0,
+    borderColor: "#C4C4C4",
+  },
+  panel: {
+    padding: 20,
+    backgroundColor: "#FFFFFF",
+    paddingTop: 20,
+    borderLeftWidth: 2,
+    borderRightWidth: 2,
+    borderColor: "#C4C4C4",
+    height: "100%",
+  },
+  panelHeader: {
+    alignItems: "center",
+  },
+  panelHandle: {
+    width: 40,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: "#00000040",
+    marginBottom: 10,
+  },
+  panelTitle: {
+    fontSize: 27,
+    height: 35,
+  },
+  panelSubtitle: {
+    fontSize: 14,
+    color: "gray",
+    height: 30,
+    marginBottom: 10,
   },
 });

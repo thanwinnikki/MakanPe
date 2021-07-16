@@ -14,8 +14,10 @@ import { CommonActions } from "@react-navigation/native";
 import { AuthContext } from "../Login/context";
 import * as db from "../../../api/database";
 import * as Auth from "../../../api/auth";
+import defaultImg from "../../assets/man.png";
 
 export default function Profile({ navigation }) {
+  const defaultImgUri = Image.resolveAssetSource(defaultImg).uri; //deafult profile image
   const [data, setData] = useState(null); // local state
   const [userId, setUserId] = useState(Auth.getCurrentUserId()); //userId from firebase
   const { signOut } = useContext(AuthContext); // user sign out method
@@ -82,7 +84,7 @@ export default function Profile({ navigation }) {
         >
           <Image
             style={styles.userImg}
-            source={require("../../assets/man.png")}
+            source={{ uri: data ? data.userImg : defaultImgUri }}
           />
           <View
             style={{
