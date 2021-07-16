@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState, useContext } from "react";
 import { Animated, PanResponder, View, Text } from "react-native";
 
 import Card from "../Card";
@@ -6,11 +6,13 @@ import { data as dataArray } from "../../../data/dummyData";
 import { styles } from "./styles";
 import Footer from "../Footer";
 import { ACTION_OFFSET, CARD } from "../utils/constants";
+import { Context } from "../../../store/context";
 
 export default function Main({ navigation }) {
   const [data, setData] = useState(dataArray);
   const swipe = useRef(new Animated.ValueXY()).current;
   const tiltSign = useRef(new Animated.Value(1)).current;
+  const {state, actions} = useContext(Context)
 
   useEffect(() => {
     if (!data.length) {
@@ -37,6 +39,9 @@ export default function Main({ navigation }) {
           },
           useNativeDriver: true,
         }).start(removeTopCard);
+        if (direction > 0) {
+            console.log('liked')
+        }
       } else {
         Animated.spring(swipe, {
           toValue: {
@@ -66,6 +71,18 @@ export default function Main({ navigation }) {
     [removeTopCard, swipe.x]
   );
 
+  const updateList = (newList) => {
+    
+    actions({
+      type: 'setState',
+
+      payload: {
+        ...state,
+        list : newList,
+      }
+    })
+}
+
 
   return (
     <View style={styles.container}>
@@ -85,7 +102,7 @@ export default function Main({ navigation }) {
         </Text>
       </View>
       {data
-        .map(({ name, image }, index) => {
+        .map(({ name, image, id }, index) => {
           const isFirst = index === 0;
           const dragHandlers = isFirst ? panResponder.panHandlers : {};
 
@@ -93,6 +110,7 @@ export default function Main({ navigation }) {
             <Card
               key={name}
               name={name}
+              id={id}
               source={image}
               isFirst={isFirst}
               swipe={swipe}
@@ -111,6 +129,7 @@ export default function Main({ navigation }) {
               id={id}
               navigation={navigation}
               handleChoice={handleChoice}
+              updateList={updateList}
             />
           );
         })

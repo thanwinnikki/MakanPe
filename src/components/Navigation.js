@@ -18,7 +18,7 @@ import Restaurant from "../screens/Details/RestaurantDetails";
 import Maps from "../screens/Details/Maps";
 import Profile from "../screens/Profile/ProfileScreen";
 import EditProfile from "../screens/Profile/EditProfile";
-import Decision from "../screens/Decision/DecisionScreen";
+import Decision from "../screens/Decision/Main/index";
 import Login from "../screens/Login/LoginPage";
 import Signup from "../screens/Login/SignupPage";
 import NewAcc from "../screens/Login/NewAccPage";
@@ -121,7 +121,14 @@ function HomeStackScreen() {
 function DecisionStackScreen() {
   return (
     <DecisionStack.Navigator>
-      <DecisionStack.Screen name="Decision" component={Decision} />
+      <DecisionStack.Screen 
+        name="Decision" 
+        component={Decision}
+        options={{
+          headerTransparent: true,
+          headerTitle: false,
+          headerLeft: () => null,
+        }} />
     </DecisionStack.Navigator>
   );
 }

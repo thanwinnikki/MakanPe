@@ -1,19 +1,26 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { Animated, Image, Text } from 'react-native'
 import Choice from '../Choice'
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { styles } from './styles'
 import { ACTION_OFFSET } from '../utils/constants';
+import { Context } from "../../../store/context";
+import { data } from "../../../data/dummyData"
 
 export default function CARD({
     name,
+    id,
     source,
     isFirst,
     swipe,
     tiltSign,
     ...rest
 }) {
+
+    const {state, actions} = useContext(Context)
+    const currRestaurant = data[id - 1];
+    const newList = [ ...state.list, currRestaurant]
 
     const rotate = Animated.multiply(swipe.x, tiltSign).interpolate({
         inputRange: [-ACTION_OFFSET, 0, ACTION_OFFSET],
