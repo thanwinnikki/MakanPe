@@ -3,7 +3,7 @@ export const data = [
     id: "1",
     name: "Famous Chicken Rice",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut ipsum nec lectus viverra suscipit. Cras sed mi risus. Etiam blandit justo posuere venenatis efficitur. ",
+      "Our chicken rice has filled the hearts and bellies of many people! Try our signature hainanese chicken!",
     rating: 4,
     location: {
       latitude: 1.375111791695908,
@@ -23,7 +23,7 @@ export const data = [
       },
       {
         id: "1.3",
-        dish: "Half Chicken",
+        dish: "Signature Half/Whole Chicken",
         image: require("../assets/banners/half-chicken.jpg"),
       },
       {
@@ -36,8 +36,7 @@ export const data = [
   {
     id: "2",
     name: "Famous Fried Carrot Cake",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut ipsum nec lectus viverra suscipit. Cras sed mi risus. Etiam blandit justo posuere venenatis efficitur.",
+    description: "Our oyster omelletes are loaded! Come try!",
     rating: 4,
     location: {
       latitude: 1.3133946727105132,
@@ -65,8 +64,7 @@ export const data = [
   {
     id: "3",
     name: "Famous Western",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut ipsum nec lectus viverra suscipit. Cras sed mi risus. Etiam blandit justo posuere venenatis efficitur.",
+    description: "Classic western dishes are here to satisfy your cravings!",
     rating: 3,
     location: {
       latitude: 1.3342244490832438,
@@ -105,7 +103,7 @@ export const data = [
     id: "4",
     name: "Famous Thai",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut ipsum nec lectus viverra suscipit. Cras sed mi risus. Etiam blandit justo posuere venenatis efficitur.",
+      "Traditional Thai cuisine that is sure to leave you satisfied!",
     rating: 5,
     location: {
       latitude: 1.3104186673258607,
@@ -138,8 +136,7 @@ export const data = [
   {
     id: "5",
     name: "Famous Korean",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut ipsum nec lectus viverra suscipit. Cras sed mi risus. Etiam blandit justo posuere venenatis efficitur.",
+    description: "Delicious and hot hotplate korean cuisine!",
     rating: 5,
     location: {
       latitude: 1.303411809319603,
@@ -161,6 +158,179 @@ export const data = [
         id: "5.3",
         dish: "Kimchi Fried Rice",
         image: require("../assets/banners/korean-kimchi-fried-rice.jpg"),
+      },
+    ],
+  },
+  {
+    id: "6",
+    name: "Famous Nasi Lemak",
+    description:
+      "Your favorite Nasi Lemak is here, with fragrant coconut rice!",
+    rating: 5,
+    location: {
+      latitude: 1.3383188340138612,
+      longtitude: 103.84473165052142,
+    },
+    image: require("../assets/banners/famous-nasi.jpg"),
+    menu: [
+      {
+        id: "6.1",
+        dish: "Nasi Lemak Ayam Goreng",
+        image: require("../assets/banners/nasilemak-chicken.jpg"),
+      },
+      {
+        id: "6.2",
+        dish: "Nasi Lemak Ayam Curry",
+        image: require("../assets/banners/nasilemak-currychicken.jpg"),
+      },
+      {
+        id: "6.3",
+        dish: "Nasi Lemak Fish",
+        image: require("../assets/banners/nasilemak-fish.jpg"),
+      },
+      {
+        id: "6.4",
+        dish: "Nasi Lemak Beef Rendang",
+        image: require("../assets/banners/nasilemak-rendang.jpg"),
+      },
+    ],
+  },
+  {
+    id: "7",
+    name: "Famous Ice Cream",
+    description: "Get scoops of happiness with our wide variety of flavours!",
+    rating: 4,
+    location: {
+      latitude: 1.3304725486103808,
+      longtitude: 103.85818025020885,
+    },
+    image: require("../assets/banners/famous-icecream.jpg"),
+    menu: [
+      {
+        id: "7.1",
+        dish: "Single/Double Cone",
+        image: require("../assets/banners/icecream-cone.jpg"),
+      },
+      {
+        id: "7.2",
+        dish: "Single/Double Cup",
+        image: require("../assets/banners/icecream-cup.jpg"),
+      },
+      {
+        id: "7.3",
+        dish: "Single/Double Waffle",
+        image: require("../assets/banners/icecream-waffle.jpg"),
+      },
+      {
+        id: "7.4",
+        dish: "Signature Parfait",
+        image: require("../assets/banners/icecream-parfait.jpg"),
+      },
+    ],
+  },
+  {
+    id: "8",
+    name: "Famous Indian",
+    description:
+      "Come enjoy our food featuring north indian cuisine and the best curry in town!",
+    rating: 5,
+    location: {
+      latitude: 1.303411809319603,
+      longtitude: 103.76582482712045,
+    },
+    image: require("../assets/banners/famous-indian.jpg"),
+    menu: [
+      {
+        id: "8.1",
+        dish: "Paneer Butter Masala",
+        image: require("../assets/banners/indian-buttermasala.jpg"),
+      },
+      {
+        id: "8.2",
+        dish: "Dal Tadka",
+        image: require("../assets/banners/indian-daltadka.jpg"),
+      },
+      {
+        id: "8.3",
+        dish: "Tawa Paneer",
+        image: require("../assets/banners/indian-tawapaneer.jpg"),
+      },
+      {
+        id: "8.4",
+        dish: "Malai Kofta",
+        image: require("../assets/banners/indian-malaikofta.jpg"),
+      },
+    ],
+  },
+  {
+    id: "9",
+    name: "Famous Chinese",
+    description: "Our traditional chinese dishes are a must try!",
+    rating: 4,
+    location: {
+      latitude: 1.3471997166240302,
+      longtitude: 103.74281765746471,
+    },
+    image: require("../assets/banners/famous-chinese.jpg"),
+    menu: [
+      {
+        id: "9.1",
+        dish: "Sweet and Sour Pork",
+        image: require("../assets/banners/chinese-sweetpork.jpg"),
+      },
+      {
+        id: "9.2",
+        dish: "Braised Pork Belly",
+        image: require("../assets/banners/chinese-porkbelly.jpg"),
+      },
+      {
+        id: "9.3",
+        dish: "Signature Soy Sauce Chicken",
+        image: require("../assets/banners/chinese-soysaucechicken.jpg"),
+      },
+      {
+        id: "9.4",
+        dish: "Xiao Long Bao",
+        image: require("../assets/banners/chinese-xiaolong.jpg"),
+      },
+      {
+        id: "9.5",
+        dish: "Crispy Fried Chicken",
+        image: require("../assets/banners/chinese-crispychicken.jpg"),
+      },
+    ],
+  },
+  {
+    id: "10",
+    name: "Famous Japanese Ramen",
+    description:
+      "Affordable and delicious ramen that is sure to warm your body.",
+    rating: 4,
+    location: {
+      latitude: 1.4218145070481853,
+      longtitude: 103.83531583161724,
+    },
+    image: require("../assets/banners/famous-ramen.jpg"),
+    menu: [
+      {
+        id: "10.1",
+        dish: "Shoyu Ramen",
+        image: require("../assets/banners/ramen-shoyu.jpg"),
+      },
+      {
+        id: "10.2",
+        dish: "Shio Ramen",
+        image: require("../assets/banners/ramen-shio.jpg"),
+      },
+      {
+        id: "10.3",
+        dish: "Miso Ramen",
+        image: require("../assets/banners/ramen-miso.jpg"),
+      },
+      {
+        id: "10.4",
+        dish: "Tonkotsu Ramen",
+        image: require("../assets/banners/ramen-tonkotsu.jpg"),
       },
     ],
   },
