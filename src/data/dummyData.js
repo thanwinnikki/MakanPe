@@ -302,7 +302,7 @@ export const data = [
   },
   {
     id: "10",
-    name: "Famous Japanese Ramen",
+    name: "Famous Ramen",
     description:
       "Affordable and delicious ramen that is sure to warm your body.",
     rating: 4,
@@ -333,5 +333,28 @@ export const data = [
         image: require("../assets/banners/ramen-tonkotsu.jpg"),
       },
     ],
+  },
+];
+
+export const makanLists = [
+  {
+    name: "Monday Lunch!",
+    id: "1",
+    list: [{ id: "1" }, { id: "3" }, { id: "4" }, { id: "6" }],
+  },
+  {
+    name: "Personal Favs",
+    id: "2",
+    list: [{ id: "5" }, { id: "2" }],
+  },
+  {
+    name: "Supper Picks",
+    id: "3",
+    list: [{ id: "6" }, { id: "2" }, { id: "7" }],
+  },
+  {
+    name: "Expensive Cravings",
+    id: "4",
+    list: [{ id: "10" }, { id: "9" }, { id: "8" }],
   },
 ];
