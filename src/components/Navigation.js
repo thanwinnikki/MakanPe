@@ -18,6 +18,8 @@ import Restaurant from "../screens/Details/RestaurantDetails";
 import Maps from "../screens/Details/Maps";
 import Profile from "../screens/Profile/ProfileScreen";
 import EditProfile from "../screens/Profile/EditProfile";
+import MakanList from "../screens/Profile/MakanListScreen";
+import addRestaurantScreen from "../screens/Profile/AddRestaurant";
 import Decision from "../screens/Decision/Main/index";
 import Login from "../screens/Login/LoginPage";
 import Signup from "../screens/Login/SignupPage";
@@ -123,14 +125,15 @@ function HomeStackScreen() {
 function DecisionStackScreen() {
   return (
     <DecisionStack.Navigator>
-      <DecisionStack.Screen 
-        name="Decision" 
+      <DecisionStack.Screen
+        name="Decision"
         component={Decision}
         options={{
           headerTransparent: true,
           headerTitle: false,
           headerLeft: () => null,
-        }} />
+        }}
+      />
     </DecisionStack.Navigator>
   );
 }
@@ -177,6 +180,44 @@ function ProfileStackScreen() {
           headerStyle: {
             backgroundColor: "#FF5858",
           },
+        }}
+      />
+      <ProfileStack.Screen
+        name="MakanList"
+        component={MakanList}
+        options={{
+          title: "Makan List",
+          headerTintColor: "white",
+          headerStyle: {
+            backgroundColor: "#FF5858",
+          },
+        }}
+      />
+      <ProfileStack.Screen
+        name="Restaurant"
+        component={Restaurant}
+        options={{
+          headerTransparent: true,
+          headerTitle: false,
+          headerLeft: () => null,
+        }}
+      />
+      <ProfileStack.Screen
+        name="Maps"
+        component={Maps}
+        options={{
+          headerTransparent: true,
+          headerTitle: false,
+          headerLeft: () => null,
+        }}
+      />
+      <ProfileStack.Screen
+        name="AddRestaurant"
+        component={addRestaurantScreen}
+        options={{
+          headerTransparent: true,
+          headerTitle: false,
+          headerLeft: () => null,
         }}
       />
     </ProfileStack.Navigator>

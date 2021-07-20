@@ -16,6 +16,8 @@ import * as db from "../../../api/database";
 import * as Auth from "../../../api/auth";
 import defaultImg from "../../assets/man.png";
 
+import MakanListComponent from "./MakanListComponent";
+
 export default function Profile({ navigation }) {
   const defaultImgUri = Image.resolveAssetSource(defaultImg).uri; //deafult profile image
   const [data, setData] = useState(null); // local state
@@ -66,13 +68,9 @@ export default function Profile({ navigation }) {
           MakanPe
         </Text>
       </View>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.scrollContainer}
-      >
+      <View style={styles.container}>
         <View
           style={{
-            flex: 1,
             flexDirection: "row",
             height: 125,
             width: "95%",
@@ -84,7 +82,13 @@ export default function Profile({ navigation }) {
         >
           <Image
             style={styles.userImg}
-            source={{ uri: data ? data.userImg : defaultImgUri }}
+            source={{
+              uri: data
+                ? data.userImg
+                  ? data.userImg
+                  : defaultImgUri
+                : defaultImgUri,
+            }}
           />
           <View
             style={{
@@ -109,10 +113,14 @@ export default function Profile({ navigation }) {
             </View>
           </View>
         </View>
-      </ScrollView>
+        <View style={{ flex: 1, marginTop: 50, alignSelf: "center" }}>
+          <MakanListComponent />
+        </View>
+      </View>
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   background: {
     flex: 1,
@@ -121,8 +129,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-  },
-  scrollContainer: {
     justifyContent: "center",
     alignItems: "center",
   },
