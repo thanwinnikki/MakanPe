@@ -321,7 +321,6 @@ export const data = [
   {
     id: "10",
     name: "Famous Ramen",
-    address: "Blk 604 Yishun Street 61, Singapore 760604",
     description:
       "Affordable and delicious ramen that is sure to warm your body.",
     rating: 4,

@@ -64,6 +64,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     margin: 15,
     backgroundColor: "#00A36C",
+    left: 20
   },
   buttonText: {
     color: "white", 

@@ -2,7 +2,7 @@ import {useState} from 'react'
 
 
 export const useGlobalState = () => {
-    const [state, setState] = useState({value: 'hello', list: []})
+    const [state, setState] = useState({value: false , list: [], choice: {} })
 
     const actions = (action) => {
         const {type, payload} = action;
