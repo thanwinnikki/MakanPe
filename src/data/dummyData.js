@@ -2,9 +2,11 @@ export const data = [
   {
     id: "1",
     name: "Famous Chicken Rice",
+    address: "51 Hougang Ave 9, Ci Yuan Community Centre, Singapore 538776",
     description:
       "Our chicken rice has filled the hearts and bellies of many people! Try our signature hainanese chicken!",
     rating: 4,
+    cost: "$",
     location: {
       latitude: 1.375111791695908,
       longtitude: 103.88283908661897,
@@ -36,8 +38,10 @@ export const data = [
   {
     id: "2",
     name: "Famous Fried Carrot Cake",
+    address: "448 Clementi Ave 3, Singapore 120448",
     description: "Our oyster omelletes are loaded! Come try!",
     rating: 4,
+    cost: "$",
     location: {
       latitude: 1.3133946727105132,
       longtitude: 103.76441747710886,
@@ -64,8 +68,10 @@ export const data = [
   {
     id: "3",
     name: "Famous Western",
+    address: "132 Jurong Gateway Rd, #01-273, Singapore 600132",
     description: "Classic western dishes are here to satisfy your cravings!",
     rating: 3,
+    cost: "$$",
     location: {
       latitude: 1.3342244490832438,
       longtitude: 103.73966857944478,
@@ -102,9 +108,11 @@ export const data = [
   {
     id: "4",
     name: "Famous Thai",
+    address: "27 Lor Liput, Holland Village, Singapore 277738",
     description:
       "Traditional Thai cuisine that is sure to leave you satisfied!",
     rating: 5,
+    cost: "$$",
     location: {
       latitude: 1.3104186673258607,
       longtitude: 103.7948491660933,
@@ -136,8 +144,10 @@ export const data = [
   {
     id: "5",
     name: "Famous Korean",
+    address: "154 West Coast Rd, #B1-13 West Coast Plaza, Singapore 127371",
     description: "Delicious and hot hotplate korean cuisine!",
     rating: 5,
+    cost: "$$",
     location: {
       latitude: 1.303411809319603,
       longtitude: 103.76582482712045,
@@ -164,9 +174,11 @@ export const data = [
   {
     id: "6",
     name: "Famous Nasi Lemak",
+    address: "127 Lor 1 Toa Payoh, Singapore 310127",
     description:
       "Your favorite Nasi Lemak is here, with fragrant coconut rice!",
     rating: 5,
+    cost: "$",
     location: {
       latitude: 1.3383188340138612,
       longtitude: 103.84473165052142,
@@ -198,8 +210,10 @@ export const data = [
   {
     id: "7",
     name: "Famous Ice Cream",
+    address: "194 Kim Keat Ave, Singapore 310194",
     description: "Get scoops of happiness with our wide variety of flavours!",
     rating: 4,
+    cost: "$",
     location: {
       latitude: 1.3304725486103808,
       longtitude: 103.85818025020885,
@@ -231,9 +245,11 @@ export const data = [
   {
     id: "8",
     name: "Famous Indian",
+    address: "154 West Coast Rd, #B1-13 West Coast Plaza, Singapore 127371",
     description:
       "Come enjoy our food featuring north indian cuisine and the best curry in town!",
     rating: 5,
+    cost: "$$",
     location: {
       latitude: 1.303411809319603,
       longtitude: 103.76582482712045,
@@ -265,8 +281,10 @@ export const data = [
   {
     id: "9",
     name: "Famous Chinese",
+    address: "166 Bukit Batok West Ave 8, Singapore 650166",
     description: "Our traditional chinese dishes are a must try!",
     rating: 4,
+    cost: "$$$",
     location: {
       latitude: 1.3471997166240302,
       longtitude: 103.74281765746471,
@@ -306,6 +324,7 @@ export const data = [
     description:
       "Affordable and delicious ramen that is sure to warm your body.",
     rating: 4,
+    cost: "$",
     location: {
       latitude: 1.4218145070481853,
       longtitude: 103.83531583161724,
@@ -333,5 +352,28 @@ export const data = [
         image: require("../assets/banners/ramen-tonkotsu.jpg"),
       },
     ],
+  },
+];
+
+export const makanLists = [
+  {
+    name: "Monday Lunch!",
+    id: "1",
+    list: [{ id: "1" }, { id: "3" }, { id: "4" }, { id: "6" }],
+  },
+  {
+    name: "Personal Favs",
+    id: "2",
+    list: [{ id: "5" }, { id: "2" }, { id: "10" }],
+  },
+  {
+    name: "Supper Picks",
+    id: "3",
+    list: [{ id: "6" }, { id: "2" }, { id: "7" }],
+  },
+  {
+    name: "Expensive Cravings",
+    id: "4",
+    list: [{ id: "4" }, { id: "9" }, { id: "8" }],
   },
 ];

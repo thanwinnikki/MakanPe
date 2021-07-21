@@ -11,7 +11,7 @@ export default function Footer({ nav }) {
   async function chooseMe() {
     const index = Math.floor(Math.random() * state.list.length);
     const chosen = state.list[index].name
-    console.log(choice)
+    console.log(chosen)
     setChoice(chosen)
     
  }

@@ -111,7 +111,6 @@ export default function EditProfile({ navigation }) {
       return uploadUrl;
     } catch (e) {
       console.log(e);
-      alert("Image upload failed, sorry :(");
       return null;
     }
   };
@@ -149,7 +148,7 @@ export default function EditProfile({ navigation }) {
     <View style={styles.background}>
       <BottomSheet
         ref={bs}
-        snapPoints={[500, 0]}
+        snapPoints={[375, 0]}
         renderContent={renderInner}
         renderHeader={renderHeader}
         initialSnap={1}
@@ -174,9 +173,9 @@ export default function EditProfile({ navigation }) {
           >
             <View
               style={{
-                height: 100,
-                width: 100,
-                borderRadius: 50,
+                height: 200,
+                width: 200,
+                borderRadius: 100,
                 justifyContent: "center",
                 alignItems: "center",
                 backgroundColor: "#F3F3F3",
@@ -184,10 +183,16 @@ export default function EditProfile({ navigation }) {
             >
               <ImageBackground
                 source={{
-                  uri: image ? image : data ? data.userImg : defaultImgUri,
+                  uri: image
+                    ? image
+                    : data
+                    ? data.userImg
+                      ? data.userImg
+                      : defaultImgUri
+                    : defaultImgUri,
                 }}
-                style={{ height: 100, width: 100 }}
-                imageStyle={{ borderRadius: 50 }}
+                style={{ height: "100%", width: "100%" }}
+                imageStyle={{ borderRadius: 100 }}
               >
                 <View
                   style={{

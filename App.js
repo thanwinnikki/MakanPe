@@ -2,7 +2,6 @@ import React, { useMemo, useReducer, useEffect } from "react";
 import { StyleSheet, Text, View, Button, LogBox } from "react-native";
 import { NavigationContainer, StackActions } from "@react-navigation/native";
 
-
 import {
   TabNav,
   LoginStackScreen,
@@ -15,10 +14,6 @@ import SplashScreen from "./src/screens/Login/SplashScreen";
 import { useGlobalState } from "./src/store/useGlobalState";
 import { Context } from "./src/store/context";
 import { AuthContext } from "./src/screens/Login/context";
-
-
-// import useProfileState from "./src/screens/Profile/UserContext/useProfileState";
-// import { UserContext } from "./src/screens/Profile/UserContext/context";
 
 LogBox.ignoreLogs(["Setting a timer"]);
 
@@ -128,13 +123,13 @@ export default function App() {
   return (
     <AuthContext.Provider value={authContext}>
       <Context.Provider value={globalState}>
-      <NavigationContainer>
-        {loginState.userId !== null && !loginState.isAnon ? (
-          <TabNav />
-        ) : (
-          <LoginStackScreen />
-        )}
-      </NavigationContainer>
+        <NavigationContainer>
+          {loginState.userId !== null && !loginState.isAnon ? (
+            <TabNav />
+          ) : (
+            <LoginStackScreen />
+          )}
+        </NavigationContainer>
       </Context.Provider>
     </AuthContext.Provider>
   );
