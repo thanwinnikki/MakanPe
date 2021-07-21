@@ -26,7 +26,7 @@ import * as Auth from "../../../api/auth";
 export default function NewAccount({ navigation }) {
   const bs = createRef(); //choose profile image bottom sheet ref
   const fall = new Animated.Value(1); //for bottom sheet
-  const defaultImgUri = Image.resolveAssetSource(defaultImg).uri; //deafult profile image
+  const defaultImgUri = Image.resolveAssetSource(defaultImg).uri; //default profile image
   const [image, setImage] = useState(null); //profile image state
   const userId = Auth.getCurrentUserId();
   const [data, setData] = useState({
@@ -40,11 +40,11 @@ export default function NewAccount({ navigation }) {
   // update profile to database then navigate to home screen
   const handleProfile = async () => {
     if (data.isValidFname && data.isValidLname) {
-      let imgUrl = await uploadImg(image);
+      let imgUrl = await uploadImg(image ? image : defaultImgUri);
 
-      if (imgUrl === null) {
-        imgUrl = defaultImgUri;
-      }
+      // if (imgUrl === null) {
+      //   imgUrl = defaultImgUri;
+      // }
       db.updateProfile(
         { userId, fname: data.fname, lname: data.lname, userImg: image },
         () =>
@@ -112,7 +112,6 @@ export default function NewAccount({ navigation }) {
       return uploadUrl;
     } catch (e) {
       console.log(e);
-      alert("Image upload failed, sorry :(");
       return null;
     }
   };
@@ -191,50 +190,50 @@ export default function NewAccount({ navigation }) {
         callbacknode={fall}
         enabledGestureInteraction={true}
       />
-      <View style={styles.container}>
-        <View style={{ margin: 20 }}>
-          <View style={{ alignItems: "center" }}>
-            <TouchableOpacity
-              onPress={() => {
-                bs.current.snapTo(0);
+      <View style={{ marginTop: 100, marginBottom: 50, alignItems: "center" }}>
+        <TouchableOpacity
+          onPress={() => {
+            bs.current.snapTo(0);
+          }}
+        >
+          <View
+            style={{
+              height: 200,
+              width: 200,
+              borderRadius: 100,
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#F3F3F3",
+            }}
+          >
+            <ImageBackground
+              source={{
+                uri: image ? image : data ? data.userImg : defaultImgUri,
               }}
+              style={{ height: 200, width: 200 }}
+              imageStyle={{ borderRadius: 100 }}
             >
               <View
                 style={{
-                  height: 200,
-                  width: 200,
-                  borderRadius: 100,
+                  flex: 1,
                   justifyContent: "center",
                   alignItems: "center",
-                  backgroundColor: "#F3F3F3",
                 }}
               >
-                <ImageBackground
-                  source={{
-                    uri: image ? image : data ? data.userImg : defaultImgUri,
-                  }}
-                  style={{ height: 200, width: 200 }}
-                  imageStyle={{ borderRadius: 100 }}
-                >
-                  <View
-                    style={{
-                      flex: 1,
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <FontAwesomeIcon
-                      icon={faCamera}
-                      alignItems={"center"}
-                      opacity={0.7}
-                      color={"grey"}
-                      size={30}
-                    />
-                  </View>
-                </ImageBackground>
+                <FontAwesomeIcon
+                  icon={faCamera}
+                  alignItems={"center"}
+                  opacity={0.7}
+                  color={"grey"}
+                  size={30}
+                />
               </View>
-            </TouchableOpacity>
+            </ImageBackground>
           </View>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.container}>
+        <View style={{ margin: 20 }}>
           <View style={styles.action}>
             <FontAwesomeIcon
               icon={faUser}
@@ -297,7 +296,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#FF5858",
   },
   container: {
+    flex: 4,
     backgroundColor: "white",
+    width: "100%",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
   },
   action: {
     flexDirection: "row",

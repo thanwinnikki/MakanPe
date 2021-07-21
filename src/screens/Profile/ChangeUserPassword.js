@@ -43,18 +43,18 @@ export default function ChangeUserPassword({ navigation }) {
   };
 
   return (
-    <View style={{ flex: 0.5, backgroundColor: "white" }}>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
       <View
         style={{
           alignItems: "center",
-          marginTop: 30,
+          marginTop: 100,
           marginLeft: 20,
           marginRight: 20,
         }}
       >
         <View style={styles.action}>
           <FontAwesomeIcon
-            icon={faEnvelope}
+            icon={faKey}
             color={"grey"}
             marginRight={10}
             size={20}
