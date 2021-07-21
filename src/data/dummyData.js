@@ -302,7 +302,7 @@ export const data = [
   },
   {
     id: "10",
-    name: "Famous Japanese Ramen",
+    name: "Famous Ramen",
     description:
       "Affordable and delicious ramen that is sure to warm your body.",
     rating: 4,

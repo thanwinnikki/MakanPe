@@ -1,10 +1,20 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { TouchableOpacity, View, Text, Alert } from "react-native";
 import { styles } from "./styles";
 import { Context } from "../../../store/context";
+import Popup from "../Popup";
 
 export default function Footer({ nav }) {
   const { state, actions } = useContext(Context);
+  const [choice, setChoice] = useState(null);
+
+  async function chooseMe() {
+    const index = Math.floor(Math.random() * state.list.length);
+    const chosen = state.list[index].name
+    console.log(choice)
+    setChoice(chosen)
+    
+ }
 
   const resetChoices = () => {
     actions({
@@ -17,7 +27,7 @@ export default function Footer({ nav }) {
     });
   };
 
-  const resetAlert = () =>
+  const resetAlert = () => {
     Alert.alert("Reset Choices?", "Press to Confirm", [
       {
         text: "Cancel",
@@ -26,6 +36,8 @@ export default function Footer({ nav }) {
       },
       { text: "Reset", onPress: () => resetChoices() },
     ]);
+  }
+  
 
   if (state.list.length > 0) {
     return (
@@ -38,22 +50,14 @@ export default function Footer({ nav }) {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.chooseButton}
-          onPress={() => console.log("Choose For Me!")}
+          onPress={() => chooseMe() }
         >
           <Text style={styles.loginText}>Choose For Me!</Text>
         </TouchableOpacity>
+        <Popup />
       </View>
     );
   } else {
-    return (
-      <View style={styles.container}>
-        <TouchableOpacity
-          style={styles.chooseButton}
-          onPress={() => nav.navigate("Home")}
-        >
-          <Text style={styles.loginText}>Back to Home Page</Text>
-        </TouchableOpacity>
-      </View>
-    );
+    return null;
   }
 }

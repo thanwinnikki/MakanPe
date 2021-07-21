@@ -4,11 +4,15 @@ export const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
         justifyContent: 'center',
-        top: '130%',
-        paddingTop: 15,
+        position: 'absolute', 
+        bottom: '1%',
+        left: '5%',
+        width: '90%',
+        paddingTop: 30,
         flexDirection: 'row',
         paddingLeft: 20,
-        paddingRight: 15
+        paddingRight: 15,
+        height: 150
     },
     chooseButton: {
         width: "40%",
@@ -17,8 +21,9 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         margin: 15,
-        backgroundColor: "#00A36C",
-      },
+        backgroundColor: "#d9aa64",
+        elevation: 15
+    },
     resetButton: {
         width: "40%",
         borderRadius: 35,
@@ -26,7 +31,8 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         margin: 15,
-        backgroundColor: "#A52A2A",
+        backgroundColor: "#e09e92",
+        elevation: 15
     },
     loginText: {
         fontSize: 15,

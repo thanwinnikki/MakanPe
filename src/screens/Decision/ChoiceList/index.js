@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import { StyleSheet, View, Text, Image, Animated, SafeAreaView } from "react-native";
+import { StyleSheet, View, Text, Image, Animated, SafeAreaView, TouchableOpacity } from "react-native";
 import { styles } from './styles'
 import { Context } from '../../../store/context'
 
@@ -8,7 +8,7 @@ const paddingItem = 10;
 const imgHeight = 100;
 const sizeOfItem = imgHeight + paddingItem * 2 + marginBottomItem;
 
-export default function ChoiceList() {
+export default function ChoiceList({nav}) {
     const {state, actions} = useContext(Context);
     const Yscroll = React.useRef(new Animated.Value(0)).current;
 
@@ -31,36 +31,50 @@ export default function ChoiceList() {
               <Image 
                 style={styles.image}
                 source={item.image}
-                resizeMode='contain'
+                resizeMode='cover'
                 contentContainerStyle={{ padding: 20 }}
               />
               <View style={styles.wrapText}>
                 <Text style={styles.fontSize}>{item.name}</Text>
-                <Text style={styles.fontSize}> {item.rating + ' stars'} </Text>
+                <Text style={styles.fontSize}> {'Rating: ' + item.rating + ' stars'} </Text>
               </View>
             </Animated.View>
     
           )
        }
 
+       if (state.list.length > 0) {
        return (
         <SafeAreaView style={[styles.container, styles.imageBox]}>
-          {
-            state.list.length > 0 ? (
               <Animated.FlatList
                 data = {state.list}
                 keyExtractor={item => item.name}
                 renderItem ={renderChoices}
                 contentContainerStyle={{
-                  padding: 20
+                  padding: 10
                 }}
                 onScroll={
                   Animated.event(
                     [{ nativeEvent: { contentOffset: { y: Yscroll } } }],
                     { useNativeDriver: true }
                   )}
-              /> 
-            ) : <Text>Go make choices</Text>}
+              />             
         </SafeAreaView>
-      );
+      ); 
+    } else {
+      return (
+      <SafeAreaView style={[styles.container, styles.imageBox]}>
+        <Text style={styles.text}>Let's go make some choices first! </Text>
+        <View style={{ paddingLeft: 55, paddingTop: 100}}> 
+        <TouchableOpacity
+                style={styles.chooseButton}
+                onPress={() => nav.navigate("Home")}
+            >
+            <Text style={styles.buttonText}>Back to Home Page</Text>
+        </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+      )
+    }
+
 }
