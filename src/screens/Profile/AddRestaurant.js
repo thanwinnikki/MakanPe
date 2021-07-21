@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
   faPlusCircle,
   faPlus,
-  faArrowLeft,
+  faStar,
   faSave,
 } from "@fortawesome/free-solid-svg-icons";
 import { data } from "../../data/dummyData";
@@ -107,17 +107,30 @@ function addRestaurantScreen({ route, navigation }) {
           </View>
           <View
             style={{
-              flex: 3,
+              flex: 1,
               justifyContent: "flex-start",
               marginLeft: 10,
               marginTop: 10,
-              width: 100,
+              //backgroundColor: "grey",
             }}
           >
             <Text style={{ fontWeight: "bold", fontSize: 16 }}>
               {item.name}
             </Text>
-            <Text style={{ fontSize: 12 }}>Rating: {item.rating}</Text>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{ marginHorizontal: 2, fontSize: 16, color: "#FF5858" }}
+              >
+                {item.rating}
+              </Text>
+              <FontAwesomeIcon color="#FF5858" icon={faStar} size={20} />
+            </View>
+            <Text style={{ fontSize: 18, color: "#FF5858" }}>{item.cost}</Text>
           </View>
           <TouchableOpacity
             style={{ justifyContent: "center", alignContent: "center" }}

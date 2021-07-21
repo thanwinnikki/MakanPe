@@ -113,20 +113,30 @@ export default function RestaurantDetails({ route, navigation }) {
       >
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{itemData.name}</Text>
-        </View>
-        <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
-          <FontAwesomeIcon color="#FF5858" icon={faStar} />
-          <Text style={{ marginHorizontal: 2 }}>{itemData.rating}</Text>
-        </View>
-        <View>
-          <Text
+
+          <View
             style={{
-              padding: 10,
-              backgroundColor: "white",
+              flex: 1,
+              flexDirection: "row",
+              justifyContent: "flex-end",
+              alignItems: "center",
             }}
           >
-            {itemData.description}
+            <Text
+              style={{ marginHorizontal: 2, fontSize: 20, color: "#FF5858" }}
+            >
+              {itemData.rating}
+            </Text>
+            <FontAwesomeIcon color="#FF5858" icon={faStar} size={24} />
+          </View>
+        </View>
+
+        <View>
+          <Text style={{ fontWeight: "bold", fontSize: 20, color: "#FF5858" }}>
+            {itemData.cost}
           </Text>
+          <Text>Address: {itemData.address}</Text>
+          <Text style={{ paddingTop: 10 }}>{itemData.description}</Text>
         </View>
       </View>
     );
@@ -214,8 +224,10 @@ const styles = StyleSheet.create({
     overflow: "scroll",
   },
   titleContainer: {
-    justifyContent: "flex-start",
+    //justifyContent: "flex-start",
+    alignItems: "center",
     flex: 1.5,
+    flexDirection: "row",
   },
   title: {
     fontSize: 25,

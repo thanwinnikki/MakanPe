@@ -55,6 +55,20 @@ export default function Profile({ navigation }) {
     <View style={styles.background}>
       <View
         style={{
+          flex: 1,
+          width: "100%",
+
+          position: "absolute",
+        }}
+      >
+        <Image
+          source={require("../../assets/Background.png")}
+          resizeMode="cover"
+          style={{ width: "100%" }}
+        />
+      </View>
+      <View
+        style={{
           flexDirection: "row",
           height: 50,
           width: "100%",
@@ -68,6 +82,7 @@ export default function Profile({ navigation }) {
           MakanPe
         </Text>
       </View>
+
       <View style={styles.container}>
         <View
           style={{
@@ -75,7 +90,7 @@ export default function Profile({ navigation }) {
             height: 125,
             width: "95%",
             borderRadius: 10,
-            borderWidth: 1,
+            //borderWidth: 1,
             alignItems: "center",
             backgroundColor: "white",
           }}
@@ -113,7 +128,7 @@ export default function Profile({ navigation }) {
             </View>
           </View>
         </View>
-        <View style={{ flex: 1, marginTop: 50, alignSelf: "center" }}>
+        <View style={{ flex: 1, marginTop: 80, alignSelf: "center" }}>
           <MakanListComponent />
         </View>
       </View>

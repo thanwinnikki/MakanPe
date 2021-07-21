@@ -10,9 +10,9 @@ import {
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
-  faShare,
   faPlusCircle,
-  faTimes,
+  faStar,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { data } from "../../data/dummyData";
 
@@ -139,25 +139,41 @@ export default function MakanList({ route, navigation }) {
         </View>
         <View
           style={{
-            flex: 3,
+            flex: 1,
             justifyContent: "flex-start",
             marginLeft: 10,
             marginTop: 10,
+            //backgroundColor: "grey",
           }}
         >
           <Text style={{ fontWeight: "bold", fontSize: 16 }}>
             {restaurant.name}
           </Text>
-          <Text style={{ fontSize: 12 }}>Rating: {restaurant.rating}</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{ marginHorizontal: 2, fontSize: 16, color: "#FF5858" }}
+            >
+              {restaurant.rating}
+            </Text>
+            <FontAwesomeIcon color="#FF5858" icon={faStar} size={20} />
+          </View>
+          <Text style={{ fontSize: 18, color: "#FF5858" }}>
+            {restaurant.cost}
+          </Text>
         </View>
-        {/* <TouchableOpacity onPress={removeRestaurant()}>
+        <TouchableOpacity onPress={() => {}}>
           <FontAwesomeIcon
-            icon={faTimes}
+            icon={faTrash}
             color="#FF5858"
-            size={25}
+            size={20}
             margin={5}
           />
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </TouchableOpacity>
     );
   };
@@ -171,6 +187,19 @@ export default function MakanList({ route, navigation }) {
         backgroundColor: "white",
       }}
     >
+      <View
+        style={{
+          flex: 1,
+          width: "100%",
+          position: "absolute",
+        }}
+      >
+        <Image
+          source={require("../../assets/Background.png")}
+          resizeMode="cover"
+          style={{ width: "100%" }}
+        />
+      </View>
       <FlatList
         data={itemData.list}
         keyExtractor={(item) => item.id}
