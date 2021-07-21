@@ -129,8 +129,10 @@ function addRestaurantScreen({ route, navigation }) {
                 {item.rating}
               </Text>
               <FontAwesomeIcon color="#FF5858" icon={faStar} size={20} />
+              <Text style={{ marginLeft: 10, fontSize: 18, color: "#FF5858" }}>
+                {item.cost}
+              </Text>
             </View>
-            <Text style={{ fontSize: 18, color: "#FF5858" }}>{item.cost}</Text>
           </View>
           <TouchableOpacity
             style={{ justifyContent: "center", alignContent: "center" }}

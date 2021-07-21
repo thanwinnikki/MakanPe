@@ -161,10 +161,10 @@ export default function MakanList({ route, navigation }) {
               {restaurant.rating}
             </Text>
             <FontAwesomeIcon color="#FF5858" icon={faStar} size={20} />
+            <Text style={{ marginLeft: 10, fontSize: 18, color: "#FF5858" }}>
+              {restaurant.cost}
+            </Text>
           </View>
-          <Text style={{ fontSize: 18, color: "#FF5858" }}>
-            {restaurant.cost}
-          </Text>
         </View>
         <TouchableOpacity onPress={() => {}}>
           <FontAwesomeIcon
