@@ -54,7 +54,8 @@ export const styles = StyleSheet.create({
       fontWeight: "bold", 
       fontSize: 30, 
       paddingTop: '50%', 
-      paddingLeft: 60 
+      paddingLeft: '1%',
+      textAlign: 'center'
   },
   chooseButton: {
     width: "70%",
@@ -64,6 +65,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     margin: 15,
     backgroundColor: "#00A36C",
+    elevation: 10
   },
   buttonText: {
     color: "white", 

@@ -37,7 +37,7 @@ export const data = [
   },
   {
     id: "2",
-    name: "Famous Fried Carrot Cake",
+    name: "Famous Carrot Cake",
     address: "448 Clementi Ave 3, Singapore 120448",
     description: "Our oyster omelletes are loaded! Come try!",
     rating: 4,
@@ -321,6 +321,7 @@ export const data = [
   {
     id: "10",
     name: "Famous Ramen",
+    address: "604 Yishun Avenue 2, Singapore 760604",
     description:
       "Affordable and delicious ramen that is sure to warm your body.",
     rating: 4,

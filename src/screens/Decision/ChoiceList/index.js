@@ -2,6 +2,7 @@ import React, {useContext} from "react";
 import { StyleSheet, View, Text, Image, Animated, SafeAreaView, TouchableOpacity } from "react-native";
 import { styles } from './styles'
 import { Context } from '../../../store/context'
+import { data } from "../../../data/dummyData";
 
 const marginBottomItem = 20;
 const paddingItem = 10;
@@ -11,6 +12,13 @@ const sizeOfItem = imgHeight + paddingItem * 2 + marginBottomItem;
 export default function ChoiceList({nav}) {
     const {state, actions} = useContext(Context);
     const Yscroll = React.useRef(new Animated.Value(0)).current;
+    
+    const getObj = (list, id) => {
+      const index = list.findIndex(function (obj, index) {
+        return obj.id === id;
+      });
+      return list[index];
+    };
 
     const renderChoices = ({ item, index }) => {
         const scale = Yscroll.interpolate({
@@ -22,6 +30,7 @@ export default function ChoiceList({nav}) {
           outputRange: [1, 1, 1, 0]
         })
           return (
+          <TouchableOpacity onPress={() => nav.navigate("Restaurant", { itemData: getObj(data, item.id) })}>
             <Animated.View style={
               [styles.item, {
                 transform: [{scale}]
@@ -39,6 +48,7 @@ export default function ChoiceList({nav}) {
                 <Text style={styles.fontSize}> {'Rating: ' + item.rating + ' stars'} </Text>
               </View>
             </Animated.View>
+            </TouchableOpacity>
     
           )
        }

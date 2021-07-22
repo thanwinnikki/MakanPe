@@ -1,8 +1,9 @@
 import {useState} from 'react'
+import { data as dataArray } from '../data/dummyData'
 
 
 export const useGlobalState = () => {
-    const [state, setState] = useState({value: false , list: [], choice: {} })
+    const [state, setState] = useState({value: false , list: [], choice: dataArray[0] })
 
     const actions = (action) => {
         const {type, payload} = action;
