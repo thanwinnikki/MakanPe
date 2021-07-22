@@ -38,5 +38,10 @@ export const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: "bold",
         color: "white",
-    }
+    },
+    buttonText: {
+        color: "white", 
+        fontWeight: "bold", 
+        fontSize: 20
+      }
 })

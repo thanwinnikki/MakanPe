@@ -20,8 +20,8 @@ export default function Decision({navigation}) {
             MakanPe
           </Text>
         </View>
-        <Popup />
         <ChoiceList nav={navigation} />
+        <Popup />
         <Footer />
       </View>
     )
