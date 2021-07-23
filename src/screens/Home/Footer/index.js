@@ -7,14 +7,21 @@ import { styles } from './styles'
 import { data } from "../../../data/dummyData"
 import { Context } from "../../../store/context";
 
-export default function Footer({ handleChoice, id , navigation, updateList }) {
+export default function Footer({ handleChoice, id , navigation, updateList}) {
     const {state, actions} = useContext(Context)
     const currRestaurant = data[id - 1];
     const newList = [ ...state.list, currRestaurant]
 
 
-    const like = () => {
+    const like = (liked) => {
+        let existInPrev = state.list.find((item) => {
+            return item.id === liked.id
+        })
+
+        if (!existInPrev) {
         updateList(newList)
+        }
+
         handleChoice(1)
         console.log(state.list)
     }
@@ -23,6 +30,9 @@ export default function Footer({ handleChoice, id , navigation, updateList }) {
         console.log(state.list)
         handleChoice(-1)
     }
+
+
+    
 
     return (
         <View style={styles.container}>
@@ -48,7 +58,7 @@ export default function Footer({ handleChoice, id , navigation, updateList }) {
                 name='heart'
                 size={34}
                 color={COLORS.like}
-                onPress={() => like()}
+                onPress={() => like(currRestaurant)}
             />
         </View>
     )

@@ -3,7 +3,7 @@ import { data as dataArray } from '../data/dummyData'
 
 
 export const useGlobalState = () => {
-    const [state, setState] = useState({value: false , list: [], choice: dataArray[0] })
+    const [state, setState] = useState({value: false , list: [], choice: dataArray[0], right:false })
 
     const actions = (action) => {
         const {type, payload} = action;

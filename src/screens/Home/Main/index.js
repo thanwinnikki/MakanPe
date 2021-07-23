@@ -40,7 +40,7 @@ export default function Main({ navigation }) {
           useNativeDriver: true,
         }).start(removeTopCard);
         if (direction > 0) {
-            console.log('liked')
+          console.log('liked')
         }
       } else {
         Animated.spring(swipe, {
@@ -54,6 +54,7 @@ export default function Main({ navigation }) {
       }
     },
   });
+
 
   const removeTopCard = useCallback(() => {
     setData((prevState) => prevState.slice(1));
@@ -70,6 +71,7 @@ export default function Main({ navigation }) {
     },
     [removeTopCard, swipe.x]
   );
+
 
   const updateList = (newList) => {
     

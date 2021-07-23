@@ -15,6 +15,7 @@ export default function CARD({
     isFirst,
     swipe,
     tiltSign,
+    addList,
     ...rest
 }) {
 
@@ -43,6 +44,17 @@ export default function CARD({
         transform: [...swipe.getTranslateTransform(), { rotate }],
     }
 
+    const stopAdd = () => {
+        actions({
+          type: 'setState',
+    
+          payload: {
+            ...state,
+            added : false,
+          }
+        })
+    }
+
     const renderChoice = useCallback(() => {
         return (
             <>
@@ -68,6 +80,16 @@ export default function CARD({
         )
     }, [likeOpacity, nopeOpacity])
 
+    const rightFalse = () => {
+        actions({
+          type: 'setState',
+    
+          payload: {
+            ...state,
+            right : false,
+          }
+        })
+      }
 
     return (
         <Animated.View
@@ -79,6 +101,9 @@ export default function CARD({
                 colors={['transparent', 'rgba(0,0,0,0.9)']}
                 style={styles.gradient} />
             <Text style={styles.name}>{name}</Text>
+            {
+                isFirst && state.right && rightFalse() && console.log(name)
+            }
 
             {
                 isFirst && renderChoice()
