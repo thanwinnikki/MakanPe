@@ -14,13 +14,13 @@ export default function Footer({ handleChoice, id , navigation, updateList}) {
 
 
     const like = (liked) => {
-        let existInPrev = state.list.find((item) => {
-            return item.id === liked.id
-        })
+        // let existInPrev = state.list.find((item) => {
+        //     return item.id === liked.id
+        // })
 
-        if (!existInPrev) {
-        updateList(newList)
-        }
+        // if (!existInPrev) {
+        // updateList(newList)
+        // }
 
         handleChoice(1)
         console.log(state.list)
@@ -30,8 +30,6 @@ export default function Footer({ handleChoice, id , navigation, updateList}) {
         console.log(state.list)
         handleChoice(-1)
     }
-
-
     
 
     return (
@@ -58,7 +56,7 @@ export default function Footer({ handleChoice, id , navigation, updateList}) {
                 name='heart'
                 size={34}
                 color={COLORS.like}
-                onPress={() => like(currRestaurant)}
+                onPress={() => like()}
             />
         </View>
     )
