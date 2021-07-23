@@ -53,13 +53,13 @@ export default function Footer({ nav }) {
           style={styles.resetButton}
           onPress={() => resetAlert()}
         >
-          <Text style={styles.loginText}>Reset Choices</Text>
+          <Text style={styles.buttonText}>Reset Choices</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.chooseButton}
           onPress={() => showPlease() }
         >
-          <Text style={styles.loginText}>Choose For Me!</Text>
+          <Text style={styles.buttonText}>Choose For Me!</Text>
         </TouchableOpacity>
       </View>
     );

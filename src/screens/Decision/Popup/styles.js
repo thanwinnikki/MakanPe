@@ -19,6 +19,7 @@ export const styles = StyleSheet.create({
     left: 30,
     padding: 15,
     elevation: 20,
+    bottom: '20%'
   },
   buttonText: {
     color: "white", 
@@ -40,8 +41,8 @@ export const styles = StyleSheet.create({
     height: '70%'
   },
   image: {
-    width: 300 ,
-    height: 200 ,
+    width: '100%' ,
+    height: '60%' ,
     borderRadius: 10,
     borderWidth: 2,
     borderColor: 'black',

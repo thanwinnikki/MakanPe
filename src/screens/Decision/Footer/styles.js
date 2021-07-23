@@ -34,14 +34,10 @@ export const styles = StyleSheet.create({
         backgroundColor: "#e09e92",
         elevation: 15
     },
-    loginText: {
-        fontSize: 15,
-        fontWeight: "bold",
-        color: "white",
-    },
     buttonText: {
         color: "white", 
         fontWeight: "bold", 
-        fontSize: 20
+        fontSize: 15,
+        textAlign:'center',
       }
 })
