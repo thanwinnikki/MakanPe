@@ -13,10 +13,28 @@ export default function Main({ navigation }) {
   const swipe = useRef(new Animated.ValueXY()).current;
   const tiltSign = useRef(new Animated.Value(1)).current;
   const {state, actions} = useContext(Context)
+  const [pos, setPos] = useState(0)
+  
+
+  function posAdd() {
+      setPos((prevState)=>prevState+1)
+  }
+
+  const addChoice = (chosen) => {
+    actions({
+      type: "setState",
+
+      payload: {
+        ...state,
+        list: [...list, chosen],
+      },
+    });
+  };
 
   useEffect(() => {
     if (!data.length) {
       setData(dataArray);
+      setPos(0);
     }
   }, [data.length]);
 
@@ -40,7 +58,13 @@ export default function Main({ navigation }) {
           useNativeDriver: true,
         }).start(removeTopCard);
         if (direction > 0) {
-          console.log('liked')
+          let existInPrev = state.list.find((item) => {
+            return item.id === dataArray[pos].id
+          })
+      
+        if (!existInPrev) {
+          updateList(dataArray[pos])
+        }
         }
       } else {
         Animated.spring(swipe, {
@@ -59,6 +83,7 @@ export default function Main({ navigation }) {
   const removeTopCard = useCallback(() => {
     setData((prevState) => prevState.slice(1));
     swipe.setValue({ x: 0, y: 0 });
+    posAdd()
   }, [swipe]);
 
   const handleChoice = useCallback(
@@ -73,14 +98,14 @@ export default function Main({ navigation }) {
   );
 
 
-  const updateList = (newList) => {
+  const updateList = (newChoice) => {
     
     actions({
       type: 'setState',
 
       payload: {
         ...state,
-        list : newList,
+        list : [...state.list, newChoice],
       }
     })
 }

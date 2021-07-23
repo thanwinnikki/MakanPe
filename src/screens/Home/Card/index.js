@@ -23,6 +23,7 @@ export default function CARD({
     const currRestaurant = data[id - 1];
     const newList = [ ...state.list, currRestaurant]
 
+
     const rotate = Animated.multiply(swipe.x, tiltSign).interpolate({
         inputRange: [-ACTION_OFFSET, 0, ACTION_OFFSET],
         outputRange: ['8deg', '0deg', '-8deg']
@@ -42,17 +43,6 @@ export default function CARD({
 
     const animatedCardStyle = {
         transform: [...swipe.getTranslateTransform(), { rotate }],
-    }
-
-    const stopAdd = () => {
-        actions({
-          type: 'setState',
-    
-          payload: {
-            ...state,
-            added : false,
-          }
-        })
     }
 
     const renderChoice = useCallback(() => {
@@ -80,16 +70,6 @@ export default function CARD({
         )
     }, [likeOpacity, nopeOpacity])
 
-    const rightFalse = () => {
-        actions({
-          type: 'setState',
-    
-          payload: {
-            ...state,
-            right : false,
-          }
-        })
-      }
 
     return (
         <Animated.View
@@ -101,10 +81,6 @@ export default function CARD({
                 colors={['transparent', 'rgba(0,0,0,0.9)']}
                 style={styles.gradient} />
             <Text style={styles.name}>{name}</Text>
-            {
-                isFirst && state.right && rightFalse() && console.log(name)
-            }
-
             {
                 isFirst && renderChoice()
             }
