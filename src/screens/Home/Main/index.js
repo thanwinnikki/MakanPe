@@ -13,28 +13,23 @@ export default function Main({ navigation }) {
   const swipe = useRef(new Animated.ValueXY()).current;
   const tiltSign = useRef(new Animated.Value(1)).current;
   const {state, actions} = useContext(Context)
-  const [pos, setPos] = useState(0)
+  const [currPos,setPos] = useState(0)
+
   
 
-  function posAdd() {
-      setPos((prevState)=>prevState+1)
+  const posAdd = () => {  //increase position
+    setPos((prevState)=> prevState + 1)
   }
 
-  const addChoice = (chosen) => {
-    actions({
-      type: "setState",
 
-      payload: {
-        ...state,
-        list: [...list, chosen],
-      },
-    });
-  };
+  function resetPos() {  //reset global position 
+    setPos(0)
+  }
 
-  useEffect(() => {
+  useEffect(() => {  //reload the cards if no more cards
     if (!data.length) {
       setData(dataArray);
-      setPos(0);
+      resetPos();
     }
   }, [data.length]);
 
@@ -58,13 +53,7 @@ export default function Main({ navigation }) {
           useNativeDriver: true,
         }).start(removeTopCard);
         if (direction > 0) {
-          let existInPrev = state.list.find((item) => {
-            return item.id === dataArray[pos].id
-          })
-      
-        if (!existInPrev) {
-          updateList(dataArray[pos])
-        }
+          updateList(dataArray[currPos])
         }
       } else {
         Animated.spring(swipe, {
@@ -83,7 +72,7 @@ export default function Main({ navigation }) {
   const removeTopCard = useCallback(() => {
     setData((prevState) => prevState.slice(1));
     swipe.setValue({ x: 0, y: 0 });
-    posAdd()
+    posAdd();
   }, [swipe]);
 
   const handleChoice = useCallback(
@@ -92,13 +81,19 @@ export default function Main({ navigation }) {
         toValue: direction * CARD.OUT_OF_SCREEN,
         duration: 400,
         useNativeDriver: true,
-      }).start(removeTopCard);
-    },
-    [removeTopCard, swipe.x]
+      }).start(removeTopCard)
+    },[removeTopCard, swipe.x]
   );
 
 
   const updateList = (newChoice) => {
+
+        let existInPrev = state.list.find((item) => {
+            return item.id === newChoice.id
+        })
+
+        if (!existInPrev) {
+        
     
     actions({
       type: 'setState',
@@ -108,6 +103,7 @@ export default function Main({ navigation }) {
         list : [...state.list, newChoice],
       }
     })
+  }
 }
 
 
@@ -157,6 +153,7 @@ export default function Main({ navigation }) {
               navigation={navigation}
               handleChoice={handleChoice}
               updateList={updateList}
+              position={currPos}
             />
           );
         })

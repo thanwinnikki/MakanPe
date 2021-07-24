@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
         bottom: '1%',
         left: '5%',
         width: '90%',
-        paddingTop: 30,
+        paddingTop: 50,
         flexDirection: 'row',
         paddingLeft: 20,
         paddingRight: 15,
