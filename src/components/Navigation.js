@@ -134,6 +134,24 @@ function DecisionStackScreen() {
           headerLeft: () => null,
         }}
       />
+      <DecisionStack.Screen
+        name="Restaurant"
+        component={Restaurant}
+        options={{
+          headerTransparent: true,
+          headerTitle: false,
+          headerLeft: () => null,
+        }}
+      />
+      <DecisionStack.Screen
+        name="Maps"
+        component={Maps}
+        options={{
+          headerTransparent: true,
+          headerTitle: false,
+          headerLeft: () => null,
+        }}
+      />
     </DecisionStack.Navigator>
   );
 }
