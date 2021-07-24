@@ -7,13 +7,12 @@ import { styles } from './styles'
 import { data } from "../../../data/dummyData"
 import { Context } from "../../../store/context";
 
-export default function Footer({ handleChoice, id , navigation, updateList}) {
+export default function Footer({ handleChoice, id , navigation, updateList, position}) {
     const {state, actions} = useContext(Context)
     const currRestaurant = data[id - 1];
-    const newList = [ ...state.list, currRestaurant]
 
 
-    const like = (liked) => {
+    const like = () => {
         // let existInPrev = state.list.find((item) => {
         //     return item.id === liked.id
         // })
@@ -23,7 +22,7 @@ export default function Footer({ handleChoice, id , navigation, updateList}) {
         // }
 
         handleChoice(1)
-        console.log(state.list)
+        updateList(data[position])
     }
 
     const dislike = () => {
