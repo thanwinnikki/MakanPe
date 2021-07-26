@@ -13,13 +13,6 @@ export default function Footer({ handleChoice, id , navigation, updateList, posi
 
 
     const like = () => {
-        // let existInPrev = state.list.find((item) => {
-        //     return item.id === liked.id
-        // })
-
-        // if (!existInPrev) {
-        // updateList(newList)
-        // }
 
         handleChoice(1)
         updateList(data[position])
