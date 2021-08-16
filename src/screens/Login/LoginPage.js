@@ -180,7 +180,7 @@ export default function LoginPage({ navigation }) {
           <TouchableOpacity
             onPress={() => navigation.navigate("ChangePassword")}
           >
-            <Text style={styles.forgotPwdButton}>Forgot Password?</Text>
+            <Text style={styles.forgotPwdButton}>Reset Password</Text>
           </TouchableOpacity>
 
           <TouchableOpacity>
